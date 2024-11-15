@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class AppointmentOutcomeRepository {
-    private static final String FILE_PATH_APPOINTMENT_OUTCOME = "/data/AppointmentOutcome.csv";
+    private static final String FILE_PATH_APPOINTMENT_OUTCOME = "sc2002.scmb.grp1.hms\\resource\\AppointmentOutcome.csv";
     private static final CSVUtil csvutil = new CSVUtil();
 
     public List<AppointmentOutcome> loadAllAppointmentOutcomes() throws IOException {
@@ -16,8 +16,7 @@ public class AppointmentOutcomeRepository {
         BufferedReader reader = null;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(
-                    Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_APPOINTMENT_OUTCOME))));
+            reader = new BufferedReader(new FileReader(FILE_PATH_APPOINTMENT_OUTCOME));
             String line;
 
             // Skip the header line if there's one

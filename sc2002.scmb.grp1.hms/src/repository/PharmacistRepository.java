@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class PharmacistRepository implements ValidationInterface {
 
-    private static final String FILE_PATH_PHARMACISTS = "/data/Pharmacist.csv";
+    private static final String FILE_PATH_PHARMACISTS = "sc2002.scmb.grp1.hms/resource/Pharmacist.csv";
 
     
     // create pharmacist object using csv
@@ -23,8 +23,7 @@ public class PharmacistRepository implements ValidationInterface {
 
     //Validate Password
 	public User validateCredentials(String id, String password) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_PHARMACISTS))))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
             reader.readLine(); // Skip header
             String line;
             while ((line = reader.readLine()) != null) {

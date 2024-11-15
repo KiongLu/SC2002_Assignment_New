@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class MedicationInventoryRepository {
-    private static final String FILE_PATH_MEDICATION_INVENTORY = "/data/MedicationInventory.csv";
+    private static final String FILE_PATH_MEDICATION_INVENTORY = "sc2002.scmb.grp1.hms\\resource\\MedicationInventory.csv";
     private static final CSVUtil csvUtil = new CSVUtil();
 
     // Method to load all medications from the CSV file
@@ -18,8 +18,7 @@ public class MedicationInventoryRepository {
         BufferedReader reader = null;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(
-                    Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_MEDICATION_INVENTORY))));
+            reader = new BufferedReader(new FileReader(FILE_PATH_MEDICATION_INVENTORY));
             String line;
 
             // Skip the header line

@@ -7,7 +7,7 @@ import entity.MedicalRecord;
 import util.CSVUtil;
 
 public class AvailabilityRepository {
-    private static final String FILE_PATH_AVAILABILITY = "/data/Availability.csv";
+    private static final String FILE_PATH_AVAILABILITY = "sc2002.scmb.grp1.hms\\resource\\Availability.csv";
     private static final CSVUtil csvutil = new CSVUtil(); 
     
  // Method to load availability data from the CSV file
@@ -16,8 +16,7 @@ public class AvailabilityRepository {
         BufferedReader reader = null;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(
-                    Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_AVAILABILITY))));
+            reader = new BufferedReader(new FileReader(FILE_PATH_AVAILABILITY));
             String line;
             // Skip the header line
             reader.readLine();

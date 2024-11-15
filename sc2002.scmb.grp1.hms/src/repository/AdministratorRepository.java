@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdministratorRepository implements ValidationInterface {
-	private static final String FILE_PATH_ADMINISTRATOR = "/data/Administrator.csv";
+	private static final String FILE_PATH_ADMINISTRATOR = "sc2002.scmb.grp1.hms\\resource\\Administrator.csv";
 
     // Create Doctor object from CSV line
     private Administrator createAdministratorFromCSV(String[] parts) {
@@ -20,8 +20,7 @@ public class AdministratorRepository implements ValidationInterface {
 
     // Validate doctor credentials
     public User validateCredentials(String id, String password) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_ADMINISTRATOR))))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR))) {
             reader.readLine(); // Skip header
             String line;
             while ((line = reader.readLine()) != null) {

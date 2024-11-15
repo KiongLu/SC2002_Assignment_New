@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class DoctorRepository implements ValidationInterface {
 
-    private static final String FILE_PATH_DOCTORS = "/data/Doctor.csv";
+    private static final String FILE_PATH_DOCTORS = "sc2002.scmb.grp1.hms\\resource\\Doctor.csv";
 
     // Create Doctor object from CSV line
     private Doctor createDoctorFromCSV(String[] parts) {
@@ -20,8 +20,7 @@ public class DoctorRepository implements ValidationInterface {
 
     // Validate doctor credentials
     public User validateCredentials(String id, String password) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_DOCTORS))))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_DOCTORS))) {
             reader.readLine(); // Skip header
             String line;
             while ((line = reader.readLine()) != null) {

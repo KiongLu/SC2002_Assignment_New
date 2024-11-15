@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class PatientRepository implements ValidationInterface {
 
-	private static final String FILE_PATH_PATIENT = "/data/Patient.csv";
+	private static final String FILE_PATH_PATIENT = "sc2002.scmb.grp1.hms\\resource\\Patient.csv";
 
  // create Patient object using csv
     private Patient createPatientFromCSV(String[] parts) {
@@ -24,8 +24,7 @@ public class PatientRepository implements ValidationInterface {
 
     //Validate Password
 	public User validateCredentials(String id, String password) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_PATIENT))))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PATIENT))) {
             reader.readLine(); // Skip header
             String line;
             while ((line = reader.readLine()) != null) {

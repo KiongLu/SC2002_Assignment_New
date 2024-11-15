@@ -99,7 +99,7 @@ private final LoginController logincontroller = new LoginController();
             System.out.println("  +----------------------+");
 
 
-            System.out.println("Please select an option (1-3): ");
+        
 
             //System.out.println("Select Your Domain:");
             //System.out.println("1. Doctor");
@@ -108,13 +108,27 @@ private final LoginController logincontroller = new LoginController();
             //System.out.println("4. Administrator");
             //System.out.println("5. Exit");
             Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            int choice = -1;
+            boolean validInput = false;
+            
+            // Loop to handle non-integer input
+            while (!validInput) {
+                System.out.print("Please select an option (1-3): ");
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+                    validInput = true; // Exit the loop if valid integer input is received
+                } else {
+                    System.out.println("Invalid input. Please enter a number between 1 and 3.");
+                    scanner.nextLine(); // Clear the invalid input
+                }
+            }
 
             boolean loginSuccessful = false;
             switch(choice){
                 case 1:
                     //TODO login gui
+                    System.out.println("\n");
                     System.out.println("Please enter your credentials");
 
                     // Box for Hospital ID and Password
