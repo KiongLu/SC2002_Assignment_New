@@ -12,7 +12,7 @@ public class DateTimeUtil {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             return LocalDate.parse(date, formatter);
         } catch (DateTimeParseException e) {
-            System.out.println("Invalid date format. Please use DD-MM-YYYY.");
+            //System.out.println("Invalid date format. Please use DD-MM-YYYY.");
             return null;
         }
     }
@@ -23,7 +23,7 @@ public class DateTimeUtil {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             return LocalTime.parse(time, formatter);
         } catch (DateTimeParseException e) {
-            System.out.println("Invalid time format. Please use HH:mm.");
+            //System.out.println("Invalid time format. Please use HH:mm.");
             return null;
         }
     }

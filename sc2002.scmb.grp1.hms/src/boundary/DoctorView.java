@@ -191,26 +191,6 @@ public class DoctorView implements MenuInterface{
 						return;
 					}
 
-					// Display medication options
-					System.out.println("Select a medication for the outcome:");
-					for (int i = 0; i < medicationNames.size(); i++) {
-						System.out.println((i + 1) + ". " + medicationNames.get(i));
-					}
-
-					int choice = -1;
-					while (choice < 1 || choice > medicationNames.size()) {
-						System.out.print("Enter the number of your choice: ");
-						if (scanner.hasNextInt()) {
-							choice = scanner.nextInt();
-							scanner.nextLine(); // Consume newline
-						} else {
-							System.out.println("Invalid input. Please enter a valid number.");
-							scanner.next(); // Consume invalid input
-						}
-					}
-
-					medicationName = medicationNames.get(choice - 1);
-
 					// Create the appointment outcome
 					outcomecontroller.createAppointmentOutcome(apptID);
 					System.out.println("Appointment outcome created successfully for Appointment ID: " + apptID);
