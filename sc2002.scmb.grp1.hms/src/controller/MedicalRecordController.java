@@ -2,12 +2,12 @@ package controller;
 
 import entity.MedicalRecord;
 import entity.Patient;
-import repository.DoctorRepository;
-import repository.MedicalRecordRepository;
-import repository.PatientRepository;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
+import repository.DoctorRepository;
+import repository.MedicalRecordRepository;
+import repository.PatientRepository;
 
 public class MedicalRecordController {
 	private final MedicalRecordRepository medicalrecordrepository = new MedicalRecordRepository();
@@ -58,6 +58,7 @@ public class MedicalRecordController {
 	            	System.out.println();
 	            	Patient temp = patientrepository.findPatientById(record.getPatientId());
 	            	System.out.println("Medical records \n" +
+					"Record ID: " + record.getRecordId() + "\n" +
 	            	"Patient ID: " + temp.getUserId() + "\n" +
                     "Name: " + temp.getName() + "\n" +
                     "Date of Birth: " + temp.getDob() + "\n" +
