@@ -14,15 +14,9 @@ public class MedicationInventoryRepository {
     // Method to load all medications from the CSV file
     public List<MedicationInventory> loadAllMedications() throws IOException {
         List<MedicationInventory> medications = new ArrayList<>();
-        BufferedReader reader = null;
-
-        try {
-            reader = new BufferedReader(new FileReader(FILE_PATH_MEDICATION_INVENTORY));
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_MEDICATION_INVENTORY))) {
             String line;
-
-            // Skip the header line
-            reader.readLine();
-
+            reader.readLine(); // Skip the header row
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
                 if (fields.length == 3) {
@@ -30,18 +24,12 @@ public class MedicationInventoryRepository {
                     int stockLevel = Integer.parseInt(fields[1]);
                     int stockAlertLevel = Integer.parseInt(fields[2]);
 
-                    MedicationInventory medication = new MedicationInventory(medicationName, stockLevel, stockAlertLevel);
-                    medications.add(medication);
+                    medications.add(new MedicationInventory(medicationName, stockLevel, stockAlertLevel));
                 }
             }
         } catch (IOException e) {
             throw new IOException("Error reading medication inventory data: " + e.getMessage());
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
         }
-
         return medications;
     }
 
@@ -114,5 +102,7 @@ public class MedicationInventoryRepository {
         }
         return false;
     }
+
+
 }
 

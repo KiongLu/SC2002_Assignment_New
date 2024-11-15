@@ -27,9 +27,14 @@ public class PharmacistController {
 //        }
 //    }
 
-//    public List<MedicationInventory> checkInventory(String medicationName) {
-//        return inventoryRepository.getMedicationByName(medicationName);
-//    }
+    public List<MedicationInventory> checkInventory(String medicationName) {
+        try{
+            return inventoryRepository.getMedicationByName(medicationName);
+        } catch(IOException e) {
+            System.err.println("Error finding the Medication. Medication does not exist");
+            return null;
+        }
+    }
 public void submitReplenishmentRequest(String medicationName) throws IOException {
     // Check if the medication exists in the inventory
     if (!inventoryRepository.medicationExists(medicationName)) {
