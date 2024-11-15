@@ -1,14 +1,18 @@
 package repository;
 
-import controller.ValidationInterface;
+import entity.Doctor;
 import entity.Patient;
+import entity.Pharmacist;
 import entity.User;
+import util.PasswordUtil;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class PatientRepository implements ValidationInterface {
+import controller.ValidationInterface;
+
+public class PatientRepository implements ValidationInterface{
 
 	private static final String FILE_PATH_PATIENT = "sc2002.scmb.grp1.hms//resource//Patient.csv";
 
@@ -20,7 +24,7 @@ public class PatientRepository implements ValidationInterface {
 
     //Validate Password
 	public User validateCredentials(String id, String password) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PATIENT))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PATIENT))) {
             reader.readLine(); // Skip header
             String line;
             while ((line = reader.readLine()) != null) {
@@ -37,10 +41,14 @@ public class PatientRepository implements ValidationInterface {
 	
 	public List<Patient> loadPatients() throws IOException {
         List<Patient> patients = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_PATIENT))));
+        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_PATIENT));
         String line;
+        boolean isFirstLine = true;
         while ((line = br.readLine()) != null) {
+            if (isFirstLine){
+                isFirstLine = false; //skips the first line
+                continue;
+            }
             String[] data = line.split(",");
             
             patients.add(createPatientFromCSV(data));
@@ -58,10 +66,9 @@ public class PatientRepository implements ValidationInterface {
                 .orElse(null);
     }
 
-
     public boolean updatePatient(Patient updatedPatient) throws IOException{
         List<Patient> patients = loadPatients();
-        boolean isUpdated = false;
+        boolean isUpdated = false; 
 
         for (Patient patient : patients){
             if (patient.getUserId().equals(updatedPatient.getUserId())){
@@ -78,17 +85,17 @@ public class PatientRepository implements ValidationInterface {
                 writer.write("UserID,Name,Role,Password,Gender,Age,PhoneNumber,Email,DOB,BloodType");
                 writer.newLine();
                 for (Patient patient : patients){
-                    writer.write(String.join(",",
-                            patient.getUserId(),
-                            patient.getName(),
-                            patient.getRole(),
-                            patient.getPassword(),
-                            patient.getGender(),
-                            patient.getAge(),
-                            patient.getPhoneNumber(),
-                            patient.getEmail(),
-                            patient.getDob(),
-                            patient.getBloodtype()));
+                    writer.write(String.join(",", 
+                        patient.getUserId(),
+                        patient.getName(),
+                        patient.getRole(),
+                        patient.getPassword(),
+                        patient.getGender(),
+                        patient.getAge(),
+                        patient.getPhoneNumber(),
+                        patient.getEmail(),
+                        patient.getDob(),
+                        patient.getBloodtype()));
                     writer.newLine();
                 }
             }

@@ -1,17 +1,16 @@
 package repository;
 
-import controller.ValidationInterface;
 import entity.Doctor;
 import entity.User;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class DoctorRepository implements ValidationInterface {
+import controller.ValidationInterface;
+
+public class DoctorRepository implements ValidationInterface{
 
     private static final String FILE_PATH_DOCTORS = "sc2002.scmb.grp1.hms//resource//Doctor.csv";
-
 
     // Create Doctor object from CSV line
     private Doctor createDoctorFromCSV(String[] parts) {
@@ -38,8 +37,7 @@ public class DoctorRepository implements ValidationInterface {
 
     public List<Doctor> loadDoctors() throws IOException {
         List<Doctor> doctors = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_DOCTORS))));
+        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_DOCTORS));
         String line;
         while ((line = br.readLine()) != null) {
             String[] data = line.split(",");
