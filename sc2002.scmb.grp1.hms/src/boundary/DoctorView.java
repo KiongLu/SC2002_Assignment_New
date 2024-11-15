@@ -1,13 +1,10 @@
 package boundary;
 
+import controller.*;
+import entity.User;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-
-import controller.*;
-import entity.Appointment;
-import entity.MedicationInventory;
-import entity.User;
 
 public class DoctorView implements MenuInterface{
 	private final Scanner scanner = new Scanner(System.in);
@@ -215,7 +212,7 @@ public class DoctorView implements MenuInterface{
 					medicationName = medicationNames.get(choice - 1);
 
 					// Create the appointment outcome
-					outcomecontroller.createAppointmentOutcome(apptID, medicationName);
+					outcomecontroller.createAppointmentOutcome(apptID);
 					System.out.println("Appointment outcome created successfully for Appointment ID: " + apptID);
 					valid = true;
 				} else {

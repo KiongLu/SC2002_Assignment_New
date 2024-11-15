@@ -1,12 +1,8 @@
 package repository;
 
 import controller.ValidationInterface;
-import entity.Doctor;
 import entity.Patient;
-import entity.Pharmacist;
 import entity.User;
-import util.PasswordUtil;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,5 +56,43 @@ public class PatientRepository implements ValidationInterface {
                 .filter(patient -> patient.getUserId().equals(patientId))
                 .findFirst()
                 .orElse(null);
+    }
+
+
+    public boolean updatePatient(Patient updatedPatient) throws IOException{
+        List<Patient> patients = loadPatients();
+        boolean isUpdated = false;
+
+        for (Patient patient : patients){
+            if (patient.getUserId().equals(updatedPatient.getUserId())){
+                patient.setEmail(updatedPatient.getEmail());
+                patient.setPhoneNumber(updatedPatient.getPhoneNumber());
+                isUpdated = true;
+                break;
+            }
+        }
+
+        //update CSV with updated data
+        if (isUpdated){
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PATIENT, false))) {
+                writer.write("UserID,Name,Role,Password,Gender,Age,PhoneNumber,Email,DOB,BloodType");
+                writer.newLine();
+                for (Patient patient : patients){
+                    writer.write(String.join(",",
+                            patient.getUserId(),
+                            patient.getName(),
+                            patient.getRole(),
+                            patient.getPassword(),
+                            patient.getGender(),
+                            patient.getAge(),
+                            patient.getPhoneNumber(),
+                            patient.getEmail(),
+                            patient.getDob(),
+                            patient.getBloodtype()));
+                    writer.newLine();
+                }
+            }
+        }
+        return isUpdated;
     }
 }
