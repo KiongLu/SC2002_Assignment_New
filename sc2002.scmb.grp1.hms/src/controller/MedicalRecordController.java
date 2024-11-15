@@ -88,8 +88,18 @@ public class MedicalRecordController {
 		
 		String recordId = generateNextRecordId();
 		
-		System.out.print("Enter Patient ID: ");
-		String patientId = scanner.nextLine();
+		// Validate Patient ID
+		String patientId;
+		while (true) {
+			System.out.print("Enter Patient ID: ");
+			patientId = scanner.nextLine();
+	
+			if (doesPatientExist(patientId)) {
+				break; // Patient ID exists, exit the loop
+			} else {
+				System.out.println("Invalid Patient ID. Please try again.");
+			}
+		}
 		
 		String doctorId = DoctorID;
 		
@@ -134,6 +144,13 @@ public class MedicalRecordController {
 	    } else {
 	        System.out.println("Record ID not found. Update failed.");
 	    }
+	}
+
+	// Check if PatientID exists
+	public boolean doesPatientExist(String patientId) throws IOException {
+		List<Patient> patients = patientrepository.loadPatients();
+		return patients.stream()
+				.anyMatch(patient -> patient.getUserId().equals(patientId));
 	}
 	 
 	 
