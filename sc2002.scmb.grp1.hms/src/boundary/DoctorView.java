@@ -9,14 +9,14 @@ import entity.Appointment;
 import entity.MedicationInventory;
 import entity.User;
 
-public class DoctorView {
+public class DoctorView implements MenuInterface{
 	private final Scanner scanner = new Scanner(System.in);
 	private final MedicalRecordController medicalrecordcontroller = new MedicalRecordController();
 	private final AvailabilityController availabilitycontroller = new AvailabilityController();
 	private final AppointmentController appointmentcontroller = new AppointmentController();
 	private final AppointmentOutcomeController outcomecontroller = new AppointmentOutcomeController();
 	private final MedicationInventoryController medicationinventorycontroller = new MedicationInventoryController();
-	public void doctorMenu(User user) {
+	public void Menu(User user) {
         while (true) {
         	System.out.println();
             System.out.println("Doctor Menu:");
@@ -186,8 +186,36 @@ public class DoctorView {
 				boolean isValidAndConfirmed = appointmentcontroller.isAppointmentIdValidAndConfirmed(apptID);
 
 				if (isValidAndConfirmed) {
+					// Get all available medication names
+					List<String> medicationNames = medicationinventorycontroller.getAllMedicationNames();
+					if (medicationNames.isEmpty()) {
+						System.out.println("No medications available.");
+						valid = true;
+						return;
+					}
+
+					// Display medication options
+					System.out.println("Select a medication for the outcome:");
+					for (int i = 0; i < medicationNames.size(); i++) {
+						System.out.println((i + 1) + ". " + medicationNames.get(i));
+					}
+
+					int choice = -1;
+					while (choice < 1 || choice > medicationNames.size()) {
+						System.out.print("Enter the number of your choice: ");
+						if (scanner.hasNextInt()) {
+							choice = scanner.nextInt();
+							scanner.nextLine(); // Consume newline
+						} else {
+							System.out.println("Invalid input. Please enter a valid number.");
+							scanner.next(); // Consume invalid input
+						}
+					}
+
+					medicationName = medicationNames.get(choice - 1);
+
 					// Create the appointment outcome
-					outcomecontroller.createAppointmentOutcome(apptID);
+					outcomecontroller.createAppointmentOutcome(apptID, medicationName);
 					System.out.println("Appointment outcome created successfully for Appointment ID: " + apptID);
 					valid = true;
 				} else {

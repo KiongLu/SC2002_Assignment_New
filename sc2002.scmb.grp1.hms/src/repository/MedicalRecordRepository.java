@@ -8,13 +8,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MedicalRecordRepository {
-	private static final String FILE_PATH_MEDICALRECORD = "src/data/MedicalRecord.csv";
+	private static final String FILE_PATH_MEDICALRECORD = "/data/MedicalRecord.csv";
 	private static final CSVUtil csvutil = new CSVUtil(); 
 	
 	// Load all medical records from the CSV file
     public List<MedicalRecord> loadMedicalRecords() throws IOException {
         List<MedicalRecord> records = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_MEDICALRECORD));
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_MEDICALRECORD))));
         String line;
         while ((line = br.readLine()) != null) {
             String[] data = line.split(",");

@@ -3,21 +3,16 @@ package boundary;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.AppointmentOutcomeController;
-import controller.MedicalRecordController;
-import controller.AvailabilityController;
-import controller.AppointmentController;
-import controller.PatientController;
+import controller.*;
 import entity.User;
 
-public class PatientView {
+public class PatientView implements MenuInterface {
 	private final Scanner scanner = new Scanner(System.in);
 	private final MedicalRecordController medicalrecordcontroller = new MedicalRecordController();
 	private final AvailabilityController availabilitycontroller = new AvailabilityController();
 	private final AppointmentController appointmentcontroller = new AppointmentController();
     private final AppointmentOutcomeController outcomecontroller = new AppointmentOutcomeController();
-    private final PatientController patientcontroller = new PatientController();
-    public void patientMenu(User user){
+    public void Menu(User user){
         while (true) {
         	System.out.println();
             System.out.println("Patient Menu:");
@@ -43,14 +38,6 @@ public class PatientView {
             	try {
 					medicalrecordcontroller.loadMedicalRecordsForPatient(user.getUserId());
 				} catch (IOException e) {
-					e.printStackTrace();
-				}
-            }
-
-            else if(choice == 2){
-                try{
-                    patientcontroller.updatePatientInfo(user.getUserId());
-                } catch (IOException e) {
 					e.printStackTrace();
 				}
             }
@@ -121,13 +108,8 @@ public class PatientView {
         String Apptid = null;
         while (!validapptid) {
             System.out.println();
-            System.out.println("Enter the Appointment ID of the Appointment you wish to Reschedule ('0' to exit)");
+            System.out.println("Enter the Appointment ID of the Appointment you wish to Reschedule");
             Apptid = scanner.nextLine();
-
-            if (Apptid.equals("0")){ // for user to exit back to menu
-                System.out.println("Exiting appointment rescheduling...");
-                return;
-            }
 
             // Check if the appointment is valid for rescheduling
             if (appointmentcontroller.isValidRescheduleAppointmentId(Apptid, user.getUserId())) {
@@ -184,13 +166,9 @@ public class PatientView {
         String Apptid = null;
         while (!validapptid) {
             System.out.println();
-            System.out.println("Enter the Appointment ID of the Appointment you wish to Cancel ('0' to exit)");
+            System.out.println("Enter the Appointment ID of the Appointment you wish to Cancel");
             Apptid = scanner.nextLine();
 
-            if (Apptid.equals("0")){ // for user to exit back to menu
-                System.out.println("Exiting appointment cancellation...");
-                return;
-            }
    
             if (appointmentcontroller.isValidRescheduleAppointmentId(Apptid, user.getUserId())) {
                 validapptid = true;

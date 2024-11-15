@@ -5,39 +5,38 @@ import util.CSVUtil;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AppointmentOutcomeRepository {
-    private static final String FILE_PATH_APPOINTMENT_OUTCOME = "src/data/AppointmentOutcome.csv";
+    private static final String FILE_PATH_APPOINTMENT_OUTCOME = "/data/AppointmentOutcome.csv";
     private static final CSVUtil csvutil = new CSVUtil();
-
-
 
     public List<AppointmentOutcome> loadAllAppointmentOutcomes() throws IOException {
         List<AppointmentOutcome> appointmentOutcomes = new ArrayList<>();
         BufferedReader reader = null;
 
         try {
-            reader = new BufferedReader(new FileReader(FILE_PATH_APPOINTMENT_OUTCOME));
+            reader = new BufferedReader(new InputStreamReader(
+                    Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_APPOINTMENT_OUTCOME))));
             String line;
 
             // Skip the header line if there's one
             reader.readLine();
 
             while ((line = reader.readLine()) != null) {
-                // Use regex to properly split the CSV line considering potential commas inside quotes
-                String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                String[] data = line.split(","); // Assuming CSV format
 
                 if (data.length == 7) {
-                    String outcomeId = data[0];
+                    String OutcomeId = data[0];
                     String appointmentId = data[1];
                     String date = data[2];
                     String serviceType = data[3];
-                    String prescribedMedication = data[4].replace("\"", ""); // Remove surrounding quotes if any
+                    String prescribedMedication = data[4];
                     String medicationStatus = data[5];
                     String consultationNotes = data[6];
 
                     // Create an AppointmentOutcome object
-                    AppointmentOutcome appointmentOutcome = new AppointmentOutcome(outcomeId, appointmentId, date,
+                    AppointmentOutcome appointmentOutcome = new AppointmentOutcome(OutcomeId, appointmentId,date,
                             serviceType, prescribedMedication, medicationStatus, consultationNotes);
 
                     // Add it to the list

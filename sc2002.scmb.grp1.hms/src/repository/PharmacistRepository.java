@@ -1,5 +1,6 @@
 package repository;
 
+import controller.ValidationInterface;
 import entity.Doctor;
 import entity.Pharmacist;
 import entity.User;
@@ -7,10 +8,11 @@ import entity.User;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class PharmacistRepository {
+public class PharmacistRepository implements ValidationInterface {
 
-    private static final String FILE_PATH_PHARMACISTS = "src/data/Pharmacist.csv";
+    private static final String FILE_PATH_PHARMACISTS = "/data/Pharmacist.csv";
 
     
     // create pharmacist object using csv
@@ -20,8 +22,9 @@ public class PharmacistRepository {
     }
 
     //Validate Password
-	public User validatePharmacistCredentials(String id, String password) {
-		try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
+	public User validateCredentials(String id, String password) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_PHARMACISTS))))) {
             reader.readLine(); // Skip header
             String line;
             while ((line = reader.readLine()) != null) {

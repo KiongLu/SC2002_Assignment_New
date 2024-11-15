@@ -1,15 +1,16 @@
 package repository;
 
+import controller.ValidationInterface;
 import entity.Administrator;
-import entity.Doctor;
 import entity.User;
 
 import java.io.*;
+import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdministratorRepository {
-	private static final String FILE_PATH_Administrator = "src/data/Administrator.csv";
+public class AdministratorRepository implements ValidationInterface {
+	private static final String FILE_PATH_ADMINISTRATOR = "/data/Administrator.csv";
 
     // Create Doctor object from CSV line
     private Administrator createAdministratorFromCSV(String[] parts) {
@@ -18,8 +19,9 @@ public class AdministratorRepository {
     }
 
     // Validate doctor credentials
-    public User validateAdministratorCredentials(String id, String password) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_Administrator))) {
+    public User validateCredentials(String id, String password) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH_ADMINISTRATOR))))) {
             reader.readLine(); // Skip header
             String line;
             while ((line = reader.readLine()) != null) {

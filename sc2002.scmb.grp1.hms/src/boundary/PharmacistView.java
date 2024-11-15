@@ -2,22 +2,15 @@ package boundary;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.List;
 
 import controller.AppointmentOutcomeController;
-import controller.PharmacistController;
-import entity.MedicationInventory;
-import repository.AppointmentOutcomeRepository;
-import repository.MedicationInventoryRepository;
+import controller.MenuInterface;
 import entity.User;
 
-public class PharmacistView {
+public class PharmacistView implements MenuInterface {
 	private final Scanner scanner = new Scanner(System.in);
-    private final MedicationInventoryRepository inventoryRepository = new MedicationInventoryRepository();
-    private final AppointmentOutcomeRepository outcomeRepository = new AppointmentOutcomeRepository();
     private final AppointmentOutcomeController outcomecontroller = new AppointmentOutcomeController();
-    private final PharmacistController pharmacistController = new PharmacistController(inventoryRepository, outcomeRepository);
-    public void pharmacistMenu(User user) {
+    public void Menu(User user) {
         while (true) {
         	System.out.println();
             System.out.println("Pharmacist Menu:");
@@ -52,25 +45,6 @@ public class PharmacistView {
                     throw new RuntimeException(e);
                 }
             }
-
-            if (choice == 3) {
-                try {
-                    viewMedicationInventory();
-                }
-                catch (IOException e) {
-                    throw new RuntimeException(e);
-                }// Call the method to view inventory
-            }
-
-            if (choice == 4) {
-                try {
-                    submitReplenishmentRequest();
-                } catch (IOException e) {
-                    System.err.println("Error processing replenishment request: " + e.getMessage());
-                }
-            }
-
-
         }
     }
 
@@ -82,31 +56,6 @@ public class PharmacistView {
 
         outcomecontroller.changePrescriptionStatusToDispensed(outcomeId);
     }
-
-    public void viewMedicationInventory() throws IOException {
-        System.out.println("\nMedication Inventory:");
-
-        // Call getAllInventory() on the pharmacistController instance
-        List<MedicationInventory> medications = pharmacistController.getAllInventory();
-        if (medications.isEmpty()) {
-            System.out.println("No medications found in the inventory.");
-        } else {
-            for (MedicationInventory medication : medications) {
-                System.out.printf("Name: %s, Stock Level: %d, Stock Alert Level: %d\n",
-                        medication.getMedicationName(), medication.getStockLevel(), medication.getStockAlertLevel());
-            }
-        }
-    }
-
-    private void submitReplenishmentRequest() throws IOException {
-        System.out.print("Enter the medication name: ");
-        String medicationName = scanner.nextLine();
-
-        // Call the controller to handle the replenishment request
-        pharmacistController.submitReplenishmentRequest(medicationName);
-    }
-
-
 
     
 }
