@@ -64,4 +64,13 @@ public class MedicalRecord {
                "Treatment:    " + treatment + "\n" +
                "Prescription: " + prescription;
     }
+
+    public String patientMRToString(){
+
+        return String.format("| %-9s | %-10s | %-9s | %-11s |\n",
+        recordId,
+        diagnosis,
+        treatment,
+        prescription);
+    }
 }

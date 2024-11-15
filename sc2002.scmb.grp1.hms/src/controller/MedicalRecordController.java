@@ -13,137 +13,161 @@ public class MedicalRecordController {
 	private final MedicalRecordRepository medicalrecordrepository = new MedicalRecordRepository();
 	private final DoctorRepository doctorrepository = new DoctorRepository();
 	private final PatientRepository patientrepository = new PatientRepository();
-	
-	//get all patient medical record for patient view
+
+	// get all patient medical record for patient view
 	public void loadMedicalRecordsForPatient(String patientID) throws IOException {
-        List<MedicalRecord> records = medicalrecordrepository.findRecordsByPatientId(patientID);
-        Patient temp = patientrepository.findPatientById(patientID);
-        if (records.isEmpty()) {
-        	System.out.println("Medical records \n" +
-                    "Patient ID:    " + temp.getUserId() + "\n" +
-                    "Name:          " + temp.getName() + "\n" +
-                    "Date of Birth: " + temp.getDob() + "\n" +
-                    "Gender:        " + temp.getGender() + "\n" +
-                    "Phone Number:  " + temp.getPhoneNumber() + "\n" +
-                    "Email:         " + temp.getEmail() + "\n" +
-                    "Blood Type:    " + temp.getBloodtype());
-            System.out.println("No medical records found");
-        } else {
-            System.out.println("Medical records \n" +
-                    "Patient ID:    " + temp.getUserId() + "\n" +
-                    "Name:          " + temp.getName() + "\n" +
-                    "Date of Birth: " + temp.getDob() + "\n" +
-                    "Gender:        " + temp.getGender() + "\n" +
-                    "Phone Number:  " + temp.getPhoneNumber() + "\n" +
-                    "Email:         " + temp.getEmail() + "\n" +
-                    "Blood Type:    " + temp.getBloodtype());
+		List<MedicalRecord> records = medicalrecordrepository.findRecordsByPatientId(patientID);
+		Patient temp = patientrepository.findPatientById(patientID);
+		if (records.isEmpty()) {
 
-            for (MedicalRecord record : records) {
-            	System.out.println("Doctor Name:  " + doctorrepository.findDoctorById(record.getDoctorId()).getName());
-            	System.out.println(record.toString());
-            	System.out.println();
-            }
-        }
-    }
-	
-	//get all medical record for doctpr view
-	 public void loadMedicalRecordsForDoctor(String doctorID) throws IOException {
-	        List<MedicalRecord> records = medicalrecordrepository.findRecordsByDoctorId(doctorID);
+			System.out.println("+-----------------------------------------------------------+");
+			System.out.println("|                      Medical Records                      |");
+			System.out.println("+-----------------------------------------------------------+");
+			System.out.printf("| %-15s: %-30s |\n", "Patient ID", temp.getUserId());
+			System.out.printf("| %-15s: %-30s |\n", "Name", temp.getName());
+			System.out.printf("| %-15s: %-30s |\n", "Date of Birth", temp.getDob());
+			System.out.printf("| %-15s: %-30s |\n", "Gender", temp.getGender());
+			System.out.printf("| %-15s: %-30s |\n", "Phone Number", temp.getPhoneNumber());
+			System.out.printf("| %-15s: %-30s |\n", "Email", temp.getEmail());
+			System.out.printf("| %-15s: %-30s |\n", "Blood Type", temp.getBloodtype());
+			System.out.println("+-----------------------------------------------------------+");
+			System.out.println("No medical records found");
 
-	        if (records.isEmpty()) {
-	            System.out.println("No medical records found for Doctor ID: " + doctorID);
-	        } else {
-	            System.out.println("Medical records for Doctor ID: " + doctorID);
-	            for (MedicalRecord record : records) {
-	            	System.out.println();
-	            	Patient temp = patientrepository.findPatientById(record.getPatientId());
-	            	System.out.println("Medical records \n" +
-					"Record ID: " + record.getRecordId() + "\n" +
-	            	"Patient ID: " + temp.getUserId() + "\n" +
-                    "Name: " + temp.getName() + "\n" +
-                    "Date of Birth: " + temp.getDob() + "\n" +
-                    "Gender: " + temp.getGender() + "\n" +
-                    "Phone Number: " + temp.getPhoneNumber() + "\n" +
-                    "Email: " + temp.getEmail() + "\n" +
-                    "Blood Type: " + temp.getBloodtype());
-	            	System.out.println("Patient Name: " + patientrepository.findPatientById(record.getPatientId()).getName());
-	                System.out.println(record.toString());
-	                System.out.println();
-	            }
-	        }
-	  }
-	 
-	 //genereate a new record id
-	 public String generateNextRecordId() throws IOException {
-		 String lastRecordId = medicalrecordrepository.getLastRecordId();
-	     String numberPart = lastRecordId.substring(1);  // Remove the 'R' prefix
-	     int nextNumber = Integer.parseInt(numberPart) + 1;  // Increment the number
-	     return "R" + String.format("%03d", nextNumber);
-	     
-	 }
-	 
-	 // create new medical record
-	 public void createMedicalRecord(String DoctorID) throws IOException {
+			// System.out.println("Medical records \n" +
+			// "Patient ID: " + temp.getUserId() + "\n" +
+			// "Name: " + temp.getName() + "\n" +
+			// "Date of Birth: " + temp.getDob() + "\n" +
+			// "Gender: " + temp.getGender() + "\n" +
+			// "Phone Number: " + temp.getPhoneNumber() + "\n" +
+			// "Email: " + temp.getEmail() + "\n" +
+			// "Blood Type: " + temp.getBloodtype());
+			// System.out.println("No medical records found");
+		} else {
+			System.out.println("+----------------------------------------------------------------+");
+			System.out.println("|                         Medical Records                        |");
+			System.out.println("+----------------------------------------------------------------+");
+			System.out.printf("| %-15s: %-45s |\n", "Patient ID", temp.getUserId());
+			System.out.printf("| %-15s: %-45s |\n", "Name", temp.getName());
+			System.out.printf("| %-15s: %-45s |\n", "Date of Birth", temp.getDob());
+			System.out.printf("| %-15s: %-45s |\n", "Gender", temp.getGender());
+			System.out.printf("| %-15s: %-45s |\n", "Phone Number", temp.getPhoneNumber());
+			System.out.printf("| %-15s: %-45s |\n", "Email", temp.getEmail());
+			System.out.printf("| %-15s: %-45s |\n", "Blood Type", temp.getBloodtype());
+			System.out.println("+----------------------------------------------------------------+");
+
+			System.out.println("+----------------------------------------------------------------+");
+			System.out.println("| Doctor Name | Record ID | Diagnosis | Treatment | Prescription |");
+			System.out.println("+----------------------------------------------------------------+");
+
+			for (MedicalRecord record : records) {
+				System.out.printf("| %-12s", doctorrepository.findDoctorById(record.getDoctorId()).getName());
+				//System.out.println(doctorrepository.findDoctorById(record.getDoctorId()).getName());
+				System.out.printf(record.patientMRToString());
+			}
+			System.out.println("+----------------------------------------------------------------+");
+		}
+	}
+
+	// get all medical record for doctpr view
+	public void loadMedicalRecordsForDoctor(String doctorID) throws IOException {
+		List<MedicalRecord> records = medicalrecordrepository.findRecordsByDoctorId(doctorID);
+
+		if (records.isEmpty()) {
+			System.out.println("No medical records found for Doctor ID: " + doctorID);
+		} else {
+			System.out.println("Medical records for Doctor ID: " + doctorID);
+			for (MedicalRecord record : records) {
+				System.out.println();
+				Patient temp = patientrepository.findPatientById(record.getPatientId());
+				System.out.println("Medical records \n" +
+						"Record ID: " + record.getRecordId() + "\n" +
+						"Patient ID: " + temp.getUserId() + "\n" +
+						"Name: " + temp.getName() + "\n" +
+						"Date of Birth: " + temp.getDob() + "\n" +
+						"Gender: " + temp.getGender() + "\n" +
+						"Phone Number: " + temp.getPhoneNumber() + "\n" +
+						"Email: " + temp.getEmail() + "\n" +
+						"Blood Type: " + temp.getBloodtype());
+				System.out
+						.println("Patient Name: " + patientrepository.findPatientById(record.getPatientId()).getName());
+				System.out.println(record.toString());
+				System.out.println();
+			}
+		}
+	}
+
+	// genereate a new record id
+	public String generateNextRecordId() throws IOException {
+		String lastRecordId = medicalrecordrepository.getLastRecordId();
+		String numberPart = lastRecordId.substring(1); // Remove the 'R' prefix
+		int nextNumber = Integer.parseInt(numberPart) + 1; // Increment the number
+		return "R" + String.format("%03d", nextNumber);
+
+	}
+
+	// create new medical record
+	public void createMedicalRecord(String DoctorID) throws IOException {
 		Scanner scanner = new Scanner(System.in);
-		
+
 		String recordId = generateNextRecordId();
-		
+
 		// Validate Patient ID
 		String patientId;
 		while (true) {
 			System.out.print("Enter Patient ID: ");
 			patientId = scanner.nextLine();
-	
+
 			if (doesPatientExist(patientId)) {
 				break; // Patient ID exists, exit the loop
 			} else {
 				System.out.println("Invalid Patient ID. Please try again.");
 			}
 		}
-		
+
 		String doctorId = DoctorID;
-		
+
 		System.out.print("Enter Diagnosis: ");
 		String diagnosis = scanner.nextLine();
-		
+
 		System.out.print("Enter Treatment: ");
 		String treatment = scanner.nextLine();
-		
+
 		System.out.print("Enter Prescription: ");
 		String prescription = scanner.nextLine();
-		
+
 		// Create a new MedicalRecord object
 		MedicalRecord newRecord = new MedicalRecord(recordId, patientId, doctorId, diagnosis, treatment, prescription);
-		
+
 		// Add the record to the repository (save it to the file)
 		medicalrecordrepository.addMedicalRecord(newRecord);
-		
+
 		System.out.println("Medical record added successfully.");
-      }
-	 
-	 public void updateMedicalRecord(String doctorID) throws IOException {
+	}
+
+	public void updateMedicalRecord(String doctorID) throws IOException {
 		loadMedicalRecordsForDoctor(doctorID);
-	    Scanner scanner = new Scanner(System.in);
-	    
-	    System.out.print("Enter Record ID to update: ");
-	    String recordId = scanner.nextLine();
-	    
-	    System.out.print("Enter new Diagnosis: ");
-	    String newDiagnosis = scanner.nextLine();
-	    
-	    System.out.print("Enter new Treatment: ");
-	    String newTreatment = scanner.nextLine();
-	    
-	    System.out.print("Enter new Prescription: ");
-	    String newPrescription = scanner.nextLine();
-	    
-	    boolean success = medicalrecordrepository.updateMedicalRecord(recordId, newDiagnosis, newTreatment, newPrescription);
-	    
-	    if (success) {
-	        System.out.println("Medical record updated successfully.");
-	    } else {
-	        System.out.println("Record ID not found. Update failed.");
-	    }
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.print("Enter Record ID to update: ");
+		String recordId = scanner.nextLine();
+
+		System.out.print("Enter new Diagnosis: ");
+		String newDiagnosis = scanner.nextLine();
+
+		System.out.print("Enter new Treatment: ");
+		String newTreatment = scanner.nextLine();
+
+		System.out.print("Enter new Prescription: ");
+		String newPrescription = scanner.nextLine();
+
+		boolean success = medicalrecordrepository.updateMedicalRecord(recordId, newDiagnosis, newTreatment,
+				newPrescription);
+
+		if (success) {
+			System.out.println("Medical record updated successfully.");
+		} else {
+			System.out.println("Record ID not found. Update failed.");
+		}
 	}
 
 	// Check if PatientID exists
@@ -152,6 +176,5 @@ public class MedicalRecordController {
 		return patients.stream()
 				.anyMatch(patient -> patient.getUserId().equals(patientId));
 	}
-	 
-	 
+
 }
