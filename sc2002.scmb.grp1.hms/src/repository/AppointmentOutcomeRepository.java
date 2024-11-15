@@ -1,11 +1,10 @@
 package repository;
 
 import entity.AppointmentOutcome;
-import util.CSVUtil;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import util.CSVUtil;
 
 public class AppointmentOutcomeRepository {
     private static final String FILE_PATH_APPOINTMENT_OUTCOME = "sc2002.scmb.grp1.hms//resource//AppointmentOutcome.csv";
@@ -23,19 +22,20 @@ public class AppointmentOutcomeRepository {
             reader.readLine();
 
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split(","); // Assuming CSV format
+                // Use regex to properly split the CSV line considering potential commas inside quotes
+                String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
                 if (data.length == 7) {
-                    String OutcomeId = data[0];
+                    String outcomeId = data[0];
                     String appointmentId = data[1];
                     String date = data[2];
                     String serviceType = data[3];
-                    String prescribedMedication = data[4];
+                    String prescribedMedication = data[4].replace("\"", ""); // Remove surrounding quotes if any
                     String medicationStatus = data[5];
                     String consultationNotes = data[6];
 
                     // Create an AppointmentOutcome object
-                    AppointmentOutcome appointmentOutcome = new AppointmentOutcome(OutcomeId, appointmentId,date,
+                    AppointmentOutcome appointmentOutcome = new AppointmentOutcome(outcomeId, appointmentId, date,
                             serviceType, prescribedMedication, medicationStatus, consultationNotes);
 
                     // Add it to the list
@@ -129,20 +129,26 @@ public class AppointmentOutcomeRepository {
         }
     }
 
-    // Method to write the list of appointment outcomes back to the CSV file
     private void writeAppointmentOutcomesToFile(List<AppointmentOutcome> allOutcomes) throws IOException {
         BufferedWriter writer = null;
-
+    
         try {
             writer = new BufferedWriter(new FileWriter(FILE_PATH_APPOINTMENT_OUTCOME));
             writer.write("OutcomeID,AppointmentID,Date,ServiceType,PrescribedMedication,MedicationStatus,ConsultationNotes\n");
-
+    
             for (AppointmentOutcome outcome : allOutcomes) {
+                String prescribedMedication = outcome.getPrescribedMedication();
+    
+                // Ensure medications are quoted correctly
+                if (prescribedMedication.contains(",") && !prescribedMedication.startsWith("\"")) {
+                    prescribedMedication = "\"" + prescribedMedication + "\"";
+                }
+    
                 writer.write(outcome.getOutcomeId() + "," +
                         outcome.getAppointmentId() + "," +
                         outcome.getDate() + "," +
                         outcome.getServiceType() + "," +
-                        outcome.getPrescribedMedication() + "," +
+                        prescribedMedication + "," +
                         outcome.getMedicationStatus() + "," +
                         outcome.getConsultationNotes() + "\n");
             }
