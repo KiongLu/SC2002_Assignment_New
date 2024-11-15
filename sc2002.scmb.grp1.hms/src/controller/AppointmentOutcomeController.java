@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class AppointmentOutcomeController {
+public class AppointmentOutcomeController implements AppointmentOutcomeService{
     private AppointmentOutcomeRepository outcomeRepository = new AppointmentOutcomeRepository();
     private AppointmentRepository appointmentRepository = new AppointmentRepository();
     private MedicationInventoryRepository medicationInventoryRepository = new MedicationInventoryRepository();
@@ -70,7 +70,7 @@ public class AppointmentOutcomeController {
         System.out.println("Appointment Outcome has been created.");
     }
 
-
+    @Override
     // Generate next AppointmentOutcome ID
     public String generateNextAppointmentOutcomeId() throws IOException {
         String lastOutcomeId = outcomeRepository.getLastAppointmentOutcomeId();
@@ -83,7 +83,7 @@ public class AppointmentOutcomeController {
     }
 
 
-
+    @Override
     public void getAllAppointmentOutcomesForPatient(String patientId) throws IOException {
         List<AppointmentOutcome> patientOutcomes = new ArrayList<>();
         List<AppointmentOutcome> allAppointmentOutcomes = outcomeRepository.loadAllAppointmentOutcomes();
@@ -129,7 +129,7 @@ public class AppointmentOutcomeController {
 
 
 
-
+    @Override
     // get all appointmentoutcome
     public void viewAppointmentOutcomes() throws IOException {
         List<AppointmentOutcome> allAppointmentOutcomes = outcomeRepository.loadAllAppointmentOutcomes();
@@ -151,7 +151,7 @@ public class AppointmentOutcomeController {
             System.out.println();
         }
     }
-
+    @Override
     // Method to display all Appointment Outcomes with a "Pending" medication status
     public void displayPendingAppointmentOutcomes() throws IOException {
         List<AppointmentOutcome> allOutcomes = outcomeRepository.loadAllAppointmentOutcomes();
@@ -179,7 +179,7 @@ public class AppointmentOutcomeController {
             System.out.println("No pending appointment outcomes found.");
         }
     }
-
+    @Override
     public void updatePrescriptionStatus(String outcomeId) throws IOException {
         // Retrieve the appointment outcome by ID
         AppointmentOutcome outcome = outcomeRepository.getAppointmentOutcomeById(outcomeId);
@@ -193,7 +193,7 @@ public class AppointmentOutcomeController {
 
         outcomeRepository.updateAppointmentOutcome(outcome);
     }
-
+    @Override
     public void changePrescriptionStatusToDispensed(String outcomeId) throws IOException {
         List<AppointmentOutcome> allOutcomes = outcomeRepository.loadAllAppointmentOutcomes();
 
