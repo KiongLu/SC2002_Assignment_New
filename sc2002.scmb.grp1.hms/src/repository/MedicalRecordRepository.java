@@ -6,6 +6,7 @@ import util.CSVUtil;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
+//Ignore
 
 public class MedicalRecordRepository {
 	private static final String FILE_PATH_MEDICALRECORD = "sc2002.scmb.grp1.hms//resource//MedicalRecord.csv";
