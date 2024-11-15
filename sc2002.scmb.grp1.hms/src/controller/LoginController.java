@@ -1,7 +1,7 @@
 package controller;
 
 import entity.User;
-
+import java.io.IOException;
 public class LoginController {
 
     public boolean login(String hospitalID, String password){
@@ -17,7 +17,11 @@ public class LoginController {
         else{
             ViewController viewController = new ViewController();
             MenuInterface view = (MenuInterface) viewController.getView(role);
-            view.Menu(user);
+            try{
+                view.Menu(user);
+            } catch(IOException e){
+                System.out.println("Menu did not work ");
+            }
             return true;
         }
 

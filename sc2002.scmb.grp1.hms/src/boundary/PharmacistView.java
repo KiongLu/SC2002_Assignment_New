@@ -11,13 +11,15 @@ import entity.User;
 import entity.MedicationInventory;
 import repository.MedicationInventoryRepository;
 import repository.AppointmentOutcomeRepository;
+import repository.ReplenishmentRequestRepository;
 
 public class PharmacistView implements MenuInterface {
 	private final Scanner scanner = new Scanner(System.in);
     private final AppointmentOutcomeController outcomecontroller = new AppointmentOutcomeController();
     private final MedicationInventoryRepository inventoryRepository = new MedicationInventoryRepository();
     private final AppointmentOutcomeRepository outcomeRepository = new AppointmentOutcomeRepository();
-    private final PharmacistController pharmacistController =  new PharmacistController(inventoryRepository, outcomeRepository);// Create an instance
+    private final ReplenishmentRequestRepository replenishmentRequestRepository = new ReplenishmentRequestRepository();
+    private final PharmacistController pharmacistController =  new PharmacistController(inventoryRepository, outcomeRepository,replenishmentRequestRepository);// Create an instance
     public void Menu(User user) {
         while (true) {
         	System.out.println();
@@ -97,10 +99,7 @@ public class PharmacistView implements MenuInterface {
     private void submitReplenishmentRequest() {
         System.out.print("Enter the medication name: ");
         String medicationName = scanner.nextLine();
-
-        // Call the controller to handle the replenishment request
         try {
-            // Call the controller to handle the replenishment request
             pharmacistController.submitReplenishmentRequest(medicationName);
         } catch (IOException e) {
             System.err.println("Error submitting replenishment request: " + e.getMessage());
