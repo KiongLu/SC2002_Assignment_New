@@ -1,6 +1,7 @@
 package boundary;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.List;
 
@@ -31,8 +32,19 @@ public class PharmacistView implements MenuInterface {
             System.out.println("5. Logout");
             System.out.println();
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            int choice  = -1;
+
+            while (true) {
+                try {
+                    System.out.print("Please enter your choice: ");
+                    choice = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline left-over
+                    break; // Exit loop if a valid integer is entered
+                } catch (InputMismatchException e) {
+                    System.err.println("Invalid input. Please enter a valid integer.");
+                    scanner.nextLine(); // Consume the invalid input
+                }
+            }
 
             if (choice == 5) {
                 System.out.println("Logging out...");
