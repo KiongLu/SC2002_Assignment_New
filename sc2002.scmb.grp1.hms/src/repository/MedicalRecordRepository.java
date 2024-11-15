@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MedicalRecordRepository {
-	private static final String FILE_PATH_MEDICALRECORD = "sc2002.scmb.grp1.hms\\resource\\MedicalRecord.csv";
+	private static final String FILE_PATH_MEDICALRECORD = "sc2002.scmb.grp1.hms//resource//MedicalRecord.csv";
 	private static final CSVUtil csvutil = new CSVUtil(); 
 	
 	// Load all medical records from the CSV file

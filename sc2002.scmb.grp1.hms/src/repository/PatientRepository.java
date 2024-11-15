@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class PatientRepository implements ValidationInterface {
 
-	private static final String FILE_PATH_PATIENT = "sc2002.scmb.grp1.hms\\resource\\Patient.csv";
+	private static final String FILE_PATH_PATIENT = "sc2002.scmb.grp1.hms//resource//Patient.csv";
 
  // create Patient object using csv
     private Patient createPatientFromCSV(String[] parts) {

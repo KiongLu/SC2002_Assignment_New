@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.*;
 
 public class AppointmentRepository {
-    private static final String FILE_PATH_APPOINTMENT = "sc2002.scmb.grp1.hms\\resource\\Appointment.csv";
+    private static final String FILE_PATH_APPOINTMENT = "sc2002.scmb.grp1.hms//resource//Appointment.csv";
     private static final CSVUtil csvutil = new CSVUtil(); 
     
  // Method to write a new appointment to the CSV file

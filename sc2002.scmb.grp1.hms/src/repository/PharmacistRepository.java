@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class PharmacistRepository implements ValidationInterface {
 
-    private static final String FILE_PATH_PHARMACISTS = "sc2002.scmb.grp1.hms/resource/Pharmacist.csv";
+    private static final String FILE_PATH_PHARMACISTS = "sc2002.scmb.grp1.hms//resource//Pharmacist.csv";
 
     
     // create pharmacist object using csv

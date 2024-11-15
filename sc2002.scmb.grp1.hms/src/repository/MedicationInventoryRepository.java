@@ -7,8 +7,8 @@ import java.util.List;
 import util.CSVUtil;
 
 public class MedicationInventoryRepository {
-    private static final String FILE_PATH_MEDICATION_INVENTORY = "sc2002.scmb.grp1.hms\\resource\\MedicationInventory.csv";
-    private static final String FILE_PATH_REPLENISHMENT_REQUESTS = "sc2002.scmb.grp1.hms\\resource\\ReplenishmentRequests.csv";
+    private static final String FILE_PATH_MEDICATION_INVENTORY = "sc2002.scmb.grp1.hms//resource//MedicationInventory.csv";
+    private static final String FILE_PATH_REPLENISHMENT_REQUESTS = "sc2002.scmb.grp1.hms//resource//ReplenishmentRequests.csv";
     private static final CSVUtil csvUtil = new CSVUtil();
 
     // Method to load all medications from the CSV file
