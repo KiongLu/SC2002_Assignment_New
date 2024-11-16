@@ -135,12 +135,12 @@ public class AppointmentController {
         return false;
     }
 
-    // get all appointment that are confirmed by doctor
-    public void listConfirmedAppointments(String doctorId) throws IOException {
+    public boolean listConfirmedAppointments(String doctorId) throws IOException {
         List<Appointment> confirmedAppointments = appointmentRepository.getConfirmedAppointmentsByDoctorId(doctorId);
 
         if (confirmedAppointments.isEmpty()) {
             System.out.println("No confirmed appointments found for this doctor.");
+            return false; // Indicate no confirmed appointments
         } else {
             System.out.println("Confirmed Appointments:");
             System.out.println();
@@ -157,12 +157,14 @@ public class AppointmentController {
                                 "Blood Type: " + temp.getBloodtype() + "\n" +
                                 "Date: " + appointment.getAppointmentDate() + "\n" +
                                 "Start Time: " + appointment.getStartTime() + "\n" +
-                                "End Time " + appointment.getEndTime() + "\n" +
-                                "Status " + appointment.getStatus() + "\n");
+                                "End Time: " + appointment.getEndTime() + "\n" +
+                                "Status: " + appointment.getStatus() + "\n");
                 System.out.println();
             }
+            return true; // Indicate that confirmed appointments were found
         }
     }
+
 
     public void listofScheduledAppointments(String patientId) throws IOException {
         List<Appointment> scheduleAppointments = appointmentRepository

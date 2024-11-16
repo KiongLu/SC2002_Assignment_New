@@ -54,7 +54,6 @@ public class DoctorView implements MenuInterface{
             	try {
 					availabilitycontroller.loadAvailabilityByDoctor(user.getUserId());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
@@ -63,7 +62,6 @@ public class DoctorView implements MenuInterface{
             	try {
 					availabilitycontroller.createNewAvailability(user.getUserId());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
@@ -76,21 +74,22 @@ public class DoctorView implements MenuInterface{
             	try {
 					appointmentcontroller.listConfirmedAppointments(user.getUserId());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
 
 			else if (choice == 7) {
 				try {
-					appointmentcontroller.listConfirmedAppointments(user.getUserId());
+					boolean hasConfirmedAppointments = appointmentcontroller.listConfirmedAppointments(user.getUserId());
+					if (!hasConfirmedAppointments) {
+						continue;
+					}
+					// Proceed to create appointment outcome
+					createAppointmentOutcomeForValidAppointment();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				createAppointmentOutcomeForValidAppointment();
-            }
-            // Add functionality for each menu option here
+			}
         }
     }
 	
@@ -249,6 +248,7 @@ public class DoctorView implements MenuInterface{
 					// Create the appointment outcome
 					outcomecontroller.createAppointmentOutcome(apptID);
 					System.out.println("Appointment outcome created successfully for Appointment ID: " + apptID);
+					appointmentcontroller.updateAppointmentStatus(apptID, "Completed");
 					valid = true;
 				} else {
 					System.out.println("The Appointment ID is not valid.");
