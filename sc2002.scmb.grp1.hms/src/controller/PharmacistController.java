@@ -10,8 +10,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class PharmacistController implements InventoryManagement,ReplenishmentRequestService {
-    private MedicationInventoryRepository inventoryRepository;
-    private ReplenishmentRequestRepository replenishmentRequestRepository;
+    private final MedicationInventoryRepository inventoryRepository;
+    private final ReplenishmentRequestRepository replenishmentRequestRepository;
     private final Scanner scanner = new Scanner(System.in);
 
     public PharmacistController(MedicationInventoryRepository inventoryRepository, ReplenishmentRequestRepository replenishmentRequestRepository) {
