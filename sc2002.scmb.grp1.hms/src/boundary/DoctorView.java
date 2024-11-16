@@ -3,6 +3,7 @@ package boundary;
 import controller.*;
 import entity.User;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -92,36 +93,67 @@ public class DoctorView implements MenuInterface{
 	
 	
 	private void handleMedicalRecordOptions(User user) {
-        while (true) {
-            System.out.println();
-            System.out.println("Medical Record Options:");
-            System.out.println("1. Create New Medical Record");
-            System.out.println("2. Update Existing Medical Record");
-            System.out.println("3. Back to Doctor Menu");
-            System.out.println();
-
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
-            if (choice == 1) {
-                try {
-                    medicalrecordcontroller.createMedicalRecord(user.getUserId());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else if (choice == 2) {
-                try {
-                	medicalrecordcontroller.updateMedicalRecord(user.getUserId());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else if (choice == 3) {
-                break; // Go back to the main doctor menu
-            } else {
-                System.out.println("Invalid choice. Please try again.");
-            }
-        }
-    }
+		while (true) {
+			try {
+				appointmentcontroller.listPendingAppointments(user.getUserId());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	
+			System.out.println();
+			System.out.println("Appointment Request Options:");
+			System.out.println("1. Accept Appointment Request");
+			System.out.println("2. Decline Appointment Request");
+			System.out.println("3. Back to Doctor Menu");
+			System.out.println();
+	
+			int choice = -1; // Initialize choice with an invalid value
+	
+			// Safely handle numeric input
+			try {
+				System.out.print("Enter your choice: ");
+				if (scanner.hasNextInt()) {
+					choice = scanner.nextInt();
+					scanner.nextLine(); // Consume newline
+				} else {
+					System.out.println("Invalid input. Please enter a number.");
+					scanner.nextLine(); // Clear invalid input
+					continue;
+				}
+			} catch (Exception e) {
+				System.out.println("An unexpected error occurred. Please try again.");
+				scanner.nextLine(); // Clear any invalid input
+				continue;
+			}
+	
+			if (choice == 1 || choice == 2) {
+				String status = (choice == 1) ? "Confirmed" : "Cancelled";
+	
+				while (true) {
+					System.out.print("Enter the Appointment ID: ");
+					String apptId = scanner.nextLine();
+	
+					try {
+						if (appointmentcontroller.isValidAppointmentId(apptId, user.getUserId())) {
+							appointmentcontroller.updateAppointmentStatus(apptId, status);
+							System.out.println("Appointment status updated to " + status);
+							break;
+						} else {
+							System.out.println("Invalid Appointment ID. Please try again.");
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+						break;
+					}
+				}
+			} else if (choice == 3) {
+				break; // Exit to the main doctor menu
+			} else {
+				System.out.println("Invalid choice. Please try again.");
+			}
+		}
+	}
+	
 	
 	private void handleAppointmnetRequestOptions(User user) {
 	    while (true) {
@@ -138,8 +170,16 @@ public class DoctorView implements MenuInterface{
 	        System.out.println("3. Back to Doctor Menu");
 	        System.out.println();
 
-	        int choice = scanner.nextInt();
-	        scanner.nextLine(); // Consume newline
+	        int choice = -1;
+			try {
+				System.out.print("Enter your choice: ");
+				choice = scanner.nextInt();
+				scanner.nextLine(); // Consume newline
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number.");
+				scanner.nextLine(); // Clear the invalid input
+				continue;
+			}
 
 	        if (choice == 1 || choice == 2) {
 	            String status = (choice == 1) ? "Confirmed" : "Cancelled";
