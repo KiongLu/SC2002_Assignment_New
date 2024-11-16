@@ -161,7 +161,12 @@ private final LoginController logincontroller = new LoginController();
                         if(answer == true){
                             String newPassword;
                             System.out.println("Please enter a new password");
-                            newPassword = scanner.nextLine();
+                            do {
+                                newPassword = scanner.nextLine();
+                                if (newPassword.equals("Password")) {
+                                    System.out.println("The password cannot be the default 'Password'. Please enter a new password:");
+                                }
+                            } while (newPassword.equals("Password"));
                             PasswordController passwordController = new PasswordController();
                             if(passwordController.changePassword(hospitalID, newPassword)){
                                 System.out.println("Password sucessfully changed");

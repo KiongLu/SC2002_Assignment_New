@@ -1,5 +1,6 @@
 package repository;
 
+import controller.ChangeSecurityQuestionInterface;
 import controller.PasswordChangerInterface;
 import controller.PasswordController;
 import controller.ValidationInterface;
@@ -10,10 +11,11 @@ import entity.User;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class PharmacistRepository implements ValidationInterface, checkHaveQuestionsInterface, PasswordChangerInterface {
+public class PharmacistRepository implements ValidationInterface, checkHaveQuestionsInterface, PasswordChangerInterface, ChangeSecurityQuestionInterface {
 
     private static final String FILE_PATH_PHARMACISTS = "sc2002.scmb.grp1.hms//resource//Pharmacist.csv";
 
@@ -125,4 +127,48 @@ public class PharmacistRepository implements ValidationInterface, checkHaveQuest
     
         return passwordUpdated;
     }
+    public boolean changeSecurityQuestion(String hospitalID, String question, String answer) {
+    List<String[]> allRecords = new ArrayList<>();
+    boolean questionUpdated = false;
+
+    // Load all records from the file
+    try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+
+            // Check if the record matches the hospitalID
+            if (parts[0].equals(hospitalID)) {
+                // Ensure the CSV has enough columns for Question and Answer
+                if (parts.length <= 8) {
+                    // Add blank placeholders if Question and Answer columns are missing
+                    parts = Arrays.copyOf(parts, 10);
+                    parts[8] = ""; // Question placeholder
+                    parts[9] = ""; // Answer placeholder
+                }
+                // Update Question and Answer
+                parts[8] = question;
+                parts[9] = answer;
+                questionUpdated = true;
+            }
+            allRecords.add(parts); // Add the record to the list
+        }
+    } catch (IOException e) {
+        System.err.println("Error reading the file: " + e.getMessage());
+        return false; // Indicate failure
+    }
+
+    // Rewrite the file with updated records
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PHARMACISTS))) {
+        for (String[] record : allRecords) {
+            writer.write(String.join(",", record));
+            writer.newLine();
+        }
+    } catch (IOException e) {
+        System.err.println("Error writing to the file: " + e.getMessage());
+        return false; // Indicate failure
+    }
+
+    return questionUpdated; // Return true if the question was updated
+}
 }
