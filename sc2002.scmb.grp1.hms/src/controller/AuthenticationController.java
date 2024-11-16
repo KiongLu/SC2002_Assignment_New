@@ -89,7 +89,7 @@ private final LoginController logincontroller = new LoginController();
             System.out.println("|____/ \\__, |___/\\__\\___|_| |_| |_|                            ");
             System.out.println("       |___/                                                   ");
             System.out.println("\n");
-            System.out.println("  What would you like to do?");
+            System.out.println("What would you like to do?");
 
 
             System.out.println("+----------------------+");
