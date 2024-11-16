@@ -2,6 +2,7 @@ package controller;
 
 import entity.User;
 import java.io.IOException;
+import java.util.Scanner;
 public class LoginController {
 
     public boolean login(String hospitalID, String password){
@@ -18,6 +19,27 @@ public class LoginController {
             System.out.println("Invalid ID or password. Returning to main menu.");
             System.out.println();
             return false;
+        }
+        else if (user != null && password.equals("Password")){
+            System.out.println("You are a new user with the default password, please change it");
+            PasswordController pc = new PasswordController();
+            System.out.println("Please enter a new password");
+            Scanner scanner = new Scanner(System.in);
+            String newPassword = scanner.nextLine();
+            if(!pc.changePassword(hospitalID, newPassword)){
+                System.out.println("Something went wrong, please contact an administrator");
+            }
+            System.out.println("Your password has been successfully changed, proceeding to login...");
+            ViewController viewController = new ViewController();
+            MenuInterface view = (MenuInterface) viewController.getView(role);
+            try{
+                view.Menu(user);
+            } catch(IOException e){
+                System.out.println("Menu did not work ");
+            }
+            return true;
+            
+
         }
         else{
             ViewController viewController = new ViewController();

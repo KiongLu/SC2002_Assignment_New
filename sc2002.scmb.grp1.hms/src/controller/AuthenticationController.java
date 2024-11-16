@@ -159,8 +159,20 @@ private final LoginController logincontroller = new LoginController();
                     else{
                         answer = securityQuestions.enableQuestions(hospitalID);
                         if(answer == true){
-                            System.out.println("Congrats, PasswordChangerHere");
+                            String newPassword;
+                            System.out.println("Please enter a new password");
+                            newPassword = scanner.nextLine();
+                            PasswordController passwordController = new PasswordController();
+                            if(passwordController.changePassword(hospitalID, newPassword)){
+                                System.out.println("Password sucessfully changed");
+                            
+                            }
+                            else{
+                                System.out.println("Something went wrong, Contact Administrator");
+                            
+                            }
                             break;
+                            
                         }
                         else{
                             System.out.println("Sorry, you have entered the wrong answers to your security questions");
