@@ -197,22 +197,24 @@ public class AppointmentController {
         if (scheduleAppointments.isEmpty()) {
             System.out.println("No Schediuled Appointments");
         } else {
-            System.out.println("+---------------------------------------------------------------------+");
-            System.out.println("|                        Scheduled Appointments                       |");
-            System.out.println("+---------------------------------------------------------------------+");
-            System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s |\n",
-                    "Appointment ID", "Doctor Name", "Date", "Start Time", "End Time");
-            System.out.println("+---------------------------------------------------------------------+");
+            System.out.println("+------------------------------------------------------------------------------------+");
+            System.out.println("|                                Scheduled Appointments                              |");
+            System.out.println("+------------------------------------------------------------------------------------+");
+            System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s | %-12s | \n",
+                    "Appointment ID", "Doctor Name", "Date", "Start Time", "End Time", "Status");
+            System.out.println("+------------------------------------------------------------------------------------+");
             for (Appointment appointment : scheduleAppointments) {
                 Doctor temp = doctorrepository.findDoctorById(appointment.getDoctorId());
-                System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s |\n",
+                System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s | %-12s | \n",
                     appointment.getAppointmentId(),
                     temp.getName(),
                     appointment.getAppointmentDate(),
                     appointment.getStartTime(),
-                    appointment.getEndTime());   
+                    appointment.getEndTime(),
+                    appointment.getStatus());   
+                    
             }
-            System.out.println("+---------------------------------------------------------------------+");            
+            System.out.println("+------------------------------------------------------------------------------------+");            
         }
     }
 
