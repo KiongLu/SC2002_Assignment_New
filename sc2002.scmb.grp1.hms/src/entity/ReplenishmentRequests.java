@@ -1,28 +1,33 @@
 package entity;
 
 public class ReplenishmentRequests {
-    private String medicationName;
-    private String requestId;
-    private String status;
+    private final int requestId; // Keep it as int for consistency with ID generation
+    private final String medicationName;
+    private final int quantity; // Added quantity field
+    private final String status;
 
     // Constructor to initialize the fields
-    public ReplenishmentRequests(String medicationName, String requestId, String status) {
-        this.medicationName = medicationName;
+    public ReplenishmentRequests(int requestId, String medicationName, int quantity, String status) {
         this.requestId = requestId;
+        this.medicationName = medicationName;
+        this.quantity = quantity;
         this.status = status;
     }
 
-    // Getters (optional if you need them for other code)
+    // Getters
+    public int getRequestId() {
+        return requestId;
+    }
+
     public String getMedicationName() {
         return medicationName;
     }
 
-    public String getRequestId() {
-        return requestId;
+    public int getQuantity() {
+        return quantity;
     }
 
     public String getStatus() {
         return status;
     }
-
 }
