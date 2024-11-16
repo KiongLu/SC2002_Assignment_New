@@ -1,4 +1,4 @@
-UserID,Name,Role,Password,Gender,Age,PhoneNumber,Email,DOB,BloodType
-P001,Sarah,Patient,Password,Female,28,92928383,yongcakey@email.com,1996-05-12,A+
+UserID,Name,Role,Password,Gender,Age,PhoneNumber,Email,DOB,BloodType,Question,Answer
+P001,Sarah,Patient,185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969,Female,28,92928383,yongcakey@email.com,1996-05-12,A+,Favourite Pet?,Penguin
 P002,Michael,Patient,Password,Male,34,10010001,p002@email.com,1989-11-23,B-
 P003,Laura,Patient,Password,Female,23,12345678,a@email.com,2001-08-15,O+
