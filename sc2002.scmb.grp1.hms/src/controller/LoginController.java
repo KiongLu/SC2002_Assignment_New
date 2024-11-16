@@ -25,7 +25,13 @@ public class LoginController {
             PasswordController pc = new PasswordController();
             System.out.println("Please enter a new password");
             Scanner scanner = new Scanner(System.in);
-            String newPassword = scanner.nextLine();
+            String newPassword;
+            do {
+                newPassword = scanner.nextLine();
+                if (newPassword.equals("Password")) {
+                    System.out.println("The password cannot be the default 'Password'. Please enter a new password:");
+                }
+            } while (newPassword.equals("Password"));
             if(!pc.changePassword(hospitalID, newPassword)){
                 System.out.println("Something went wrong, please contact an administrator");
             }
