@@ -187,7 +187,7 @@ public class DoctorView implements MenuInterface{
 			} catch (InputMismatchException e) {
 				System.out.println("Invalid input. Please enter a number.");
 				scanner.nextLine(); // Clear the invalid input
-				continue;
+				break;
 			}
 
 	        if (choice == 1 || choice == 2) {

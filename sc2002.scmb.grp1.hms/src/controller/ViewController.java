@@ -9,6 +9,7 @@ public class ViewController {
     private final PatientView patientView = new PatientView();
     private final PharmacistView pharmacistView = new PharmacistView();
     private final AdministratorView administratorView = new AdministratorView();
+    private final PasswordForgetView passwordForgetView = new PasswordForgetView();
 
     public Object getView(String role){
         return switch (role) {

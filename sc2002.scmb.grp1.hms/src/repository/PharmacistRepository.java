@@ -1,6 +1,7 @@
 package repository;
 
 import controller.ValidationInterface;
+import controller.checkHaveQuestionsInterface;
 import entity.Doctor;
 import entity.Pharmacist;
 import entity.User;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PharmacistRepository implements ValidationInterface {
+public class PharmacistRepository implements ValidationInterface, checkHaveQuestionsInterface {
 
     private static final String FILE_PATH_PHARMACISTS = "sc2002.scmb.grp1.hms//resource//Pharmacist.csv";
 
@@ -37,4 +38,51 @@ public class PharmacistRepository implements ValidationInterface {
         }
         return null;
 	}
+    public boolean checkHaveQuestions(String hospitalID) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
+            reader.readLine(); // Skip header
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length > 8 && parts[0].equals(hospitalID) && !parts[8].isEmpty()) { // UserID and Password
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public String returnQuestion(String hospitalID) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
+            reader.readLine(); // Skip header
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[0].equals(hospitalID) && !parts[8].isEmpty()) { // UserID and Password
+                    return parts[8];
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "Error";
+    }
+
+    public boolean questionVerification(String hospitalID, String answer) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
+            reader.readLine(); // Skip header
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[0].equals(hospitalID) && parts[9].equals(answer.toLowerCase())) { // Match ID and Answer
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

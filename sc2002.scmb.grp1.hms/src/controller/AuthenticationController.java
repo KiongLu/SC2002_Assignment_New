@@ -145,12 +145,32 @@ private final LoginController logincontroller = new LoginController();
 
                 case 2:
                     //TODO forget password
+                    boolean haveQuestions = false;
+                    boolean answer = false;
                     System.out.println("Please enter your Hospital ID");
                     hospitalID = scanner.nextLine();
+                    SecurityQuestionsController securityQuestions = new SecurityQuestionsController();
+                    haveQuestions = securityQuestions.checkHaveQuestions(hospitalID);
+                    if(haveQuestions == false){
+                        System.out.println("Sorry, you did not set your security questions");
+                        System.out.println("Please contact an administrator for help");
+                        break;
+                    }
+                    else{
+                        answer = securityQuestions.enableQuestions(hospitalID);
+                        if(answer == true){
+                            System.out.println("Congrats, PasswordChangerHere");
+                            break;
+                        }
+                        else{
+                            System.out.println("Sorry, you have entered the wrong answers to your security questions");
+                            System.out.println("Please contact an administrator for help");
+                            break;
+                        }
 
-
+                    }
                     
-                    break;
+                    
 
                 case 3:
                     System.out.println("Exiting the system. Goodbye!");

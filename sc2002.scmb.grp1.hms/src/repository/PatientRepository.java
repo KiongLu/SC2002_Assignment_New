@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.ValidationInterface;
+import controller.checkHaveQuestionsInterface;
 
-public class PatientRepository implements ValidationInterface{
+public class PatientRepository implements ValidationInterface, checkHaveQuestionsInterface{
 
 	private static final String FILE_PATH_PATIENT = "sc2002.scmb.grp1.hms//resource//Patient.csv";
 
@@ -38,6 +39,53 @@ public class PatientRepository implements ValidationInterface{
         }
         return null;
 	}
+    public boolean checkHaveQuestions(String hospitalID) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PATIENT))) {
+            reader.readLine(); // Skip header
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length > 10 && parts[0].equals(hospitalID) && !parts[10].isEmpty()) { // UserID and Password
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public String returnQuestion(String hospitalID) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PATIENT))) {
+            reader.readLine(); // Skip header
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[0].equals(hospitalID) && !parts[10].isEmpty()) { // UserID and Password
+                    return parts[10];
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "Error";
+    }
+
+    public boolean questionVerification(String hospitalID, String answer) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PATIENT))) {
+            reader.readLine(); // Skip header
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[0].equals(hospitalID) && parts[11].equals(answer.toLowerCase())) { // Match ID and Answer
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 	
 	public List<Patient> loadPatients() throws IOException {
         List<Patient> patients = new ArrayList<>();

@@ -7,7 +7,7 @@ import util.CSVUtil;
 import java.io.*;
 import java.util.*;
 
-import javax.naming.directory.InvalidAttributeIdentifierException;
+//import javax.naming.directory.InvalidAttributeIdentifierException;
 
 public class AppointmentRepository {
     private static final String FILE_PATH_APPOINTMENT = "sc2002.scmb.grp1.hms//resource//Appointment.csv";
