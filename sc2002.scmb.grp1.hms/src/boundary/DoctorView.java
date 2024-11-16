@@ -18,23 +18,24 @@ public class DoctorView implements MenuInterface{
         while (true) {
         	System.out.println();
             System.out.println("+-----------------------------------------------+");
-        System.out.println("|                   Doctor Menu                 |");
-        System.out.println("+-----------------------------------------------+");
-        System.out.println("| 1. View Patient Medical Records               |");
-        System.out.println("| 2. Update Patient Medical Records             |");
-        System.out.println("| 3. View Personal Schedule                     |");
-        System.out.println("| 4. Set Availability for Appointments          |");
-        System.out.println("| 5. Accept or Decline Appointment Requests     |");
-        System.out.println("| 6. View Upcoming Appointments                 |");
-        System.out.println("| 7. Record Appointment Outcome                 |");
-        System.out.println("| 8. Logout                                     |");
-        System.out.println("+-----------------------------------------------+");
+			System.out.println("|                   Doctor Menu                 |");
+			System.out.println("+-----------------------------------------------+");
+			System.out.println("| 1. View Patient Medical Records               |");
+			System.out.println("| 2. Update Patient Medical Records             |");
+			System.out.println("| 3. View Personal Schedule                     |");
+			System.out.println("| 4. Set Availability for Appointments          |");
+			System.out.println("| 5. Accept or Decline Appointment Requests     |");
+			System.out.println("| 6. View Upcoming Appointments                 |");
+			System.out.println("| 7. Record Appointment Outcome                 |");
+			System.out.println("| 8. Set Security Questions for Recovery        |");
+			System.out.println("| 9. Logout                                     |");
+			System.out.println("+-----------------------------------------------+");
             System.out.println();
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
-            if (choice == 8) {
+            if (choice == 9) {
                 System.out.println("Logging out...");
                 break;
             }
@@ -90,6 +91,21 @@ public class DoctorView implements MenuInterface{
 					e.printStackTrace();
 				}
 			}
+			else if(choice == 8) {
+					SecurityQuestionsController sqc = new SecurityQuestionsController();
+					System.out.println("Please enter a security question");
+					String question = scanner.nextLine();
+					System.out.println("Please enter the answer");
+					String answer = scanner.nextLine();
+					if(!sqc.changeSecurityQuestionControl(user.getUserId(), question, answer)){
+						System.out.println("Sorry your security questions were not able to be set, contact an administrator");
+					}
+					else{
+						System.out.println("Security Questions successfully set");
+					}
+				
+            }
+		
         }
     }
 	private void handleMedicalRecordOptions(User user) {

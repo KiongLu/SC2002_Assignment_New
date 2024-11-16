@@ -43,4 +43,12 @@ public class SecurityQuestionsController {
         }
         return "NULL"; // Return an empty string if there's no matching prefix
     }
+    public boolean changeSecurityQuestionControl(String hospitalID, String question, String answer){
+        String role = extractPrefix(hospitalID);
+        RepositoryController rc = new RepositoryController();
+        ChangeSecurityQuestionInterface repository = (ChangeSecurityQuestionInterface)rc.getRepository(role);
+        return repository.changeSecurityQuestion(hospitalID, question, answer);
+
+
+    }
 }

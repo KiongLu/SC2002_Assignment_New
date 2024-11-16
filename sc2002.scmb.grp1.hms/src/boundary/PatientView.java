@@ -28,7 +28,8 @@ public class PatientView implements MenuInterface {
             System.out.println("| 6. Cancel an Appointment                  |");
             System.out.println("| 7. View Scheduled Appointments            |");
             System.out.println("| 8. View Past Appointment Outcome Records  |");
-            System.out.println("| 9. Logout                                 |");
+            System.out.println("| 9. Set Security Questions for Recovery        |");
+            System.out.println("| 10. Logout                                |");
             System.out.println("+-------------------------------------------+");
             System.out.print("Select an option: ");
             System.out.println();
@@ -36,7 +37,7 @@ public class PatientView implements MenuInterface {
             int choice = scanner.nextInt();
             scanner.nextLine();
 
-            if (choice == 9) {
+            if (choice == 10) {
                 System.out.println("Logging out...");
                 break;
             } else if (choice == 1) {
@@ -104,6 +105,20 @@ public class PatientView implements MenuInterface {
                     throw new RuntimeException(e);
                 }
             }
+            else if(choice == 9) {
+                SecurityQuestionsController sqc = new SecurityQuestionsController();
+                System.out.println("Please enter a security question");
+                String question = scanner.nextLine();
+                System.out.println("Please enter the answer");
+                String answer = scanner.nextLine();
+                if(!sqc.changeSecurityQuestionControl(user.getUserId(), question, answer)){
+                    System.out.println("Sorry your security questions were not able to be set, contact an administrator");
+                }
+                else{
+                    System.out.println("Security Questions successfully set");
+                }
+            
+        }
         }
     }
 

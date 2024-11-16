@@ -7,6 +7,7 @@ import java.util.List;
 
 import controller.AppointmentOutcomeController;
 import controller.PharmacistController;
+import controller.SecurityQuestionsController;
 import controller.MenuInterface;
 import entity.User;
 import entity.MedicationInventory;
@@ -23,14 +24,15 @@ public class PharmacistView implements MenuInterface {
         while (true) {
         	System.out.println();
             System.out.println("+------------------------------------------------+");
-        System.out.println("|                Pharmacist Menu                 |");
-        System.out.println("+------------------------------------------------+");
-        System.out.println("| 1. View Appointment Outcome Record             |");
-        System.out.println("| 2. Update Prescription Status                  |");
-        System.out.println("| 3. View Medication Inventory                   |");
-        System.out.println("| 4. Submit Replenishment Request                |");
-        System.out.println("| 5. Logout                                      |");
-        System.out.println("+------------------------------------------------+");
+            System.out.println("|                Pharmacist Menu                 |");
+            System.out.println("+------------------------------------------------+");
+            System.out.println("| 1. View Appointment Outcome Record             |");
+            System.out.println("| 2. Update Prescription Status                  |");
+            System.out.println("| 3. View Medication Inventory                   |");
+            System.out.println("| 4. Submit Replenishment Request                |");
+            System.out.println("| 5. Set Security Questions for Recovery        |");
+            System.out.println("| 6. Logout                                      |");
+            System.out.println("+------------------------------------------------+");
             System.out.println();
 
             int choice  = -1;
@@ -47,7 +49,7 @@ public class PharmacistView implements MenuInterface {
                 }
             }
 
-            if (choice == 5) {
+            if (choice == 6) {
                 System.out.println("Logging out...");
                 break;
             }
@@ -76,6 +78,22 @@ public class PharmacistView implements MenuInterface {
             if(choice == 4){
                 submitReplenishmentRequest();
             }
+            if(choice == 5) {
+                SecurityQuestionsController sqc = new SecurityQuestionsController();
+                System.out.println("Please enter a security question");
+                String question = scanner.nextLine();
+                System.out.println("Please enter the answer");
+                String answer = scanner.nextLine();
+                if(!sqc.changeSecurityQuestionControl(user.getUserId(), question, answer)){
+                    System.out.println("Sorry your security questions were not able to be set, contact an administrator");
+                }
+                else{
+                    System.out.println("Security Questions successfully set");
+                }
+            
+        }
+            
+            
         }
     }
 
