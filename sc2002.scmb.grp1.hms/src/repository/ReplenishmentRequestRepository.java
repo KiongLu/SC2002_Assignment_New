@@ -62,7 +62,7 @@ public class ReplenishmentRequestRepository {
 
         for (ReplenishmentRequests request : requests)
         {
-            if(request.getStatus() == "pending")
+            if(request.getStatus() == "Pending")
             {
                 pending.add(request);
             }
