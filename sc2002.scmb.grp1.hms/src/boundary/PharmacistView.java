@@ -11,16 +11,14 @@ import controller.MenuInterface;
 import entity.User;
 import entity.MedicationInventory;
 import repository.MedicationInventoryRepository;
-import repository.AppointmentOutcomeRepository;
 import repository.ReplenishmentRequestRepository;
 
 public class PharmacistView implements MenuInterface {
 	private final Scanner scanner = new Scanner(System.in);
     private final AppointmentOutcomeController outcomecontroller = new AppointmentOutcomeController();
     private final MedicationInventoryRepository inventoryRepository = new MedicationInventoryRepository();
-    private final AppointmentOutcomeRepository outcomeRepository = new AppointmentOutcomeRepository();
     private final ReplenishmentRequestRepository replenishmentRequestRepository = new ReplenishmentRequestRepository();
-    private final PharmacistController pharmacistController =  new PharmacistController(inventoryRepository, outcomeRepository,replenishmentRequestRepository);// Create an instance
+    private final PharmacistController pharmacistController =  new PharmacistController(inventoryRepository, replenishmentRequestRepository);// Create an instance
     public void Menu(User user) {
         while (true) {
         	System.out.println();

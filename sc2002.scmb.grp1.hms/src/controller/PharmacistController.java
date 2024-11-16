@@ -3,22 +3,17 @@ package controller;
 
 import java.io.IOException;
 import entity.MedicationInventory;
-import entity.AppointmentOutcome;
 import repository.MedicationInventoryRepository;
-import repository.AppointmentOutcomeRepository;
 import repository.ReplenishmentRequestRepository;
 import java.util.List;
-import java.util.UUID;
 
 
 public class PharmacistController implements InventoryManagement,ReplenishmentRequestService {
     private MedicationInventoryRepository inventoryRepository;
-    private AppointmentOutcomeRepository outcomeRepository;
     private ReplenishmentRequestRepository replenishmentRequestRepository;
 
-    public PharmacistController(MedicationInventoryRepository inventoryRepository, AppointmentOutcomeRepository outcomeRepository, ReplenishmentRequestRepository replenishmentRequestRepository) {
+    public PharmacistController(MedicationInventoryRepository inventoryRepository, ReplenishmentRequestRepository replenishmentRequestRepository) {
         this.inventoryRepository = inventoryRepository;
-        this.outcomeRepository = outcomeRepository;
         this.replenishmentRequestRepository = replenishmentRequestRepository;
     }
 

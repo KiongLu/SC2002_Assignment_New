@@ -1,4 +1,4 @@
 OutcomeID,AppointmentID,Date,ServiceType,PrescribedMedication,MedicationStatus,ConsultationNotes
 AO000,AP010,12-10-2025,blood test,Painkiller,Dispensed,nothing wrong
 AO001,AP010,12-10-2025,blood test,Painkiller,Dispensed,nothing wrong
-AO002,AP010,10-12-2024,dsad,"Eye Drops, Painkiller",Dispensed,dsad
+AO002,AP010,10-12-2024,dsad,"Eye Drops, Painkiller",Pending,dsad
