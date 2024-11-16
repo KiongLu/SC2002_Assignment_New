@@ -79,12 +79,12 @@ public class AppointmentController {
         return "AP" + String.format("%03d", nextNumber);
     }
 
-    public void listPendingAppointments(String doctorId) throws IOException {
+    public boolean listPendingAppointments(String doctorId) throws IOException {
         List<Appointment> pendingAppointments = appointmentRepository.getPendingAppointmentsByDoctorId(doctorId);
 
         if (pendingAppointments.isEmpty()) {
             System.out.println("No pending appointments found.");
-            return;
+            return false; // No pending appointments
         }
 
         System.out.println("Pending Appointments:");
@@ -96,12 +96,14 @@ public class AppointmentController {
                     "Patient name: " + temp.getName() + "\n" +
                     "Date: " + appointments.getAppointmentDate() + "\n" +
                     "Start Time: " + appointments.getStartTime() + "\n" +
-                    "End Time " + appointments.getEndTime() + "\n" +
-                    "Status " + appointments.getStatus() + "\n");
+                    "End Time: " + appointments.getEndTime() + "\n" +
+                    "Status: " + appointments.getStatus() + "\n");
             System.out.println();
         }
 
+        return true; // Pending appointments exist
     }
+
 
     // Method to update the status of an appointment
     public void updateAppointmentStatus(String Appt, String newstatus) throws IOException {

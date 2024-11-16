@@ -159,17 +159,22 @@ public class DoctorView implements MenuInterface{
 			}
 		}
 	}
-	
-	
+
+
 	private void handleAppointmnetRequestOptions(User user) {
-	    while (true) {
-	        try {
-	            appointmentcontroller.listPendingAppointments(user.getUserId());
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        
-	        System.out.println();
+		while (true) {
+			try {
+				// List pending appointments and check if any exist
+				if (!appointmentcontroller.listPendingAppointments(user.getUserId())) {
+					System.out.println("Returning to the Doctor Menu...");
+					break; // Exit the loop and return to the Doctor menu
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				break; // Exit if an exception occurs
+			}
+
+			System.out.println();
 			System.out.println("+------------------------------------------------+");
 			System.out.println("|          Appointment Request Options           |");
 			System.out.println("+------------------------------------------------+");
@@ -177,46 +182,47 @@ public class DoctorView implements MenuInterface{
 			System.out.println("| 2. Decline Appointment Request                 |");
 			System.out.println("| 3. Back to Doctor Menu                         |");
 			System.out.println("+------------------------------------------------+");
-	        System.out.println();
+			System.out.println();
 
-	        int choice = -1;
+			int choice = -1;
 			try {
 				System.out.print("Enter your choice: ");
 				choice = scanner.nextInt();
 				scanner.nextLine(); // Consume newline
 			} catch (InputMismatchException e) {
-				System.out.println("Invalid input. Please enter a number.");
+				System.out.println("Invalid input.");
 				scanner.nextLine(); // Clear the invalid input
 				break;
 			}
 
-	        if (choice == 1 || choice == 2) {
-	            String status = (choice == 1) ? "Confirmed" : "Cancelled";
-	            
-	            while (true) {
-	                System.out.print("Enter the Appointment ID: ");
-	                String apptId = scanner.nextLine();
+			if (choice == 1 || choice == 2) {
+				String status = (choice == 1) ? "Confirmed" : "Cancelled";
 
-	                try {
-	                    if (appointmentcontroller.isValidAppointmentId(apptId, user.getUserId())) {
-	                        appointmentcontroller.updateAppointmentStatus(apptId, status);
-	                        System.out.println("Appointment status updated to " + status);
-	                        break;
-	                    } else {
-	                        System.out.println("Invalid Appointment ID. Please try again.");
-	                    }
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                    break;
-	                }
-	            }
-	        } else if (choice == 3) {
-	            break; // Go back to the main doctor menu
-	        } else {
-	            System.out.println("Invalid choice. Please try again.");
-	        }
-	    }
+				while (true) {
+					System.out.print("Enter the Appointment ID: ");
+					String apptId = scanner.nextLine();
+
+					try {
+						if (appointmentcontroller.isValidAppointmentId(apptId, user.getUserId())) {
+							appointmentcontroller.updateAppointmentStatus(apptId, status);
+							System.out.println("Appointment status updated to " + status);
+							break;
+						} else {
+							System.out.println("Invalid Appointment ID. Please try again.");
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+						break;
+					}
+				}
+			} else if (choice == 3) {
+				break; // Go back to the main doctor menu
+			} else {
+				System.out.println("Invalid choice. Please try again.");
+			}
+		}
 	}
+
 
 	public void createAppointmentOutcomeForValidAppointment() {
 		boolean valid = false;
