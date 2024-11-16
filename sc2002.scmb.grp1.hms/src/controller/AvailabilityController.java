@@ -120,19 +120,24 @@ public class AvailabilityController {
             System.out.println("No available appointment slots");
         } else {
 
-            System.out.println("\nAvailable Appointment");
-            System.out.println("Availability ID | DoctorName      | Date       | Start Time | End Time");
+            System.out.println("+------------------------------------------------------------------------+");
+			System.out.println("|                         Available Appointments                         |");
+			System.out.println("+------------------------------------------------------------------------+");
+            System.out.println("| Availability ID | DoctorName      | Date       | Start Time | End Time |");
+            System.out.println("+------------------------------------------------------------------------+");
 
             // Format and display the availability list
             for (Availability availability : availabilityList) {
             	Doctor tempdoc = doctorRepository.findDoctorById(availability.getDoctorId());
-                System.out.println(String.format("%-15s | %-15s | %-10s | %-10s | %-10s",
+                System.out.println(String.format("| %-15s | %-15s | %-10s | %-10s | %-8s |",
                         availability.getAvailabilityId(),
                         tempdoc.getName(),
                         availability.getDate(),
                         availability.getStartTime(),
                         availability.getEndTime()));
             }
+            System.out.println("+------------------------------------------------------------------------+");
+
         }
     }
     

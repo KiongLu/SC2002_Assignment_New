@@ -45,6 +45,29 @@ public class MedicationInventoryRepository {
         }
 
         return filteredMedications;
+    } 
+
+    public void addMedication(String name, int stockLevel, int alertLevel) throws IOException
+    {
+        MedicationInventory newMedicine = new MedicationInventory(name, stockLevel, alertLevel);
+        try (FileWriter writer = new FileWriter(FILE_PATH_MEDICATION_INVENTORY, true)) {
+            writer.append(newMedicine.getMedicationName()).append(",");
+            writer.append(String.valueOf(newMedicine.getStockLevel())).append(",");
+            writer.append(String.valueOf(newMedicine.getStockAlertLevel())).append("\n");
+            System.out.println("New medication added to inventory.");
+        } catch (IOException e) {
+            throw new IOException("Error writing new medication to file: " + e.getMessage());
+        }
+    }
+
+    public void removeMedication(String name) throws IOException
+    {
+        List<MedicationInventory> medications = loadAllMedications();
+
+        medications.removeIf(medication -> 
+            medication.getMedicationName().equalsIgnoreCase(name));
+
+        saveAllMedication(medications);
     }
 
     public void updateStockLevel(String name, int level) throws IOException
@@ -56,6 +79,20 @@ public class MedicationInventoryRepository {
             if(medication.getMedicationName().equalsIgnoreCase(name))
             {
                 medication.setStockLevel(level);
+                break;
+            }
+        }
+        saveAllMedication(medications);
+    }
+
+    public void updateStockAlert(String name, int level) throws IOException{
+        List<MedicationInventory> medications = loadAllMedications();
+
+        for (MedicationInventory medication : medications)
+        {
+            if(medication.getMedicationName().equalsIgnoreCase(name))
+            {
+                medication.setStockAlertLevel(level);
                 break;
             }
         }

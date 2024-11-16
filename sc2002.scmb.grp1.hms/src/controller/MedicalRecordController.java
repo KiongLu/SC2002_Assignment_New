@@ -43,28 +43,28 @@ public class MedicalRecordController {
 			// "Blood Type: " + temp.getBloodtype());
 			// System.out.println("No medical records found");
 		} else {
-			System.out.println("+----------------------------------------------------------------+");
-			System.out.println("|                         Medical Records                        |");
-			System.out.println("+----------------------------------------------------------------+");
-			System.out.printf("| %-15s: %-45s |\n", "Patient ID", temp.getUserId());
-			System.out.printf("| %-15s: %-45s |\n", "Name", temp.getName());
-			System.out.printf("| %-15s: %-45s |\n", "Date of Birth", temp.getDob());
-			System.out.printf("| %-15s: %-45s |\n", "Gender", temp.getGender());
-			System.out.printf("| %-15s: %-45s |\n", "Phone Number", temp.getPhoneNumber());
-			System.out.printf("| %-15s: %-45s |\n", "Email", temp.getEmail());
-			System.out.printf("| %-15s: %-45s |\n", "Blood Type", temp.getBloodtype());
-			System.out.println("+----------------------------------------------------------------+");
+			System.out.println("+-----------------------------------------------------------------+");
+			System.out.println("|                          Medical Records                        |");
+			System.out.println("+-----------------------------------------------------------------+");
+			System.out.printf("| %-15s: %-46s |\n", "Patient ID", temp.getUserId());
+			System.out.printf("| %-15s: %-46s |\n", "Name", temp.getName());
+			System.out.printf("| %-15s: %-46s |\n", "Date of Birth", temp.getDob());
+			System.out.printf("| %-15s: %-46s |\n", "Gender", temp.getGender());
+			System.out.printf("| %-15s: %-46s |\n", "Phone Number", temp.getPhoneNumber());
+			System.out.printf("| %-15s: %-46s |\n", "Email", temp.getEmail());
+			System.out.printf("| %-15s: %-46s |\n", "Blood Type", temp.getBloodtype());
+			System.out.println("+-----------------------------------------------------------------+");
 
-			System.out.println("+----------------------------------------------------------------+");
-			System.out.println("| Doctor Name | Record ID | Diagnosis | Treatment | Prescription |");
-			System.out.println("+----------------------------------------------------------------+");
+			System.out.println("+-----------------------------------------------------------------+");
+			System.out.println("| Doctor Name | Record ID | Diagnosis  | Treatment | Prescription |");
+			System.out.println("+-----------------------------------------------------------------+");
 
 			for (MedicalRecord record : records) {
 				System.out.printf("| %-12s", doctorrepository.findDoctorById(record.getDoctorId()).getName());
 				//System.out.println(doctorrepository.findDoctorById(record.getDoctorId()).getName());
 				System.out.printf(record.patientMRToString());
 			}
-			System.out.println("+----------------------------------------------------------------+");
+			System.out.println("+-----------------------------------------------------------------+");
 		}
 	}
 

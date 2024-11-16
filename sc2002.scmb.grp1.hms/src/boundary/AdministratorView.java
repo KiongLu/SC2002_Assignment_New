@@ -39,7 +39,6 @@ public class AdministratorView implements MenuInterface {
                     break;
                 case 3:
                     System.out.println("Viewing medication inventory...");
-                    //adminControl.viewInventory();
                     break;
                 case 4:
                     System.out.println("Medicine to be restocked: ");

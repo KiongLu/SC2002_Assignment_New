@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
-public class AppointmentOutcomeController implements AppointmentOutcomeService{
+public class AppointmentOutcomeController implements AppointmentOutcomeService {
     private AppointmentOutcomeRepository outcomeRepository = new AppointmentOutcomeRepository();
     private AppointmentRepository appointmentRepository = new AppointmentRepository();
     private MedicationInventoryRepository medicationInventoryRepository = new MedicationInventoryRepository();
@@ -33,7 +32,8 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService{
         String medicationName;
         String exactMedicationName;
 
-        System.out.println("Please enter Medication names one by one (type 'done' when finished or 'nil' if no medication is needed): ");
+        System.out.println(
+                "Please enter Medication names one by one (type 'done' when finished or 'nil' if no medication is needed): ");
         while (true) {
             System.out.print("Medication name: ");
             medicationName = scanner.nextLine();
@@ -63,7 +63,8 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService{
         System.out.print("Please enter Consultation Notes: ");
         String consultationNotes = scanner.nextLine();
 
-        AppointmentOutcome newOutcome = new AppointmentOutcome(outcomeID, ApptID, date, servicetype, medicationNames, medicationStatus, consultationNotes);
+        AppointmentOutcome newOutcome = new AppointmentOutcome(outcomeID, ApptID, date, servicetype, medicationNames,
+                medicationStatus, consultationNotes);
 
         outcomeRepository.createNewAppointmentOutcome(newOutcome);
 
@@ -82,7 +83,6 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService{
         return "AO" + String.format("%03d", nextNumber);
     }
 
-
     @Override
     public void getAllAppointmentOutcomesForPatient(String patientId) throws IOException {
         List<AppointmentOutcome> patientOutcomes = new ArrayList<>();
@@ -95,6 +95,14 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService{
         }
 
         boolean found = false;
+
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------+");
+        System.out.println("|                                               Appointment Outcomes for Patient                                                     |");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------+");
+        System.out.printf("| %-10s | %-15s | %-12s | %-15s | %-30s | %-10s | %-20s |\n",
+                "Outcome ID", "Appointment ID", "Date", "Service Type", "Prescribed Medication", "Med Status",
+                "Consultation Notes");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------+");
 
         // Loop through all appointment outcomes
         for (AppointmentOutcome outcome : allAppointmentOutcomes) {
@@ -110,24 +118,23 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService{
                 found = true;
 
                 // Display the outcome details
-                System.out.println("Outcome ID: " + outcome.getOutcomeId());
-                System.out.println("Appointment ID: " + outcome.getAppointmentId());
-                System.out.println("Date: " + outcome.getDate());
-                System.out.println("Service Type: " + outcome.getServiceType());
-                System.out.println("Prescribed Medication: " + outcome.getPrescribedMedication());
-                System.out.println("Medication Status: " + outcome.getMedicationStatus());
-                System.out.println("Consultation Notes: " + outcome.getConsultationNotes());
-                System.out.println();
+                System.out.printf("| %-10s | %-15s | %-12s | %-15s | %-30s | %-10s | %-20s |\n",
+                outcome.getOutcomeId(),
+                outcome.getAppointmentId(),
+                outcome.getDate(),
+                outcome.getServiceType(),
+                outcome.getPrescribedMedication(),
+                outcome.getMedicationStatus(),
+                outcome.getConsultationNotes());
             }
         }
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------+");
 
         // If no outcomes are found for the patient, print a message
         if (!found) {
             System.out.println("No appointment outcomes found for patient ID: " + patientId);
         }
     }
-
-
 
     @Override
     // get all appointmentoutcome
@@ -151,6 +158,7 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService{
             System.out.println();
         }
     }
+
     @Override
     // Method to display all Appointment Outcomes with a "Pending" medication status
     public void displayPendingAppointmentOutcomes() throws IOException {
@@ -179,6 +187,7 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService{
             System.out.println("No pending appointment outcomes found.");
         }
     }
+
     @Override
     public void updatePrescriptionStatus(String outcomeId) throws IOException {
         // Retrieve the appointment outcome by ID
@@ -193,6 +202,7 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService{
 
         outcomeRepository.updateAppointmentOutcome(outcome);
     }
+
     @Override
     public void changePrescriptionStatusToDispensed(String outcomeId) throws IOException {
         List<AppointmentOutcome> allOutcomes = outcomeRepository.loadAllAppointmentOutcomes();
@@ -210,11 +220,13 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService{
         if (selectedOutcome != null && "Pending".equalsIgnoreCase(selectedOutcome.getMedicationStatus())) {
             selectedOutcome.setMedicationStatus("Dispensed");
             outcomeRepository.updateAppointmentOutcome(selectedOutcome);
-            System.out.println("Prescription status updated to 'Dispensed' for Outcome ID: " + selectedOutcome.getOutcomeId());
+            System.out.println(
+                    "Prescription status updated to 'Dispensed' for Outcome ID: " + selectedOutcome.getOutcomeId());
         } else {
             System.out.println("Invalid Outcome ID or the prescription is already dispensed.");
         }
     }
+
     public String isValidMedication(String medicationName) throws IOException {
         List<MedicationInventory> allMedications = medicationInventoryRepository.loadAllMedications();
 

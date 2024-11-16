@@ -21,11 +21,30 @@ public class MedicationInventoryController {
         return medicationNames;
     }
 
+    public void addMedicine(String medicineName, int stockQuantity, int stockLevel) throws IOException
+    {
+        medicationinventoryRepository.addMedication(medicineName, stockLevel, stockLevel);
+    }
+
+    public void removeMedicine(String medicineName) throws IOException
+    {
+        medicationinventoryRepository.removeMedication(medicineName);
+    }
+
     //Method to update stock level
     public void replenishInventory(String medication, int quantity) throws IOException
     {
-        MedicationInventoryRepository inventoryRepo = new MedicationInventoryRepository();
-        inventoryRepo.updateStockLevel(medication, quantity);
+        medicationinventoryRepository.updateStockLevel(medication, quantity);
+    }
+
+    public void updateAlert(String medication, int level) throws IOException
+    {
+        medicationinventoryRepository.updateStockAlert(medication, level);
+    }
+
+    public List<MedicationInventory> inventory() throws IOException
+    {
+        return medicationinventoryRepository.loadAllMedications();
     }
 
 }

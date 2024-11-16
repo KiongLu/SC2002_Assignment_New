@@ -36,7 +36,7 @@ public class AppointmentController {
             }
 
             // sanity check
-            if (AvailID.isEmpty()){
+            if (AvailID.isEmpty()) {
                 continue;
             }
 
@@ -171,19 +171,22 @@ public class AppointmentController {
         if (scheduleAppointments.isEmpty()) {
             System.out.println("No Schediuled Appointments");
         } else {
-            System.out.println("Scheduled Appointments:");
-            System.out.println();
+            System.out.println("+---------------------------------------------------------------------+");
+            System.out.println("|                        Scheduled Appointments                       |");
+            System.out.println("+---------------------------------------------------------------------+");
+            System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s |\n",
+                    "Appointment ID", "Doctor Name", "Date", "Start Time", "End Time");
+            System.out.println("+---------------------------------------------------------------------+");
             for (Appointment appointment : scheduleAppointments) {
                 Doctor temp = doctorrepository.findDoctorById(appointment.getDoctorId());
-                System.out.println(
-                        "Appointment ID: " + appointment.getAppointmentId() + "\n" +
-                                "Doctor Name: " + temp.getName() + "\n" +
-                                "Date: " + appointment.getAppointmentDate() + "\n" +
-                                "Start Time: " + appointment.getStartTime() + "\n" +
-                                "End Time " + appointment.getEndTime() + "\n" +
-                                "Status " + appointment.getStatus() + "\n");
-                System.out.println();
+                System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s |\n",
+                    appointment.getAppointmentId(),
+                    temp.getName(),
+                    appointment.getAppointmentDate(),
+                    appointment.getStartTime(),
+                    appointment.getEndTime());   
             }
+            System.out.println("+---------------------------------------------------------------------+");            
         }
     }
 
@@ -229,7 +232,7 @@ public class AppointmentController {
 
         availabilityRepository.deleteAvailabilityById(AvailID);
 
-        System.out.println("Appointment Pending Approver.");
+        System.out.println("Appointment Pending Approval.");
     }
 
     public boolean isAppointmentIdValidAndConfirmed(String appointmentId) throws IOException {
