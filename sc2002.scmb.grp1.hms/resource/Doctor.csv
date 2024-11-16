@@ -1,4 +1,4 @@
 UserID,Name,Role,Password,Gender,Age,Specialization,StaffEmail,StaffContact.Question,Answer
-D001,John,Doctor,d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1,Male,45,Cardiology,john.doe@hospital.com,12345678
+D001,John,Doctor,008c70392e3abfbd0fa47bbc2ed96aa99bd49e159727fcba0f2e6abeb3a9d601,Male,45,Cardiology,john.doe@hospital.com,12345678,a,a
 D002,Jane,Doctor,Password,Female,39,Neurology,jane.smith@hospital.com,12345678
 D003,Tom,Doctor,Password,Male,50,Orthopedics,robert.brown@hospital.com,12345678
