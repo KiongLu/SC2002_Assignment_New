@@ -1,28 +1,74 @@
 package repository;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import entity.MedicationInventory;
+import entity.ReplenishmentRequests;
 
 public class ReplenishmentRequestRepository {
-    private static final String FILE_PATH_REPLENISHMENT_REQUESTS = "sc2002.scmb.grp1.hms//resource//ReplenishmentRequests.csv";
-    private static int lastRequestId = 0;
+    private static final String FILE_PATH_REPLENISHMENT_REQUESTS = "sc2002.scmb.grp1.hms/resource/ReplenishmentRequests.csv";
 
-    private int generateNextRequestId() {
-        return ++lastRequestId; // Increment and return the next ID
-    }
-    // Method to save a replenishment request to the CSV file
-    public void saveReplenishmentRequest(String medicationName, int quantity) throws IOException {
-        int requestId = generateNextRequestId();
+    public void saveReplenishmentRequest(String medicationName) throws IOException {
+        String requestId = UUID.randomUUID().toString();
+        String status = "pending";
+
         try (FileWriter writer = new FileWriter(FILE_PATH_REPLENISHMENT_REQUESTS, true)) {
-            // Append the new request as a row in the CSV file
-            writer.append(requestId + ",");
-            writer.append(medicationName).append(",");
-            writer.append(String.valueOf(quantity)).append(",");
-            writer.append("pending\n"); // Default status is "pending"
-            System.out.println("Replenishment request saved to file." + requestId);
+            writer.append(medicationName).append(",")
+                    .append(requestId).append(",")
+                    .append(status).append("\n");
         } catch (IOException e) {
-            System.err.println("Error writing replenishment request to file: " + e.getMessage());
-            throw e;
+            throw new IOException("Error saving replenishment request: " + e.getMessage(), e);
         }
     }
+
+    public List<ReplenishmentRequests> loadAllRequests() throws IOException
+    {
+        List<ReplenishmentRequests> requests = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_REPLENISHMENT_REQUESTS))) {
+            String line;
+            reader.readLine(); // Skip the header row if there is one
+
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(",");
+                
+                if (fields.length == 3) {
+                    String medicationName = fields[0];
+                    String requestId = fields[1];
+                    String status = fields[2];
+
+                    if ("pending".equalsIgnoreCase(status.trim())) {
+                        requests.add(new ReplenishmentRequests(medicationName, requestId, status));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new IOException("Error reading replenishment requests: " + e.getMessage(), e);
+        }
+        
+        return requests;
+    }
+
+    public List<ReplenishmentRequests> pendingRequests() throws IOException
+    {
+        List<ReplenishmentRequests> requests = loadAllRequests();
+        List<ReplenishmentRequests> pending = new ArrayList<>();
+
+        for (ReplenishmentRequests request : requests)
+        {
+            if(request.getStatus() == "pending")
+            {
+                pending.add(request);
+            }
+        }
+
+        return pending;
+    }
+
 }

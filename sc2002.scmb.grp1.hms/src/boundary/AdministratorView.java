@@ -1,12 +1,15 @@
 package boundary;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 import controller.AdministratorController;
 import controller.MenuInterface;
 import controller.SecurityQuestionsController;
 import entity.User;
+import entity.MedicationInventory;
+import entity.ReplenishmentRequests;
 
 public class AdministratorView implements MenuInterface {
     private final Scanner scanner = new Scanner(System.in);
@@ -21,9 +24,10 @@ public class AdministratorView implements MenuInterface {
             System.out.println("| 1. View and Manage Hospital Staff              |");
             System.out.println("| 2. View Appointment Details                    |");
             System.out.println("| 3. View Medication Inventory                   |");
-            System.out.println("| 4. Replenish Medication Inventory              |");
-            System.out.println("| 5. Set Security Questions for Recovery         |");
-            System.out.println("| 6. Logout                                      |");
+            System.out.println("| 4. View Pending Replenish Requests             |");
+            System.out.println("| 5. Approve Replenish Requests                  |");
+            System.out.println("| 6. Set Security Question for Recovery          |");
+            System.out.println("| 7. Logout                                      |");
             System.out.println("+------------------------------------------------+");
             System.out.println();
 
@@ -41,8 +45,27 @@ public class AdministratorView implements MenuInterface {
                     break;
                 case 3:
                     System.out.println("Viewing medication inventory...");
+                    List<MedicationInventory> inventory = adminControl.viewInventory();
+
+                    for (MedicationInventory medication : inventory)
+                    {
+                        System.out.println("Medication: " + medication.getMedicationName() +
+                        ", Stock Level: " + medication.getStockLevel() +
+                        ", Alert Level: " + medication.getStockAlertLevel());
+                    }
                     break;
                 case 4:
+                    System.out.println("Viewing pending replenish requests...");
+                    List<ReplenishmentRequests> pendingRequests = adminControl.viewRequests();
+                    
+                    for (ReplenishmentRequests request : pendingRequests)
+                    {
+                        System.out.println("Medication: " + request.getMedicationName() +
+                        ", Request ID: " + request.getRequestId() +
+                        ", Status: " + request.getStatus());
+                    }
+                    break;
+                case 5:
                     System.out.println("Medicine to be restocked: ");
                     String medicine = scanner.next();
 
@@ -52,7 +75,7 @@ public class AdministratorView implements MenuInterface {
                     adminControl.replenishStock(medicine, quantity);
                     System.out.println("Approving replenishment requests...");
                     break;
-                case 5:
+                case 6:
                     SecurityQuestionsController sqc = new SecurityQuestionsController();
                     System.out.println("Please enter a security question");
                     String question = scanner.nextLine();
@@ -67,7 +90,7 @@ public class AdministratorView implements MenuInterface {
                     break;
 
                     
-                case 6:
+                case 7:
                     System.out.println("Logging out...");
                     return;
                 default:
