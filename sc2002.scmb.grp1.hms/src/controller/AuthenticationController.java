@@ -145,6 +145,11 @@ private final LoginController logincontroller = new LoginController();
 
                 case 2:
                     //TODO forget password
+                    System.out.println("Please enter your Hospital ID");
+                    hospitalID = scanner.nextLine();
+
+
+                    
                     break;
 
                 case 3:

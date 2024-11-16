@@ -8,6 +8,11 @@ public class LoginController {
         String role = extractPrefix(hospitalID);
         RepositoryController repositoryController = new RepositoryController();
         ValidationInterface repository = (ValidationInterface) repositoryController.getRepository(role);
+        if(repository == null){
+            System.out.println("Invalid ID or password. Returning to main menu.");
+            System.out.println();
+            return false;
+        }
         User user = repository.validateCredentials(hospitalID, password);
         if(user == null){
             System.out.println("Invalid ID or password. Returning to main menu.");
