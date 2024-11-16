@@ -21,6 +21,12 @@ public class MedicationInventoryController {
         return medicationNames;
     }
 
+    //Method to view all inventory
+    public void viewStock() throws IOException
+    {
+        medicationinventoryRepository.viewInventory();
+    }
+
     //Method to update stock level
     public void replenishInventory(String medication, int quantity) throws IOException
     {

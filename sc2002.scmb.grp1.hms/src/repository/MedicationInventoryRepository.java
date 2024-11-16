@@ -47,6 +47,17 @@ public class MedicationInventoryRepository {
         return filteredMedications;
     }
 
+    public void viewInventory() throws IOException
+    {
+        List<MedicationInventory> medications = loadAllMedications();
+
+        for (MedicationInventory medication : medications)
+        {
+            System.out.println("Medication Name: " + medication.getMedicationName() + 
+                       ", Stock Level: " + medication.getStockLevel());
+        }
+    }
+
     public void updateStockLevel(String name, int level) throws IOException
     {
         List<MedicationInventory> medications = loadAllMedications();
