@@ -149,49 +149,55 @@ public class PatientRepository implements ValidationInterface, checkHaveQuestion
 
     // Find a patient by their PatientID
     public Patient findPatientById(String patientId) throws IOException {
-        List<Patient> patients = loadPatients();
+        List<Patient> patients = loadPatients();    
         return patients.stream()
                 .filter(patient -> patient.getUserId().equals(patientId))
                 .findFirst()
                 .orElse(null);
     }
 
-    public boolean updatePatient(Patient updatedPatient) throws IOException{
-        List<Patient> patients = loadPatients();
-        boolean isUpdated = false; 
-
-        for (Patient patient : patients){
-            if (patient.getUserId().equals(updatedPatient.getUserId())){
-                patient.setEmail(updatedPatient.getEmail());
-                patient.setPhoneNumber(updatedPatient.getPhoneNumber());
-                isUpdated = true;
-                break;
+    public boolean updatePatient(Patient updatedPatient) throws IOException {
+        List<String[]> allRecords = new ArrayList<>();
+        boolean isUpdated = false;
+    
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PATIENT))) {
+            String line;
+            boolean firstLine = true;
+    
+            while ((line = reader.readLine()) != null) {
+                if (firstLine) {
+                    allRecords.add(line.split(","));
+                    firstLine = false;
+                    continue;
+                }
+    
+                String[] parts = line.split(",");
+                if (parts[0].equals(updatedPatient.getUserId())) {
+                    parts[7] = updatedPatient.getEmail();  //update email
+                    parts[6] = updatedPatient.getPhoneNumber();  //update phone number 
+                    // if question and answer not set
+                    if (parts.length > 10) {
+                        parts[10] = ""; // placeholder 
+                        parts[11] = ""; 
+                    }
+                    isUpdated = true;
+                }
+                allRecords.add(parts);
             }
         }
-
-        //update CSV with updated data
-        if (isUpdated){
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PATIENT, false))) {
-                writer.write("UserID,Name,Role,Password,Gender,Age,PhoneNumber,Email,DOB,BloodType");
-                writer.newLine();
-                for (Patient patient : patients){
-                    writer.write(String.join(",", 
-                        patient.getUserId(),
-                        patient.getName(),
-                        patient.getRole(),
-                        patient.getPassword(),
-                        patient.getGender(),
-                        patient.getAge(),
-                        patient.getPhoneNumber(),
-                        patient.getEmail(),
-                        patient.getDob(),
-                        patient.getBloodtype()));
+    
+        if (isUpdated) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PATIENT))) {
+                for (String[] record : allRecords) {
+                    writer.write(String.join(",", record));
                     writer.newLine();
                 }
             }
         }
+    
         return isUpdated;
     }
+
     public boolean changeSecurityQuestion(String hospitalID, String question, String answer) {
     List<String[]> allRecords = new ArrayList<>();
     boolean questionUpdated = false;
