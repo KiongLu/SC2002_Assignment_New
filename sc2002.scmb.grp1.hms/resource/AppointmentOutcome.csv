@@ -1,6 +1,6 @@
 OutcomeID,AppointmentID,Date,ServiceType,PrescribedMedication,MedicationStatus,ConsultationNotes
 AO000,AP010,12-10-2025,blood test,Painkiller,Dispensed,nothing wrong
 AO001,AP010,12-10-2025,blood test,Painkiller,Dispensed,nothing wrong
-AO002,AP010,10-12-2024,dsad,"Eye Drops, Painkiller",Dispensed,dsad
-AO003,AP006,12-12-2024,mental,nil,Dispensed,great
+AO002,AP010,10-12-2024,dsad,"Eye Drops, Painkiller",Pending,dsad
+AO003,AP006,12-12-2024,mental,nil,Pending,great
 AO004,AP011,10-10-2024,eye test,Eye Drops,Dispensed,colourblind bopez

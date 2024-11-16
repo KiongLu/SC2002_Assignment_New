@@ -1,20 +1,16 @@
 package controller;
 
 import entity.Appointment;
-import entity.MedicalRecord;
 import entity.Availability;
 import entity.Doctor;
 import entity.Patient;
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
 import repository.AppointmentRepository;
 import repository.AvailabilityRepository;
 import repository.DoctorRepository;
 import repository.PatientRepository;
-import controller.AvailabilityController;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
 
 public class AppointmentController {
     private AppointmentRepository appointmentRepository = new AppointmentRepository();
@@ -78,31 +74,48 @@ public class AppointmentController {
         int nextNumber = Integer.parseInt(numberPart) + 1;
         return "AP" + String.format("%03d", nextNumber);
     }
-
+    
     public boolean listPendingAppointments(String doctorId) throws IOException {
         List<Appointment> pendingAppointments = appointmentRepository.getPendingAppointmentsByDoctorId(doctorId);
-
+    
         if (pendingAppointments.isEmpty()) {
-            System.out.println("No pending appointments found.");
+            System.out.println("+---------------------------------------------------+");
+            System.out.println("|               Pending Appointments                |");
+            System.out.println("+---------------------------------------------------+");
+            System.out.println("| No pending appointments found for Doctor ID: " + doctorId + " |");
+            System.out.println("+---------------------------------------------------+");
             return false; // No pending appointments
         }
-
-        System.out.println("Pending Appointments:");
-        for (Appointment appointments : pendingAppointments) {
-            System.out.println();
-            Patient temp = patientrepository.findPatientById(appointments.getPatientId());
-            System.out.println("Pending Appointment \n" +
-                    "Appointment ID: " + appointments.getAppointmentId() + "\n" +
-                    "Patient name: " + temp.getName() + "\n" +
-                    "Date: " + appointments.getAppointmentDate() + "\n" +
-                    "Start Time: " + appointments.getStartTime() + "\n" +
-                    "End Time: " + appointments.getEndTime() + "\n" +
-                    "Status: " + appointments.getStatus() + "\n");
-            System.out.println();
+    
+        // Header with Doctor ID
+        System.out.println("+-------------------------------------------------------------------------------------------------------------+");
+        System.out.println("|                                     Pending Appointments                                                   |");
+        System.out.println("+-------------------------------------------------------------------------------------------------------------+");
+        System.out.printf("| %-12s: %-50s |\n", "Doctor ID", doctorId);
+        System.out.println("+-------------------------------------------------------------------------------------------------------------+");
+    
+        // Table Headers
+        System.out.printf("| %-15s | %-20s | %-12s | %-12s | %-10s | %-10s |\n",
+                          "Appointment ID", "Patient Name", "Date", "Start Time", "End Time", "Status");
+        System.out.println("+-------------------------------------------------------------------------------------------------------------+");
+    
+        // Table Rows
+        for (Appointment appointment : pendingAppointments) {
+            Patient temp = patientrepository.findPatientById(appointment.getPatientId());
+            System.out.printf("| %-15s | %-20s | %-12s | %-12s | %-10s | %-10s |\n",
+                              appointment.getAppointmentId(),
+                              temp.getName(),
+                              appointment.getAppointmentDate(),
+                              appointment.getStartTime(),
+                              appointment.getEndTime(),
+                              appointment.getStatus());
         }
-
+    
+        System.out.println("+-------------------------------------------------------------------------------------------------------------+");
         return true; // Pending appointments exist
     }
+    
+    
 
 
     // Method to update the status of an appointment
@@ -137,33 +150,44 @@ public class AppointmentController {
 
     public boolean listConfirmedAppointments(String doctorId) throws IOException {
         List<Appointment> confirmedAppointments = appointmentRepository.getConfirmedAppointmentsByDoctorId(doctorId);
-
+    
         if (confirmedAppointments.isEmpty()) {
-            System.out.println("No confirmed appointments found for this doctor.");
+            System.out.println("+-----------------------------------------------------------------------------------------------------------+");
+            System.out.println("|                                        Confirmed Appointments                                             |");
+            System.out.println("+-----------------------------------------------------------------------------------------------------------+");
+            System.out.printf("| Doctor ID: %-100s |\n", doctorId);
+            System.out.println("+-----------------------------------------------------------------------------------------------------------+");
+            System.out.println("| No confirmed appointments found.                                                                          |");
+            System.out.println("+-----------------------------------------------------------------------------------------------------------+");
             return false; // Indicate no confirmed appointments
-        } else {
-            System.out.println("Confirmed Appointments:");
-            System.out.println();
-            for (Appointment appointment : confirmedAppointments) {
-                Patient temp = patientrepository.findPatientById(appointment.getPatientId());
-                System.out.println(
-                        "Appointment ID: " + appointment.getAppointmentId() + "\n" +
-                                "Patient name: " + temp.getName() + "\n" +
-                                "gender: " + temp.getGender() + "\n" +
-                                "age: " + temp.getAge() + "\n" +
-                                "Phone Number: " + temp.getPhoneNumber() + "\n" +
-                                "Email: " + temp.getEmail() + "\n" +
-                                "DOB: " + temp.getDob() + "\n" +
-                                "Blood Type: " + temp.getBloodtype() + "\n" +
-                                "Date: " + appointment.getAppointmentDate() + "\n" +
-                                "Start Time: " + appointment.getStartTime() + "\n" +
-                                "End Time: " + appointment.getEndTime() + "\n" +
-                                "Status: " + appointment.getStatus() + "\n");
-                System.out.println();
-            }
-            return true; // Indicate that confirmed appointments were found
         }
+    
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------------+");
+        System.out.println("|                                                       Confirmed Appointments                                                           |");
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------------+");
+        System.out.printf("| Doctor ID: %-122s |\n", doctorId);
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------------+");
+        System.out.println("| Appointment ID | Patient Name          | Gender   | Age | Phone Number  | Email                | Blood Type | Date       | Time Slot   |");
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------------+");
+    
+        for (Appointment appointment : confirmedAppointments) {
+            Patient temp = patientrepository.findPatientById(appointment.getPatientId());
+            System.out.printf("| %-14s | %-20s | %-8s | %-3s | %-13s | %-20s | %-10s | %-10s | %-10s |\n",
+                              appointment.getAppointmentId(),
+                              temp.getName(),
+                              temp.getGender(),
+                              temp.getAge(),
+                              temp.getPhoneNumber(),
+                              temp.getEmail(),
+                              temp.getBloodtype(),
+                              appointment.getAppointmentDate(),
+                              appointment.getStartTime() + " - " + appointment.getEndTime());
+        }
+    
+        System.out.println("+-----------------------------------------------------------------------------------------------------------------------------------------+");
+        return true; // Indicate that confirmed appointments were found
     }
+    
 
 
     public void listofScheduledAppointments(String patientId) throws IOException {
@@ -173,22 +197,24 @@ public class AppointmentController {
         if (scheduleAppointments.isEmpty()) {
             System.out.println("No Schediuled Appointments");
         } else {
-            System.out.println("+---------------------------------------------------------------------+");
-            System.out.println("|                        Scheduled Appointments                       |");
-            System.out.println("+---------------------------------------------------------------------+");
-            System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s |\n",
-                    "Appointment ID", "Doctor Name", "Date", "Start Time", "End Time");
-            System.out.println("+---------------------------------------------------------------------+");
+            System.out.println("+------------------------------------------------------------------------------------+");
+            System.out.println("|                                Scheduled Appointments                              |");
+            System.out.println("+------------------------------------------------------------------------------------+");
+            System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s | %-12s | \n",
+                    "Appointment ID", "Doctor Name", "Date", "Start Time", "End Time", "Status");
+            System.out.println("+------------------------------------------------------------------------------------+");
             for (Appointment appointment : scheduleAppointments) {
                 Doctor temp = doctorrepository.findDoctorById(appointment.getDoctorId());
-                System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s |\n",
+                System.out.printf("| %-15s | %-12s | %-10s | %-10s | %-8s | %-12s | \n",
                     appointment.getAppointmentId(),
                     temp.getName(),
                     appointment.getAppointmentDate(),
                     appointment.getStartTime(),
-                    appointment.getEndTime());   
+                    appointment.getEndTime(),
+                    appointment.getStatus());   
+                    
             }
-            System.out.println("+---------------------------------------------------------------------+");            
+            System.out.println("+------------------------------------------------------------------------------------+");            
         }
     }
 

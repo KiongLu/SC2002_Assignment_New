@@ -68,42 +68,39 @@ public class MedicalRecordController {
 		}
 	}
 
-	// Get all medical records for doctor view
-	public void loadMedicalRecordsForDoctor(String doctorID) throws IOException {
-		List<MedicalRecord> records = medicalrecordrepository.findRecordsByDoctorId(doctorID);
+// Get all medical records for doctor view
+public void loadMedicalRecordsForDoctor(String doctorID) throws IOException {
+    List<MedicalRecord> records = medicalrecordrepository.findRecordsByDoctorId(doctorID);
 
-		if (records.isEmpty()) {
-			System.out.println("+-------------------------------------------+");
-			System.out.println("|           Medical Records                 |");
-			System.out.println("+-------------------------------------------+");
-			System.out.printf("| %-10s: %-30s |\n", "Doctor ID", doctorID);
-			System.out.println("+-------------------------------------------+");
-			System.out.println("No medical records found for Doctor ID: " + doctorID);
-		} else {
-			System.out.println("+------------------------------------------------------------------------+");
-			System.out.println("|                         Medical Records                               |");
-			System.out.println("+------------------------------------------------------------------------+");
-			System.out.printf("| %-10s: %-54s |\n", "Doctor ID", doctorID);
-			System.out.println("+------------------------------------------------------------------------+");
+    System.out.println("+-----------------------------------------------------------------------------------------------+");
+    System.out.println("|                                       Medical Records                                         |");
+    System.out.println("+-----------------------------------------------------------------------------------------------+");
+    System.out.println("| No medical records found for Doctor ID: " + doctorID + "                                        |");
+    System.out.println("+-----------------------------------------------------------------------------------------------+");
 
-			System.out.println("+-----------------------------------------------------------------------------------+");
-			System.out.println("| Record ID | Patient ID | Patient Name | Diagnosis       | Treatment      | Prescription   |");
-			System.out.println("+-----------------------------------------------------------------------------------+");
+    if (records.isEmpty()) {
+        System.out.println("| No medical records found for Doctor ID: " + doctorID + "                                        |");
+        System.out.println("+-----------------------------------------------------------------------------------------------+");
+    } else {
+        System.out.println("+-----------+------------+----------------+------------------+----------------+-----------------+");
+        System.out.println("| Record ID | Patient ID | Patient Name   | Diagnosis        | Treatment      | Prescription    |");
+        System.out.println("+-----------+------------+----------------+------------------+----------------+-----------------+");
 
-			for (MedicalRecord record : records) {
-				Patient temp = patientrepository.findPatientById(record.getPatientId());
-				System.out.printf("| %-9s | %-10s | %-12s | %-15s | %-13s | %-14s |\n",
-						record.getRecordId(),
-						temp.getUserId(),
-						temp.getName(),
-						record.getDiagnosis(),
-						record.getTreatment(),
-						record.getPrescription());
-			}
+        for (MedicalRecord record : records) {
+            Patient temp = patientrepository.findPatientById(record.getPatientId());
+            System.out.printf("| %-9s | %-10s | %-14s | %-16s | %-14s | %-15s |\n",
+                    record.getRecordId(),
+                    temp.getUserId(),
+                    temp.getName(),
+                    record.getDiagnosis(),
+                    record.getTreatment(),
+                    record.getPrescription());
+        }
 
-			System.out.println("+-----------------------------------------------------------------------------------+");
-		}
-	}
+        System.out.println("+-----------+------------+----------------+------------------+----------------+-----------------+");
+    }
+}
+
 
 
 	// genereate a new record id
