@@ -167,7 +167,7 @@ public class PatientRepository implements ValidationInterface, checkHaveQuestion
             while ((line = reader.readLine()) != null) {
                 if (firstLine) {
                     allRecords.add(line.split(","));
-                    firstLine = false;
+                    firstLine = false; 
                     continue;
                 }
     
