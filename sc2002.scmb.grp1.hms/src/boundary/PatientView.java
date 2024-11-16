@@ -184,9 +184,14 @@ public class PatientView implements MenuInterface {
         String Apptid = null;
         while (!validapptid) {
             System.out.println();
-            System.out.println("Enter the Appointment ID of the Appointment you wish to Cancel");
+            System.out.println("Enter the Appointment ID of the Appointment you wish to Cancel ('0' to exit)");
             Apptid = scanner.nextLine();
 
+            if (Apptid.equals("0")){ // for user to exit back to menu
+                System.out.println("Exiting appointment rescheduling...");
+                return;
+            }
+            
             if (appointmentcontroller.isValidRescheduleAppointmentId(Apptid, user.getUserId())) {
                 validapptid = true;
             } else {
