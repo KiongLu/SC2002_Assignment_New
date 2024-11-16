@@ -92,11 +92,11 @@ private final LoginController logincontroller = new LoginController();
             System.out.println("  What would you like to do?");
 
 
-            System.out.println("  +----------------------+");
-            System.out.println("  |      [1] Login       |");
-            System.out.println("  |  [2] Forget Password |");
-            System.out.println("  |       [3] Exit       |");
-            System.out.println("  +----------------------+");
+            System.out.println("+----------------------+");
+        System.out.println("| [1] Login           |");
+        System.out.println("| [2] Forget Password |");
+        System.out.println("| [3] Exit            |");
+        System.out.println("+----------------------+");
 
 
         
@@ -128,16 +128,16 @@ private final LoginController logincontroller = new LoginController();
             switch(choice){
                 case 1:
                     //TODO login gui
-                    System.out.println("\n");
+                    System.out.println("");
                     System.out.println("Please enter your credentials");
 
                     // Box for Hospital ID and Password
-                    System.out.println("  +------------------------------+");
-                    System.out.print("  | Hospital ID: ");
+                    System.out.println("+------------------------------+");
+                    System.out.print("| Hospital ID: ");
                     String hospitalID = scanner.nextLine();
-                    System.out.print("  | Password:    ");
+                    System.out.print("| Password:    ");
                     String password = scanner.nextLine();
-                    System.out.println("  +------------------------------+");
+                    System.out.println("+------------------------------+");
                     // Attempting login message outside the box
                     System.out.println("\nAttempting login with provided credentials...");
                     loginSuccessful = logincontroller.login(hospitalID, password);
