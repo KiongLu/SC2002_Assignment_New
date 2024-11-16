@@ -6,15 +6,19 @@ import entity.MedicationInventory;
 import repository.MedicationInventoryRepository;
 import repository.ReplenishmentRequestRepository;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class PharmacistController implements InventoryManagement,ReplenishmentRequestService {
     private MedicationInventoryRepository inventoryRepository;
     private ReplenishmentRequestRepository replenishmentRequestRepository;
+    private final Scanner scanner = new Scanner(System.in);
 
     public PharmacistController(MedicationInventoryRepository inventoryRepository, ReplenishmentRequestRepository replenishmentRequestRepository) {
         this.inventoryRepository = inventoryRepository;
         this.replenishmentRequestRepository = replenishmentRequestRepository;
+
+
     }
 
     @Override
@@ -26,11 +30,11 @@ public class PharmacistController implements InventoryManagement,ReplenishmentRe
             return null;
         }
     }
+
     @Override
     public List<MedicationInventory> getAllInventory() throws IOException {
         return inventoryRepository.loadAllMedications();
     }
-
 
     @Override
     public void submitReplenishmentRequest(String medicationName) throws IOException {
@@ -43,9 +47,25 @@ public class PharmacistController implements InventoryManagement,ReplenishmentRe
             return;
         }
 
+        // Prompt the pharmacist to input the quantity for replenishment
+        System.out.print("Enter the quantity to be replenished for '" + medicationName + "': ");
+        int quantity;
+        while (true) {
+            try {
+                quantity = Integer.parseInt(scanner.nextLine());
+                if (quantity <= 0) {
+                    System.out.println("Quantity must be greater than zero. Please try again.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid positive integer.");
+            }
+        }
+
         // If the medication exists, proceed with submitting the replenishment request
-        replenishmentRequestRepository.saveReplenishmentRequest(medicationName);
-        System.out.println("Replenishment request submitted for " + medicationName + ".");
+        replenishmentRequestRepository.saveReplenishmentRequest(medicationName, quantity);
+        System.out.println("Replenishment request submitted for '" + medicationName + "' with quantity " + quantity + ".");
     }
 
 
