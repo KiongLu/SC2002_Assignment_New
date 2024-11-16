@@ -101,9 +101,17 @@ public class DoctorView implements MenuInterface{
 			System.out.println("3. Back to Doctor Menu");
 			System.out.println();
 
-			int choice = scanner.nextInt();
-			scanner.nextLine(); // Consume newline
+			int choice = -1; // Default value for invalid input
 
+			try {
+				System.out.print("Enter your choice: ");
+				choice = Integer.parseInt(scanner.nextLine().trim()); // Read and parse input
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid input. Please enter a number between 1 and 3.");
+				continue; // Restart the loop
+			}
+
+			// Validate the choice
 			if (choice == 1) {
 				try {
 					medicalrecordcontroller.createMedicalRecord(user.getUserId());
@@ -117,12 +125,13 @@ public class DoctorView implements MenuInterface{
 					e.printStackTrace();
 				}
 			} else if (choice == 3) {
-				break; // Go back to the main doctor menu
+				break; // Exit the loop to go back to the main doctor menu
 			} else {
-				System.out.println("Invalid choice. Please try again.");
+				System.out.println("Invalid choice. Please enter a number between 1 and 3.");
 			}
 		}
 	}
+
 
 	private void handleAppointmnetRequestOptions(User user) {
 		while (true) {
