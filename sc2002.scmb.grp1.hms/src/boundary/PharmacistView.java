@@ -30,7 +30,7 @@ public class PharmacistView implements MenuInterface {
             System.out.println("| 2. Update Prescription Status                  |");
             System.out.println("| 3. View Medication Inventory                   |");
             System.out.println("| 4. Submit Replenishment Request                |");
-            System.out.println("| 5. Set Security Questions for Recovery        |");
+            System.out.println("| 5. Set Security Questions for Recovery         |");
             System.out.println("| 6. Logout                                      |");
             System.out.println("+------------------------------------------------+");
             System.out.println();
