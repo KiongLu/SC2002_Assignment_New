@@ -176,10 +176,7 @@ public class PatientRepository implements ValidationInterface, checkHaveQuestion
                     parts[7] = updatedPatient.getEmail();  //update email
                     parts[6] = updatedPatient.getPhoneNumber();  //update phone number 
                     // if question and answer not set
-                    if (parts.length > 10) {
-                        parts[10] = ""; // placeholder 
-                        parts[11] = ""; 
-                    }
+
                     isUpdated = true;
                 }
                 allRecords.add(parts);
