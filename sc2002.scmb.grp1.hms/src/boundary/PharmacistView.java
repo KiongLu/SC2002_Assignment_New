@@ -22,7 +22,7 @@ public class PharmacistView implements MenuInterface {
     private final PharmacistController pharmacistController =  new PharmacistController(inventoryRepository, replenishmentRequestRepository);// Create an instance
     public void Menu(User user) {
         while (true) {
-        	System.out.println();
+            System.out.println();
             System.out.println("+------------------------------------------------+");
             System.out.println("|                Pharmacist Menu                 |");
             System.out.println("+------------------------------------------------+");
@@ -78,32 +78,55 @@ public class PharmacistView implements MenuInterface {
             if(choice == 4){
                 submitReplenishmentRequest();
             }
-            if(choice == 5) {
+            if (choice == 5) {
                 SecurityQuestionsController sqc = new SecurityQuestionsController();
-                System.out.println("Please enter a security question");
+
+                System.out.println("+------------------------------------------------+");
+                System.out.println("|        Setting Security Questions              |");
+                System.out.println("+------------------------------------------------+");
+
+                System.out.print("| Enter a security question: ");
                 String question = scanner.nextLine();
-                System.out.println("Please enter the answer");
+                System.out.print("| Enter the answer: ");
                 String answer = scanner.nextLine();
-                if(!sqc.changeSecurityQuestionControl(user.getUserId(), question, answer)){
-                    System.out.println("Sorry your security questions were not able to be set, contact an administrator");
+
+                boolean isSet = sqc.changeSecurityQuestionControl(user.getUserId(), question, answer);
+
+                if (!isSet) {
+                    System.out.println("+------------------------------------------------+");
+                    System.out.println("| Sorry, your security questions could not be set.|");
+                    System.out.println("| Please contact an administrator for assistance.|");
+                    System.out.println("+------------------------------------------------+\n");
+                } else {
+                    System.out.println("+------------------------------------------------+");
+                    System.out.println("| Security questions successfully set.           |");
+                    System.out.println("+------------------------------------------------+\n");
                 }
-                else{
-                    System.out.println("Security Questions successfully set");
-                }
-            
-        }
+            }
             
             
         }
     }
 
     private void displayAndUpdatePendingOutcomes() throws IOException {
+        System.out.println("+------------------------------------------------+");
+        System.out.println("|       Pending Prescription Updates             |");
+        System.out.println("+------------------------------------------------+");
+
+        // Display pending appointment outcomes
         outcomecontroller.displayPendingAppointmentOutcomes();
 
-        System.out.print("Enter the Outcome ID to change the prescription status to 'Dispensed': ");
+        System.out.println("+------------------------------------------------+");
+        System.out.print("| Enter the Outcome ID to update status: ");
         String outcomeId = scanner.nextLine();
+        System.out.println("+------------------------------------------------+");
 
+        // Update prescription status
         outcomecontroller.changePrescriptionStatusToDispensed(outcomeId);
+
+        System.out.println("+------------------------------------------------+");
+        System.out.println("|   Prescription status updated successfully!    |");
+        System.out.println("+------------------------------------------------+\n");
     }
 
     public List<MedicationInventory> getAllInventory() throws IOException {
@@ -111,29 +134,54 @@ public class PharmacistView implements MenuInterface {
     }
 
     private void viewMedicationInventory() {
-        System.out.println("\nMedication Inventory:");
+        System.out.println("+------------------------------------------------+");
+        System.out.println("|               Medication Inventory             |");
+        System.out.println("+------------------------------------------------+");
+
         try {
+            // Load the full inventory
             List<MedicationInventory> medications = pharmacistController.getAllInventory();
+
             if (medications.isEmpty()) {
-                System.out.println("No medications found in the inventory.");
+                System.out.println("|         No medications found in inventory.     |");
             } else {
+                System.out.println("| Name                              | Stock  | Alert |");
+                System.out.println("+------------------------------------------------+");
+
+                // Iterate through the medications
                 for (MedicationInventory medication : medications) {
-                    System.out.printf("Name: %s, Stock Level: %d, Stock Alert Level: %d\n",
-                            medication.getMedicationName(), medication.getStockLevel(), medication.getStockAlertLevel());
+                    String stockAlertLabel = medication.getStockLevel() < 60 ? "LOW" : "OK";
+                    System.out.printf("| %-32s | %6d | %-5s |\n",
+                            medication.getMedicationName(),
+                            medication.getStockLevel(),
+                            stockAlertLabel);
                 }
             }
+            System.out.println("+------------------------------------------------+");
         } catch (IOException e) {
-            System.err.println("Failed to load medication inventory: " + e.getMessage());
+            System.out.println("+------------------------------------------------+");
+            System.err.printf("| Failed to load inventory: %-23s |\n", e.getMessage());
+            System.out.println("+------------------------------------------------+");
         }
     }
 
+
     private void submitReplenishmentRequest() {
-        System.out.print("Enter the medication name: ");
+        System.out.println("+------------------------------------------------+");
+        System.out.println("|           Submit Replenishment Request         |");
+        System.out.println("+------------------------------------------------+");
+        System.out.print("| Enter the medication name: ");
         String medicationName = scanner.nextLine();
+
         try {
             pharmacistController.submitReplenishmentRequest(medicationName);
+            System.out.println("+------------------------------------------------+");
+            System.out.println("|   Replenishment request submitted successfully!  |");
+            System.out.println("+------------------------------------------------+\n");
         } catch (IOException e) {
-            System.err.println("Error submitting replenishment request: " + e.getMessage());
+            System.out.println("+------------------------------------------------+");
+            System.err.printf("| Error: %-40s |\n", e.getMessage());
+            System.out.println("+------------------------------------------------+\n");
         }
     }
 

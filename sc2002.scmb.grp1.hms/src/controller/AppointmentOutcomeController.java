@@ -141,28 +141,36 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService {
     public void viewAppointmentOutcomes() throws IOException {
         List<AppointmentOutcome> allAppointmentOutcomes = outcomeRepository.loadAllAppointmentOutcomes();
 
+        System.out.println("+------------------------------------------------+");
+        System.out.println("|       Appointment Outcomes for Processing      |");
+        System.out.println("+------------------------------------------------+");
+
         if (allAppointmentOutcomes.isEmpty()) {
-            System.out.println("No appointment outcomes found.");
+            System.out.println("|         No appointment outcomes found.         |");
+            System.out.println("+------------------------------------------------+\n");
             return;
         }
 
-        System.out.println("Appointment Outcomes for Pharmacist to Process:");
-
         for (AppointmentOutcome outcome : allAppointmentOutcomes) {
-            System.out.println("Outcome ID: " + outcome.getOutcomeId());
-            System.out.println("Appointment ID: " + outcome.getAppointmentId());
-            System.out.println("Date: " + outcome.getDate());
-            System.out.println("Prescribed Medication: " + outcome.getPrescribedMedication());
-            System.out.println("Medication Status: " + outcome.getMedicationStatus());
-            System.out.println("Consultation Notes: " + outcome.getConsultationNotes());
-            System.out.println();
+            System.out.println("| Outcome ID:            " + outcome.getOutcomeId());
+            System.out.println("| Appointment ID:        " + outcome.getAppointmentId());
+            System.out.println("| Date:                  " + outcome.getDate());
+            System.out.println("| Prescribed Medication: " + outcome.getPrescribedMedication());
+            System.out.println("| Medication Status:     " + outcome.getMedicationStatus());
+            System.out.println("| Consultation Notes:    " + outcome.getConsultationNotes());
+            System.out.println("+------------------------------------------------+");
         }
+        System.out.println();
     }
 
     @Override
     // Method to display all Appointment Outcomes with a "Pending" medication status
     public void displayPendingAppointmentOutcomes() throws IOException {
         List<AppointmentOutcome> allOutcomes = outcomeRepository.loadAllAppointmentOutcomes();
+
+        System.out.println("+------------------------------------------------+");
+        System.out.println("|       Pending Appointment Outcomes             |");
+        System.out.println("+------------------------------------------------+");
 
         // Check if there are any pending outcomes
         boolean hasPendingOutcomes = false;
@@ -172,21 +180,24 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService {
             if ("Pending".equalsIgnoreCase(outcome.getMedicationStatus())) {
                 hasPendingOutcomes = true;
                 // Display outcome details
-                System.out.println("Outcome ID: " + outcome.getOutcomeId());
-                System.out.println("Appointment ID: " + outcome.getAppointmentId());
-                System.out.println("Date: " + outcome.getDate());
-                System.out.println("Service Type: " + outcome.getServiceType());
-                System.out.println("Prescribed Medication: " + outcome.getPrescribedMedication());
-                System.out.println("Medication Status: " + outcome.getMedicationStatus());
-                System.out.println("Consultation Notes: " + outcome.getConsultationNotes());
-                System.out.println();
+                System.out.println("| Outcome ID:            " + outcome.getOutcomeId());
+                System.out.println("| Appointment ID:        " + outcome.getAppointmentId());
+                System.out.println("| Date:                  " + outcome.getDate());
+                System.out.println("| Service Type:          " + outcome.getServiceType());
+                System.out.println("| Prescribed Medication: " + outcome.getPrescribedMedication());
+                System.out.println("| Medication Status:     " + outcome.getMedicationStatus());
+                System.out.println("| Consultation Notes:    " + outcome.getConsultationNotes());
+                System.out.println("+------------------------------------------------+");
             }
         }
 
         if (!hasPendingOutcomes) {
-            System.out.println("No pending appointment outcomes found.");
+            System.out.println("|       No pending appointment outcomes found.   |");
+            System.out.println("+------------------------------------------------+");
         }
+        System.out.println();
     }
+
 
     @Override
     public void updatePrescriptionStatus(String outcomeId) throws IOException {
