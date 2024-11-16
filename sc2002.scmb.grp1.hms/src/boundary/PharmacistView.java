@@ -78,7 +78,7 @@ public class PharmacistView implements MenuInterface {
         }
     }
 
-    public void displayAndUpdatePendingOutcomes() throws IOException {
+    private void displayAndUpdatePendingOutcomes() throws IOException {
         outcomecontroller.displayPendingAppointmentOutcomes();
 
         System.out.print("Enter the Outcome ID to change the prescription status to 'Dispensed': ");
@@ -91,7 +91,7 @@ public class PharmacistView implements MenuInterface {
         return inventoryRepository.loadAllMedications();
     }
 
-    public void viewMedicationInventory() {
+    private void viewMedicationInventory() {
         System.out.println("\nMedication Inventory:");
         try {
             List<MedicationInventory> medications = pharmacistController.getAllInventory();
