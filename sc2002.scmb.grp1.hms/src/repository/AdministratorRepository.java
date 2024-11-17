@@ -184,6 +184,8 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return administrators;
     }
 
+    
+
     public void writeAdmin(Administrator newAdmin) throws IOException
     {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_ADMINISTRATOR, true))) {

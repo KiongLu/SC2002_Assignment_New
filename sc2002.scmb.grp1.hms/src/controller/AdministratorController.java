@@ -180,9 +180,9 @@ public class AdministratorController {
         administratorRepository.writeAdmin(newAdmin);
     }
 
-    public void removeAdmin() throws IOException
+    public void removeAdmin(String userID) throws IOException
     {
-
+      return;  
     }
 
     public void addDoctor(String userid, 
@@ -195,12 +195,12 @@ public class AdministratorController {
     String staffemail, 
     String staffcontact) throws IOException
     {
-
+        return;
     }
 
     public void removeDoctor() throws IOException
     {
-        
+        return;
     }
 
     public void addPharmacist(String userid, 
@@ -212,11 +212,11 @@ public class AdministratorController {
     String staffemail,
     String staffcontact) throws IOException
     {
-
+        return;
     }
 
     public void removePharmacist() throws IOException
     {
-        
+        return;
     }
 }
