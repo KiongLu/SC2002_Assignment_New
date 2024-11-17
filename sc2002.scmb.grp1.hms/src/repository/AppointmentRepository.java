@@ -6,12 +6,20 @@ import util.CSVUtil;
 import java.io.*;
 import java.util.*;
 
-//import javax.naming.directory.InvalidAttributeIdentifierException;
-
+/**
+ * The AppointmentRepository class provides methods to manage appointments within the Hospital Management System.
+ * It reads from and writes to a CSV file for data persistence.
+ */
 public class AppointmentRepository {
     private static final String FILE_PATH_APPOINTMENT = "sc2002.scmb.grp1.hms//resource//Appointment.csv";
     // private static final CSVUtil csvutil = new CSVUtil(); 
     
+    /**
+     * Creates a new appointment and appends it to the CSV file.
+     *
+     * @param appointment The Appointment object to be added.
+     * @throws IOException if an error occurs while writing to the file.
+     */
  // Method to write a new appointment to the CSV file
     public void createNewAppointment(Appointment appointment) throws IOException {
         File file = new File(FILE_PATH_APPOINTMENT);
@@ -40,10 +48,12 @@ public class AppointmentRepository {
         CSVUtil.removeEmptyRows(FILE_PATH_APPOINTMENT);
     }
 
-
-
-
-    
+    /**
+     * Loads all appointments from the CSV file.
+     *
+     * @return A list of Appointment objects.
+     * @throws IOException if an error occurs while reading the file.
+     */
  // Method to load appointment data from the CSV file
     public List<Appointment> loadAllAppointments() throws IOException {
         List<Appointment> appointments = new ArrayList<>();
@@ -81,6 +91,14 @@ public class AppointmentRepository {
         return appointments;
     }
 
+    /**
+     * Retrieves an appointment by its ID.
+     *
+     * @param appointmentId The ID of the appointment to find.
+     * @return The Appointment object, or null if not found.
+     * @throws IOException if an error occurs while reading the file.
+     */
+
     // Method to get an appointment by appointmentId
     public Appointment getAppointmentById(String appointmentId) throws IOException {
         List<Appointment> allAppointments = loadAllAppointments();
@@ -94,7 +112,12 @@ public class AppointmentRepository {
         return null; // If no match found, return null
     }
 
-    
+    /**
+     * Retrieves the ID of the last appointment.
+     *
+     * @return The last available appointment ID, or "AP000" if none exist.
+     * @throws IOException if an error occurs while reading the file.
+     */
     // Get the last AppointmentId from the existing records
     public String getLastApptId() throws IOException {
         List<Appointment> appointment = loadAllAppointments();
@@ -105,7 +128,13 @@ public class AppointmentRepository {
         return lastAvailableId;
     }
     
-    
+    /**
+     * Retrieves all pending appointments for a specific doctor.
+     *
+     * @param doctorId The ID of the doctor.
+     * @return A list of pending Appointment objects for the specified doctor.
+     * @throws IOException if an error occurs while reading the file.
+     */
  // Method to get all pending appointments for a specific doctor
     public List<Appointment> getPendingAppointmentsByDoctorId(String doctorId) throws IOException {
         List<Appointment> allAppointments = loadAllAppointments();
@@ -121,9 +150,12 @@ public class AppointmentRepository {
     }
 
 
-
-
-
+    /**
+     * Updates the status of an appointment in the CSV file.
+     *
+     * @param updatedAppointment The updated Appointment object.
+     * @throws IOException if an error occurs while writing to the file.
+     */
 	public void updateAppointment(Appointment updatedAppointment)throws IOException {
 		 List<Appointment> allAppointments = loadAllAppointments();
 
@@ -153,6 +185,13 @@ public class AppointmentRepository {
 		    }
 	}
 	
+    /**
+     * Retrieves all confirmed appointments for a specific doctor.
+     *
+     * @param doctorId The ID of the doctor.
+     * @return A list of confirmed Appointment objects.
+     * @throws IOException if an error occurs while reading the file.
+     */
 	public List<Appointment> getConfirmedAppointmentsByDoctorId(String doctorId) throws IOException {
 	    List<Appointment> confirmedAppointments = new ArrayList<>();
 	    List<Appointment> allAppointments = loadAllAppointments();
@@ -167,6 +206,13 @@ public class AppointmentRepository {
 	    return confirmedAppointments;
 	}
 	
+    /**
+     * Retrieves all confirmed or pending appointments for a specific patient.
+     *
+     * @param patientId The ID of the patient.
+     * @return A list of confirmed or pending Appointment objects.
+     * @throws IOException if an error occurs while reading the file.
+     */
 	public List<Appointment> getConfirmedOrPendingAppointmentsByDoctorId(String patientId) throws IOException {
 	    List<Appointment> filteredAppointments = new ArrayList<>();
 	    List<Appointment> allAppointments = loadAllAppointments();
@@ -180,7 +226,13 @@ public class AppointmentRepository {
 	    return filteredAppointments;
 	}
 	
-	
+	/**
+     * Removes an appointment by its ID.
+     *
+     * @param appointmentId The ID of the appointment to remove.
+     * @return true if the appointment was removed, false otherwise.
+     * @throws IOException if an error occurs while writing to the file.
+     */
 	public boolean removeAppointmentById(String appointmentId) throws IOException {
 	    List<Appointment> allAppointments = loadAllAppointments();
 	    boolean removed = allAppointments.removeIf(appointment -> appointment.getAppointmentId().equalsIgnoreCase(appointmentId));
