@@ -332,13 +332,10 @@ public class AdministratorView implements MenuInterface {
                                 }
                                 break;
                             case 3:
-                                System.out.println("Medicine to be restocked: ");
-                                String medicine = scanner.next();
+                                System.out.println("Request ID to be approved: ");
+                                int requestID = scanner.nextInt();
 
-                                System.out.println("Quantity to be increased by: ");
-                                int quantity = scanner.nextInt();
-
-                                adminControl.replenishStock(medicine, quantity);
+                                adminControl.replenishStock(requestID);
                                 System.out.println("Approving replenishment request...");
                                 break;
 

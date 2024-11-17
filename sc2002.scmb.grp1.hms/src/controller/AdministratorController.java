@@ -35,8 +35,10 @@ public class AdministratorController {
         inventoryController.removeMedicine(medicine);
     }
 
-    public void replenishStock(String medicine, int amount) throws IOException {
-        inventoryController.replenishInventory(medicine, amount);
+    public void replenishStock(int requestID) throws IOException {
+        ReplenishmentRequests request = requestRepository.getRequestById(requestID);
+        inventoryController.replenishInventory(request.getMedicationName(), request.getQuantity());
+        requestRepository.updateRequestStatus(requestID, "Completed");
     }
 
     public void changeAlert(String medicine, int amount) throws IOException {
@@ -58,25 +60,49 @@ public class AdministratorController {
     public void displayStaffList(List<User> staffList) {
         if (staffList.isEmpty()) {
             System.out.println("No staff members found for the selected filter.");
-        } else {
-            for (User user : staffList) {
-                System.out.print("ID: " + user.getUserId() +
-                        ", Name: " + user.getName() +
-                        ", Role: " + user.getRole() +
-                        ", Gender: " + user.getGender() +
-                        ", Age: " + user.getAge());
-
-                // Check if the user is an Administrator to display additional fields
-                if (user instanceof Administrator) {
-                    Administrator admin = (Administrator) user;
-                    System.out.print(", Staff Email: " + admin.getStaffEmail() +
-                            ", Staff Contact: " + admin.getStaffContact());
-                }
-
-                System.out.println(); // Move to the next line for each user
+            return;
+        }
+    
+        // Define column widths for each field
+        int idWidth = 6;
+        int nameWidth = 10;
+        int roleWidth = 15;
+        int genderWidth = 8;
+        int ageWidth = 4;
+        int emailWidth = 25;
+        int contactWidth = 12;
+        int specializationWidth = 15;
+    
+        // Print table header
+        System.out.printf("%-" + idWidth + "s %-"+ nameWidth +"s %-"+ roleWidth +"s %-"+ genderWidth +"s %-"+ ageWidth +"s %-"+ emailWidth +"s %-"+ contactWidth +"s %-"+ specializationWidth +"s%n",
+                "ID", "Name", "Role", "Gender", "Age", "Email", "Contact", "Specialization");
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+    
+        // Print each user's information in the table format
+        for (User user : staffList) {
+            String specialization = "-"; // Default for non-doctors
+    
+            // Check if the user is an Administrator, Doctor, or Pharmacist, and get appropriate fields
+            if (user instanceof Administrator) {
+                Administrator admin = (Administrator) user;
+                System.out.printf("%-" + idWidth + "s %-"+ nameWidth +"s %-"+ roleWidth +"s %-"+ genderWidth +"s %-"+ ageWidth +"s %-"+ emailWidth +"s %-"+ contactWidth +"s %-"+ specializationWidth +"s%n",
+                        admin.getUserId(), admin.getName(), admin.getRole(), admin.getGender(), admin.getAge(),
+                        admin.getStaffEmail(), admin.getStaffContact(), specialization);
+            } else if (user instanceof Doctor) {
+                Doctor doctor = (Doctor) user;
+                specialization = doctor.getSpecialization(); // Get specialization for doctors
+                System.out.printf("%-" + idWidth + "s %-"+ nameWidth +"s %-"+ roleWidth +"s %-"+ genderWidth +"s %-"+ ageWidth +"s %-"+ emailWidth +"s %-"+ contactWidth +"s %-"+ specializationWidth +"s%n",
+                        doctor.getUserId(), doctor.getName(), doctor.getRole(), doctor.getGender(), doctor.getAge(),
+                        doctor.getStaffEmail(), doctor.getStaffContact(), specialization);
+            } else if (user instanceof Pharmacist) {
+                Pharmacist pharmacist = (Pharmacist) user;
+                System.out.printf("%-" + idWidth + "s %-"+ nameWidth +"s %-"+ roleWidth +"s %-"+ genderWidth +"s %-"+ ageWidth +"s %-"+ emailWidth +"s %-"+ contactWidth +"s %-"+ specializationWidth +"s%n",
+                        pharmacist.getUserId(), pharmacist.getName(), pharmacist.getRole(), pharmacist.getGender(), pharmacist.getAge(),
+                        pharmacist.getStaffEmail(), pharmacist.getStaffContact(), specialization);
             }
         }
     }
+    
 
     public List<User> viewStaff(String filter) throws IOException {
         List<Administrator> administrators = administratorRepository.loadAdministrators();

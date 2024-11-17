@@ -107,4 +107,75 @@ public class ReplenishmentRequestRepository {
 
         return pending;
     }
+
+    public ReplenishmentRequests getRequestById(int requestId) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_REPLENISHMENT_REQUESTS))) {
+            String line;
+            reader.readLine(); // Skip the header row if there is one
+
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(",");
+
+                if (fields.length == 4) { // Ensure all fields are present
+                    try {
+                        int currentRequestId = Integer.parseInt(fields[0]); // Parse ID as int
+                        if (currentRequestId == requestId) {
+                            String medicationName = fields[1];
+                            int quantity = Integer.parseInt(fields[2]); // Parse quantity as int
+                            String status = fields[3].trim();
+
+                            // Return the matching request
+                            return new ReplenishmentRequests(currentRequestId, medicationName, quantity, status);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.err.println("Error parsing row: " + line);
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Replenishment requests file not found.");
+            return null; // Return null if the file does not exist
+        } catch (IOException e) {
+            throw new IOException("Error reading replenishment requests: " + e.getMessage(), e);
+        }
+
+        // Return null if no matching request was found
+        return null;
+    }
+
+    public void updateRequestStatus(int requestId, String newStatus) throws IOException {
+        List<ReplenishmentRequests> allRequests = loadAllRequests(); // Load all requests
+    
+        // Find and update the status of the matching request
+        for (ReplenishmentRequests request : allRequests) {
+            if (request.getRequestId() == requestId) {
+                // Update the status of the found request
+                request = new ReplenishmentRequests(
+                    request.getRequestId(),
+                    request.getMedicationName(),
+                    request.getQuantity(),
+                    newStatus
+                );
+                break; // Exit loop after finding and updating the request
+            }
+        }
+    
+        // Overwrite the CSV file with the updated list of requests
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_REPLENISHMENT_REQUESTS))) {
+            // Write the header row
+            writer.write("RequestId,MedicationName,Quantity,Status\n");
+    
+            // Write all requests back to the file, including the updated status
+            for (ReplenishmentRequests request : allRequests) {
+                writer.write(request.getRequestId() + "," +
+                             request.getMedicationName() + "," +
+                             request.getQuantity() + "," +
+                             request.getStatus() + "\n");
+            }
+        } catch (IOException e) {
+            throw new IOException("Error updating request status: " + e.getMessage(), e);
+        }
+    
+        System.out.println("Request ID " + requestId + " status updated to " + newStatus);
+    }
 }
