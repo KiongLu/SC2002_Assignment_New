@@ -39,8 +39,25 @@ public class AdministratorView implements MenuInterface {
 
             switch (choice) {
                 case 1:
-                    System.out.println("Viewing and managing hospital staff...");
-                    // Implement functionality here
+                    System.out.println();
+                    System.out.println("+------------------------------------------------+");
+                    System.out.println("|         View and Manage Hospital Staff         |");
+                    System.out.println("+------------------------------------------------+");
+                    System.out.println("| 1. View Staff                                  |");
+                    System.out.println("| 2. Add Staff                                   |");
+                    System.out.println("| 3. Remove Staff                                |");
+                    System.out.println("| 4. Update Staff                                |");
+                    System.out.println("| 5. Return to Admin Menu                        |");
+                    System.out.println("+------------------------------------------------+");
+                    System.out.println();
+
+                    int staffChoice = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    while (staffChoice != 5){
+                        
+                    }
+
                     break;
                 case 2:
 
@@ -51,7 +68,7 @@ public class AdministratorView implements MenuInterface {
                     System.out.println("| 1. View Appointments                           |");
                     System.out.println("| 2. View Confirmed Appointments                 |");
                     System.out.println("| 3. View Appointment Outcome Records            |");
-                    System.out.println("| 4. Return to Admin Menue                       |");
+                    System.out.println("| 4. Return to Admin Menu                        |");
                     System.out.println("+------------------------------------------------+");
                     System.out.println();
 
