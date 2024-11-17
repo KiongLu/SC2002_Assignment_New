@@ -152,8 +152,10 @@ private final LoginController logincontroller = new LoginController();
                     SecurityQuestionsController securityQuestions = new SecurityQuestionsController();
                     haveQuestions = securityQuestions.checkHaveQuestions(hospitalID);
                     if(haveQuestions == false){
-                        System.out.println("Sorry, you did not set your security questions");
-                        System.out.println("Please contact an administrator for help");
+                        System.out.println("+------------------------------------------------+");
+                        System.out.println("| Sorry, you did not set your security questions |");
+                        System.out.println("| Please contact an administrator for help       |");
+                        System.out.println("+------------------------------------------------+");
                         break;
                     }
                     else{
@@ -169,7 +171,9 @@ private final LoginController logincontroller = new LoginController();
                             } while (newPassword.equals("Password"));
                             PasswordController passwordController = new PasswordController();
                             if(passwordController.changePassword(hospitalID, newPassword)){
-                                System.out.println("Password sucessfully changed");
+                                System.out.println("+-------------------------------------+");
+                                System.out.println("|     Password successfully changed   |");
+                                System.out.println("+-------------------------------------+");
                             
                             }
                             else{
@@ -180,8 +184,10 @@ private final LoginController logincontroller = new LoginController();
                             
                         }
                         else{
-                            System.out.println("Sorry, you have entered the wrong answers to your security questions");
-                            System.out.println("Please contact an administrator for help");
+                            System.out.println("+------------------------------------------------+");
+                            System.out.println("| Sorry, you did not set your security questions |");
+                            System.out.println("| Please contact an administrator for help       |");
+                            System.out.println("+------------------------------------------------+");
                             break;
                         }
 
