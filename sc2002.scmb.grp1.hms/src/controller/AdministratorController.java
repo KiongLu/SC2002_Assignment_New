@@ -158,4 +158,65 @@ public class AdministratorController {
         return filtered;
 
     }
+
+    public void addAdmin(String userid, 
+    String name, 
+    String role, 
+    String password, 
+    String gender, 
+    String age, 
+    String staffemail, 
+    String staffcontact) throws IOException
+    {
+        Administrator newAdmin = new Administrator(userid, 
+        name, 
+        role, 
+        password, 
+        gender, 
+        age, 
+        staffemail, 
+        staffcontact);
+
+        administratorRepository.writeAdmin(newAdmin);
+    }
+
+    public void removeAdmin() throws IOException
+    {
+
+    }
+
+    public void addDoctor(String userid, 
+    String name, 
+    String role, 
+    String password, 
+    String gender, 
+    String age, 
+    String specialization, 
+    String staffemail, 
+    String staffcontact) throws IOException
+    {
+
+    }
+
+    public void removeDoctor() throws IOException
+    {
+        
+    }
+
+    public void addPharmacist(String userid, 
+    String name, 
+    String Role, 
+    String password, 
+    String gender, 
+    String age, 
+    String staffemail,
+    String staffcontact) throws IOException
+    {
+
+    }
+
+    public void removePharmacist() throws IOException
+    {
+        
+    }
 }

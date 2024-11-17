@@ -183,5 +183,29 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         br.close();
         return administrators;
     }
+
+    public void writeAdmin(Administrator newAdmin) throws IOException
+    {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_ADMINISTRATOR, true))) {
+            // Convert the Administrator object to a CSV line
+            String csvLine = String.join(",",
+                    newAdmin.getUserId(),      // Assuming getUserId() returns the administrator's user ID
+                    newAdmin.getName(),        // Assuming getName() returns the administrator's name
+                    newAdmin.getRole(),        // Assuming getRole() returns the administrator's role
+                    newAdmin.getPassword(),    // Assuming getPassword() returns the administrator's password
+                    newAdmin.getGender(),      // Assuming getGender() returns the administrator's gender
+                    newAdmin.getAge(),         // Assuming getAge() returns the administrator's age as a String
+                    newAdmin.getStaffEmail(),  // Assuming getStaffEmail() returns the administrator's email
+                    newAdmin.getStaffContact() // Assuming getStaffContact() returns the administrator's contact number
+            );
+    
+            // Write the new administrator's CSV line to the file and add a newline
+            writer.write(csvLine);
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Error writing to the file: " + e.getMessage());
+            throw e;  // Re-throw exception to indicate failure
+        }
+    }
     
 }

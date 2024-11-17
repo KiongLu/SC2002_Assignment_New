@@ -95,6 +95,26 @@ public class AdministratorView implements MenuInterface {
                                 }
                                 break;
                             case 2:
+                                System.out.println("Choose staff role (Admin/Doctor/Pharmacist)");
+                                String roleChoice = scanner.next();
+                                scanner.nextLine(); // Consume newline
+
+                                if (roleChoice == "Admin"){
+                                    System.out.println("Please enter user ID: ");
+                                    String userID = scanner.next();
+                                    System.out.println("Please enter user name: ");
+                                    String userName = scanner.next();
+                                    System.out.println("Please enter user gender: ");
+                                    String userGender = scanner.next();
+                                    System.out.println("Please enter user age: ");
+                                    String userAge = scanner.next();
+                                    System.out.println("Please enter user email: ");
+                                    String userEmail = scanner.next();
+                                    System.out.println("Please enter user contact: ");
+                                    String userContact = scanner.next();
+
+                                    adminControl.addAdmin(userID, userName, roleChoice, userName, userGender, userAge, userEmail, userContact);
+                                }
                                 break;
                             case 3:
                                 break;
