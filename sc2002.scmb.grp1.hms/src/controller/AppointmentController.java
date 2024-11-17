@@ -275,4 +275,10 @@ public class AppointmentController {
         // Return false if no matching appointment is found or status is not confirmed
         return false;
     }
+
+    public List<Appointment> viewAppointments() throws IOException
+    {
+        List<Appointment> allAppointments = appointmentRepository.loadAllAppointments();
+        return allAppointments;
+    }
 }

@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import entity.Administrator;
 import entity.MedicationInventory;
+import entity.Appointment;
 import entity.ReplenishmentRequests;
 import repository.AdministratorRepository;
 import controller.MedicationInventoryController;
@@ -47,5 +48,10 @@ public class AdministratorController {
     public List<ReplenishmentRequests> viewRequests() throws IOException
     {
         return requestRepository.pendingRequests();
+    }
+
+    public List<Appointment> appointmentList() throws IOException
+    {
+        return appointmentController.viewAppointments();
     }
 }
