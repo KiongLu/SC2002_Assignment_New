@@ -13,19 +13,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PharmacistRepository implements ValidationInterface, checkHaveQuestionsInterface, PasswordChangerInterface, ChangeSecurityQuestionInterface {
+public class PharmacistRepository implements ValidationInterface, checkHaveQuestionsInterface, PasswordChangerInterface,
+        ChangeSecurityQuestionInterface {
 
     private static final String FILE_PATH_PHARMACISTS = "sc2002.scmb.grp1.hms//resource//Pharmacist.csv";
 
-    
     // create pharmacist object using csv
     private Pharmacist createPharmacistFromCSV(String[] parts) {
         // Create a Pharmacist using the CSV parts in the exact order of columns
         return new Pharmacist(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7]);
     }
 
-    //Validate Password
-	public User validateCredentials(String id, String password) {
+    // Validate Password
+    public User validateCredentials(String id, String password) {
         PasswordController pc = new PasswordController();
         String df = "Password";
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
@@ -33,10 +33,9 @@ public class PharmacistRepository implements ValidationInterface, checkHaveQuest
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if(parts[0].equals(id) && parts[3].equals(df) && parts[3].equals(password)){
+                if (parts[0].equals(id) && parts[3].equals(df) && parts[3].equals(password)) {
                     return createPharmacistFromCSV(parts);
-                }
-                else if (parts[0].equals(id) && parts[3].equals(pc.hashPassword(password))) { // UserID and Password
+                } else if (parts[0].equals(id) && parts[3].equals(pc.hashPassword(password))) { // UserID and Password
                     return createPharmacistFromCSV(parts);
                 }
             }
@@ -44,7 +43,8 @@ public class PharmacistRepository implements ValidationInterface, checkHaveQuest
             e.printStackTrace();
         }
         return null;
-	}
+    }
+
     public boolean checkHaveQuestions(String hospitalID) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
             reader.readLine(); // Skip header
@@ -92,10 +92,11 @@ public class PharmacistRepository implements ValidationInterface, checkHaveQuest
         }
         return false;
     }
+
     public boolean changePassword(String hospitalID, String newHashedPassword) {
         List<String[]> allRecords = new ArrayList<>();
         boolean passwordUpdated = false;
-    
+
         // Load all records from the file
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
             String line;
@@ -111,7 +112,7 @@ public class PharmacistRepository implements ValidationInterface, checkHaveQuest
             System.err.println("Error reading the file: " + e.getMessage());
             return false; // Indicate failure
         }
-    
+
         // Rewrite the file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PHARMACISTS))) {
             for (String[] record : allRecords) {
@@ -122,66 +123,116 @@ public class PharmacistRepository implements ValidationInterface, checkHaveQuest
             System.err.println("Error writing to the file: " + e.getMessage());
             return false; // Indicate failure
         }
-    
+
         return passwordUpdated;
     }
+
     public boolean changeSecurityQuestion(String hospitalID, String question, String answer) {
-    List<String[]> allRecords = new ArrayList<>();
-    boolean questionUpdated = false;
+        List<String[]> allRecords = new ArrayList<>();
+        boolean questionUpdated = false;
 
-    // Load all records from the file
-    try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] parts = line.split(",");
+        // Load all records from the file
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
 
-            // Check if the record matches the hospitalID
-            if (parts[0].equals(hospitalID)) {
-                // Ensure the CSV has enough columns for Question and Answer
-                if (parts.length <= 8) {
-                    // Add blank placeholders if Question and Answer columns are missing
-                    parts = Arrays.copyOf(parts, 10);
-                    parts[8] = ""; // Question placeholder
-                    parts[9] = ""; // Answer placeholder
+                // Check if the record matches the hospitalID
+                if (parts[0].equals(hospitalID)) {
+                    // Ensure the CSV has enough columns for Question and Answer
+                    if (parts.length <= 8) {
+                        // Add blank placeholders if Question and Answer columns are missing
+                        parts = Arrays.copyOf(parts, 10);
+                        parts[8] = ""; // Question placeholder
+                        parts[9] = ""; // Answer placeholder
+                    }
+                    // Update Question and Answer
+                    parts[8] = question;
+                    parts[9] = answer;
+                    questionUpdated = true;
                 }
-                // Update Question and Answer
-                parts[8] = question;
-                parts[9] = answer;
-                questionUpdated = true;
+                allRecords.add(parts); // Add the record to the list
             }
-            allRecords.add(parts); // Add the record to the list
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+            return false; // Indicate failure
         }
-    } catch (IOException e) {
-        System.err.println("Error reading the file: " + e.getMessage());
-        return false; // Indicate failure
+
+        // Rewrite the file with updated records
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PHARMACISTS))) {
+            for (String[] record : allRecords) {
+                writer.write(String.join(",", record));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing to the file: " + e.getMessage());
+            return false; // Indicate failure
+        }
+
+        return questionUpdated; // Return true if the question was updated
     }
 
-    // Rewrite the file with updated records
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PHARMACISTS))) {
-        for (String[] record : allRecords) {
-            writer.write(String.join(",", record));
-            writer.newLine();
-        }
-    } catch (IOException e) {
-        System.err.println("Error writing to the file: " + e.getMessage());
-        return false; // Indicate failure
-    }
-
-    return questionUpdated; // Return true if the question was updated
-}
-
-
-    public List<Pharmacist> loadPharmacists() throws IOException
-    {
+    public List<Pharmacist> loadPharmacists() throws IOException {
         List<Pharmacist> pharmacists = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS));
         String line;
         while ((line = br.readLine()) != null) {
             String[] data = line.split(",");
-            
+
             pharmacists.add(createPharmacistFromCSV(data));
         }
         br.close();
         return pharmacists;
     }
+
+    // Find a pharmacist by their UserID
+    public Pharmacist findPharmacistById(String pharmacistId) throws IOException {
+        List<Pharmacist> pharmacists = loadPharmacists();
+        // Search for the pharmacist with the given ID
+        return pharmacists.stream()
+                .filter(pharmacist -> pharmacist.getUserId().equals(pharmacistId))
+                .findFirst()
+                .orElse(null); // Return null if no pharmacist is found
+    }
+
+    public boolean updatePharmacist(Pharmacist updatedPharmacist) throws IOException {
+        List<String[]> allRecords = new ArrayList<>();
+        boolean isUpdated = false;
+    
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
+            String line;
+            boolean firstLine = true;
+    
+            // Read the CSV file line by line
+            while ((line = reader.readLine()) != null) {
+                if (firstLine) {
+                    allRecords.add(line.split(","));
+                    firstLine = false;
+                    continue;
+                }
+    
+                String[] parts = line.split(",");
+                // Check if this line corresponds to the pharmacist we want to update
+                if (parts[0].equals(updatedPharmacist.getUserId())) {
+                    parts[6] = updatedPharmacist.getStaffEmail(); // Update email
+                    parts[7] = updatedPharmacist.getStaffContact(); // Update phone number
+                    isUpdated = true;
+                }
+                allRecords.add(parts);
+            }
+        }
+    
+        // If we made an update, rewrite the CSV
+        if (isUpdated) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PHARMACISTS))) {
+                for (String[] record : allRecords) {
+                    writer.write(String.join(",", record));
+                    writer.newLine();
+                }
+            }
+        }
+    
+        return isUpdated;
+    }
+    
 }
