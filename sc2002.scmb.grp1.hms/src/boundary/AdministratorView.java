@@ -384,7 +384,6 @@ public class AdministratorView implements MenuInterface {
                                 int requestID = scanner.nextInt();
 
                                 adminControl.replenishStock(requestID);
-                                System.out.println("Approving replenishment request...");
                                 break;
 
                             case 4:

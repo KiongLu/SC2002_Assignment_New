@@ -38,8 +38,13 @@ public class AdministratorController {
 
     public void replenishStock(int requestID) throws IOException {
         ReplenishmentRequests request = requestRepository.getRequestById(requestID);
+        if (request == null){
+            System.out.println("Invalid request ID");
+            return;
+        }
         inventoryController.replenishInventory(request.getMedicationName(), request.getQuantity());
         requestRepository.updateRequestStatus(requestID, "Completed");
+        System.out.println("Approving replenishment request...");
     }
 
     public void changeAlert(String medicine, int amount) throws IOException {
