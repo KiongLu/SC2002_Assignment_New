@@ -235,7 +235,6 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
                 writer.write(csvLine);
                 writer.newLine();
             }
-            System.out.println("Administrator with ID " + adminID + " removed (if existed).");
         } catch (IOException e) {
             System.err.println("Error writing to the file: " + e.getMessage());
             throw e; // Rethrow the exception for further handling if necessary

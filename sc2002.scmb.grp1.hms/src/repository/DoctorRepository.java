@@ -245,7 +245,6 @@ public void removeDoctorById(String doctorID) throws IOException {
             writer.write(csvLine);
             writer.newLine();
         }
-        System.out.println("Doctor with ID " + doctorID + " removed (if existed).");
     } catch (IOException e) {
         System.err.println("Error writing to the file: " + e.getMessage());
         throw e;
