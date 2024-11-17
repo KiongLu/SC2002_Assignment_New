@@ -58,8 +58,6 @@ public class AdministratorView implements MenuInterface {
 
                     while (staffChoice != 5) {
                         switch (staffChoice) {
-                    while (staffChoice != 5) {
-                        switch (staffChoice) {
                             case 1:
                                 System.out.println();
                                 System.out.println("+------------------------------------------------+");
