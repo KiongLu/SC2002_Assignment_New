@@ -15,11 +15,26 @@ import entity.MedicationInventory;
 import entity.ReplenishmentRequests;
 import entity.Appointment;
 
+/**
+ * The AdministratorView class provides the user interface for administrators
+ * in the Hospital Management System. It allows administrators to manage
+ * hospital staff, appointments, medication inventory, and security questions.
+ * This class implements the MenuInterface.
+ */
+
 public class AdministratorView implements MenuInterface {
     private final Scanner scanner = new Scanner(System.in);
     private final AdministratorController adminControl = new AdministratorController();
     private final AppointmentController appControl = new AppointmentController();
     private final AppointmentOutcomeController outcomeControl = new AppointmentOutcomeController();
+
+    /**
+     * Displays the main menu for administrators and handles user input.
+     * Administrators can view/manage staff, appointments, inventory, and set security questions.
+     * 
+     * @param user The User object representing the logged-in administrator.
+     * @throws IOException if there is an error in I/O operations.
+     */
 
     public void Menu(User user) throws IOException {
         while (true) {
@@ -56,6 +71,10 @@ public class AdministratorView implements MenuInterface {
                     int staffChoice = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
 
+                    /**
+                     * Processes staff management options including viewing, adding,
+                     * removing, and updating staff members.
+                     */
                     while (staffChoice != 5) {
                         switch (staffChoice) {
                             case 1:

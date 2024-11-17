@@ -6,6 +6,11 @@ import java.util.Scanner;
 import controller.*;
 import entity.User;
 
+/**
+ * The PatientView class handles the user interface for patients.
+ * It allows patients to view and manage medical records, schedule appointments,
+ * update personal information, and handle payments.
+ */
 public class PatientView implements MenuInterface {
     private final Scanner scanner = new Scanner(System.in);
     private final MedicalRecordController medicalrecordcontroller = new MedicalRecordController();
@@ -14,6 +19,11 @@ public class PatientView implements MenuInterface {
     private final AppointmentOutcomeController outcomecontroller = new AppointmentOutcomeController();
     private final PatientController patientcontroller = new PatientController();
 
+    /**
+     * Displays the Patient Menu and processes user input for various patient-related actions.
+     *
+     * @param user The logged-in patient user.
+     */
     public void Menu(User user) {
         while (true) {
             System.out.println();
@@ -131,6 +141,12 @@ public class PatientView implements MenuInterface {
         }
     }
 
+    /**
+     * Handles rescheduling of appointments for a patient.
+     *
+     * @param user The logged-in patient user.
+     * @throws IOException if an error occurs during I/O operations.
+     */
     private void handleRescheduleAppointments(User user) throws IOException {
         //List confirmed or pending appointments for the user
         try {
@@ -195,6 +211,12 @@ public class PatientView implements MenuInterface {
         System.out.println();
     }
 
+    /**
+     * Handles cancellation of appointments for a patient.
+     *
+     * @param user The logged-in patient user.
+     * @throws IOException if an error occurs during I/O operations.
+     */
     private void handleCancelAppointments(User user) throws IOException {
         // List confirmed or pending appointments for the user
         try {

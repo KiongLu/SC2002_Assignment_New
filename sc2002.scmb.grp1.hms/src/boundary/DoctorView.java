@@ -7,6 +7,12 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The DoctorView class handles the user interface for doctors.
+ * It allows doctors to view and update patient medical records, manage appointments,
+ * set availability, and handle appointment outcomes.
+ */
+
 public class DoctorView implements MenuInterface{
 	private final Scanner scanner = new Scanner(System.in);
 	private final MedicalRecordController medicalrecordcontroller = new MedicalRecordController();
@@ -14,6 +20,12 @@ public class DoctorView implements MenuInterface{
 	private final AppointmentController appointmentcontroller = new AppointmentController();
 	private final AppointmentOutcomeController outcomecontroller = new AppointmentOutcomeController();
 	private final MedicationInventoryController medicationinventorycontroller = new MedicationInventoryController();
+	
+	/**
+     * Displays the main menu for doctors and processes user input.
+     *
+     * @param user The logged-in doctor user.
+     */
 	public void Menu(User user) {
         while (true) {
         	System.out.println();
@@ -108,6 +120,12 @@ public class DoctorView implements MenuInterface{
 		
         }
     }
+	
+	/**
+     * Handles options for managing medical records.
+     *
+     * @param user The logged-in doctor user.
+     */
 	private void handleMedicalRecordOptions(User user) {
 		while (true) {
 			System.out.println();
@@ -148,7 +166,11 @@ public class DoctorView implements MenuInterface{
 		}
 	}
 
-
+	/**
+     * Handles appointment requests for doctors to accept or decline.
+     *
+     * @param user The logged-in doctor user.
+     */
 	private void handleAppointmnetRequestOptions(User user) {
 		while (true) {
 			try {
@@ -211,7 +233,9 @@ public class DoctorView implements MenuInterface{
 		}
 	}
 
-
+	/**
+     * Creates an appointment outcome for a confirmed appointment.
+     */
 	public void createAppointmentOutcomeForValidAppointment() {
 		
 		boolean valid = false;

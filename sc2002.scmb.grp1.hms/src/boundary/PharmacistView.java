@@ -14,12 +14,24 @@ import entity.MedicationInventory;
 import repository.MedicationInventoryRepository;
 import repository.ReplenishmentRequestRepository;
 
+
+/**
+ * The PharmacistView class provides the user interface for pharmacists.
+ * It allows pharmacists to manage appointment outcomes, update prescriptions,
+ * view medication inventory, and handle replenishment requests.
+ */
 public class PharmacistView implements MenuInterface {
 	private final Scanner scanner = new Scanner(System.in);
     private final AppointmentOutcomeController outcomecontroller = new AppointmentOutcomeController();
     private final MedicationInventoryRepository inventoryRepository = new MedicationInventoryRepository();
     private final ReplenishmentRequestRepository replenishmentRequestRepository = new ReplenishmentRequestRepository();
     private final PharmacistController pharmacistController =  new PharmacistController(inventoryRepository, replenishmentRequestRepository);// Create an instance
+    
+    /**
+     * Displays the Pharmacist Menu and processes user input.
+     *
+     * @param user The logged-in pharmacist user.
+     */
     public void Menu(User user) {
         while (true) {
             System.out.println();
@@ -108,6 +120,11 @@ public class PharmacistView implements MenuInterface {
         }
     }
 
+    /**
+     * Displays pending appointment outcomes and updates prescription status.
+     *
+     * @throws IOException if an error occurs during I/O operations.
+     */
     private void displayAndUpdatePendingOutcomes() throws IOException {
         System.out.println("+------------------------------------------------+");
         System.out.println("|       Pending Prescription Updates             |");
@@ -129,10 +146,19 @@ public class PharmacistView implements MenuInterface {
         System.out.println("+------------------------------------------------+\n");
     }
 
+    /**
+     * Retrieves and returns the list of all medication inventory items.
+     *
+     * @return A list of MedicationInventory items.
+     * @throws IOException if an error occurs during I/O operations.
+     */
     public List<MedicationInventory> getAllInventory() throws IOException {
         return inventoryRepository.loadAllMedications();
     }
 
+    /**
+     * Displays the current medication inventory with stock levels.
+     */
     private void viewMedicationInventory() {
         System.out.println("+------------------------------------------------+");
         System.out.println("|               Medication Inventory             |");
@@ -165,7 +191,9 @@ public class PharmacistView implements MenuInterface {
         }
     }
 
-
+    /**
+     * Submits a replenishment request for a specified medication.
+     */
     private void submitReplenishmentRequest() {
         System.out.println("+------------------------------------------------+");
         System.out.println("|           Submit Replenishment Request         |");
