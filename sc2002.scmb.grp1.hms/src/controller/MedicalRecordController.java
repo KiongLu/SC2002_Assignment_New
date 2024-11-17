@@ -119,6 +119,7 @@ public class MedicalRecordController {
      * @throws IOException if an error occurs while accessing the repository
      */
     public void createMedicalRecord(String doctorID) throws IOException {
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         String recordId = generateNextRecordId();
 
@@ -152,6 +153,7 @@ public class MedicalRecordController {
      */
     public void updateMedicalRecord(String doctorID) throws IOException {
         loadMedicalRecordsForDoctor(doctorID);
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter Record ID to update: ");
