@@ -16,7 +16,7 @@ public class RepositoryController {
 
     /**
      * Returns the repository associated with a specified user role.
-     * <p>
+     * 
      * Role codes:
      * <ul>
      *     <li>"D" - returns a {@link DoctorRepository}</li>
@@ -24,7 +24,7 @@ public class RepositoryController {
      *     <li>"PH" - returns a {@link PharmacistRepository}</li>
      *     <li>"A" - returns an {@link AdministratorRepository}</li>
      * </ul>
-     * </p>
+     * 
      *
      * @param role a {@code String} representing the role code for the desired repository
      * @return the corresponding repository object, or {@code null} if the role code is unrecognized

@@ -222,7 +222,6 @@ public class DoctorRepository implements ValidationInterface, checkHaveQuestions
      * @param answer     The answer to the security question.
      * @return True if the security question was successfully updated, otherwise
      *         false.
-     * @throws IOException if an error occurs while reading or writing the file.
      */
     public boolean changeSecurityQuestion(String hospitalID, String question, String answer) {
         List<String[]> allRecords = new ArrayList<>();

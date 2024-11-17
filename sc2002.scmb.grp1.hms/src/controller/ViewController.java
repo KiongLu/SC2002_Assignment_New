@@ -16,7 +16,7 @@ public class ViewController {
 
     /**
      * Returns the appropriate view object based on the specified role.
-     * <p>
+     * 
      * Role codes:
      * <ul>
      *     <li>"D" - returns a {@link DoctorView}</li>
@@ -24,7 +24,7 @@ public class ViewController {
      *     <li>"PH" - returns a {@link PharmacistView}</li>
      *     <li>"A" - returns an {@link AdministratorView}</li>
      * </ul>
-     * </p>
+     * 
      *
      * @param role a {@code String} representing the role code for the view
      * @return the corresponding view object, or {@code null} if the role code is unrecognized
