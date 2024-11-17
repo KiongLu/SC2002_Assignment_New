@@ -10,18 +10,34 @@ public class Administrator extends User {
         this.staffemail = staffemail;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getStaffEmail() {
         return staffemail;
     }
-    
+
+    /**
+     *
+     * @param staffemail
+     */
     public void setStaffEmail(String staffemail) {
         this.staffemail = staffemail;
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public String getStaffContact() {
         return staffcontact;
     }
-    
+
+    /**
+     *
+     * @param staffcontact
+     */
     public void setStaffContact(String staffcontact) {
         this.staffcontact = staffcontact;
     }
