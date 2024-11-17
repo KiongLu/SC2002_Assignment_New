@@ -200,21 +200,6 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService {
 
 
     @Override
-    public void updatePrescriptionStatus(String outcomeId) throws IOException {
-        // Retrieve the appointment outcome by ID
-        AppointmentOutcome outcome = outcomeRepository.getAppointmentOutcomeById(outcomeId);
-
-        if (outcome == null) {
-            System.out.println("No appointment outcome found with ID: " + outcomeId);
-            return;
-        }
-
-        outcome.setMedicationStatus("Dispensed");
-
-        outcomeRepository.updateAppointmentOutcome(outcome);
-    }
-
-    @Override
     public void changePrescriptionStatusToDispensed(String outcomeId) throws IOException {
         List<AppointmentOutcome> allOutcomes = outcomeRepository.loadAllAppointmentOutcomes();
 

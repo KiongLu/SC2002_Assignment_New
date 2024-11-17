@@ -18,9 +18,6 @@ public interface AppointmentOutcomeService {
     void displayPendingAppointmentOutcomes() throws IOException;
 
 
-    void updatePrescriptionStatus(String outcomeId) throws IOException;
-
-
     void changePrescriptionStatusToDispensed(String outcomeId) throws IOException;
 
     String isValidMedication(String medicationName) throws IOException;
