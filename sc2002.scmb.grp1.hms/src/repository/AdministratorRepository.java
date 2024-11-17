@@ -174,18 +174,23 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
 
     public List<Administrator> loadAdministrators() throws IOException {
         List<Administrator> administrators = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR));
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] data = line.split(",");
-
-            administrators.add(createAdministratorFromCSV(data));
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR))) {
+            br.readLine(); // Skip header row
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 8) { // Ensure minimum required fields
+                    administrators.add(createAdministratorFromCSV(data));
+                } else {
+                    System.err.println("Skipped invalid line: " + line);
+                }
+            }
         }
-        br.close();
         return administrators;
     }
-
-    public void writeAdmin(Administrator newAdmin) throws IOException {
+    
+    public void writeAdmin(Administrator newAdmin) throws IOException
+    {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_ADMINISTRATOR, true))) {
             // Convert the Administrator object to a CSV line
             String csvLine = String.join(",",
@@ -207,6 +212,37 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
             throw e; // Re-throw exception to indicate failure
         }
     }
+
+    public void removeAdministratorById(String adminID) throws IOException {
+        List<Administrator> administrators = loadAdministrators(); // Load all administrators
+    
+        // Remove the administrator with the specified ID
+        administrators.removeIf(admin -> admin.getUserId().equals(adminID));
+    
+        // Rewrite the CSV file with the updated list of administrators
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_ADMINISTRATOR))) {
+            writer.write("UserID,Name,Role,Password,Gender,Age,StaffEmail,StaffContact,Question,Answer\n"); // Header
+            for (Administrator admin : administrators) {
+                String csvLine = String.join(",",
+                        admin.getUserId(),
+                        admin.getName(),
+                        admin.getRole(),
+                        admin.getPassword(),
+                        admin.getGender(),
+                        admin.getAge(),
+                        admin.getStaffEmail(),
+                        admin.getStaffContact()
+                );
+                writer.write(csvLine);
+                writer.newLine();
+            }
+            System.out.println("Administrator with ID " + adminID + " removed (if existed).");
+        } catch (IOException e) {
+            System.err.println("Error writing to the file: " + e.getMessage());
+            throw e; // Rethrow the exception for further handling if necessary
+        }
+    }
+    
 
     // Find an administrator by their UserID
     public Administrator findAdminById(String adminId) throws IOException {

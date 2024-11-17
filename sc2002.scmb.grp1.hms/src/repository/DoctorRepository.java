@@ -47,14 +47,18 @@ public class DoctorRepository implements ValidationInterface, checkHaveQuestions
 
     public List<Doctor> loadDoctors() throws IOException {
         List<Doctor> doctors = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_DOCTORS));
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] data = line.split(",");
-
-            doctors.add(createDoctorFromCSV(data));
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_DOCTORS))) {
+            br.readLine(); // Skip header row
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 9) { // Ensure minimum required fields to avoid errors
+                    doctors.add(createDoctorFromCSV(data));
+                } else {
+                    System.err.println("Skipped invalid line: " + line);
+                }
+            }
         }
-        br.close();
         return doctors;
     }
 
@@ -195,6 +199,58 @@ public class DoctorRepository implements ValidationInterface, checkHaveQuestions
         return questionUpdated; // Return true if the question was updated
     }
 
+public void writeDoctor(Doctor newDoctor) throws IOException {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_DOCTORS, true))) {
+        String csvLine = String.join(",",
+                newDoctor.getUserId(),
+                newDoctor.getName(),
+                newDoctor.getRole(),
+                newDoctor.getPassword(),
+                newDoctor.getGender(),
+                newDoctor.getAge(),
+                newDoctor.getSpecialization(),
+                newDoctor.getStaffEmail(),
+                newDoctor.getStaffContact()
+        );
+        writer.write(csvLine);
+        writer.newLine();
+    } catch (IOException e) {
+        System.err.println("Error writing to the file: " + e.getMessage());
+        throw e;
+    }
+}
+
+// Remove a doctor by their ID
+public void removeDoctorById(String doctorID) throws IOException {
+    List<Doctor> doctors = loadDoctors(); // Load all doctors
+
+    // Remove the doctor with the specified ID
+    doctors.removeIf(doctor -> doctor.getUserId().equals(doctorID));
+
+    // Rewrite the CSV file with the updated list of doctors
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_DOCTORS))) {
+        writer.write("UserID,Name,Role,Password,Gender,Age,Specialization,StaffEmail,StaffContact\n"); // Header
+        for (Doctor doctor : doctors) {
+            String csvLine = String.join(",",
+                    doctor.getUserId(),
+                    doctor.getName(),
+                    doctor.getRole(),
+                    doctor.getPassword(),
+                    doctor.getGender(),
+                    doctor.getAge(),
+                    doctor.getSpecialization(),
+                    doctor.getStaffEmail(),
+                    doctor.getStaffContact()
+            );
+            writer.write(csvLine);
+            writer.newLine();
+        }
+        System.out.println("Doctor with ID " + doctorID + " removed (if existed).");
+    } catch (IOException e) {
+        System.err.println("Error writing to the file: " + e.getMessage());
+        throw e;
+    }
+}
     public boolean updateDoctor(Doctor updatedDoctor) throws IOException {
         List<String[]> allRecords = new ArrayList<>();
         boolean isUpdated = false;

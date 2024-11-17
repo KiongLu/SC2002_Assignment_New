@@ -56,6 +56,29 @@ public class AdministratorController {
         return appointmentController.viewAppointments();
     }
 
+    public void displayStaffList(List<User> staffList) {
+        if (staffList.isEmpty()) {
+            System.out.println("No staff members found for the selected filter.");
+        } else {
+            for (User user : staffList) {
+                System.out.print("ID: " + user.getUserId() +
+                        ", Name: " + user.getName() +
+                        ", Role: " + user.getRole() +
+                        ", Gender: " + user.getGender() +
+                        ", Age: " + user.getAge());
+
+                // Check if the user is an Administrator to display additional fields
+                if (user instanceof Administrator) {
+                    Administrator admin = (Administrator) user;
+                    System.out.print(", Staff Email: " + admin.getStaffEmail() +
+                            ", Staff Contact: " + admin.getStaffContact());
+                }
+
+                System.out.println(); // Move to the next line for each user
+            }
+        }
+    }
+
     public List<User> viewStaff(String filter) throws IOException {
         List<Administrator> administrators = administratorRepository.loadAdministrators();
         List<Doctor> doctors = doctorRepository.loadDoctors();
@@ -106,47 +129,52 @@ public class AdministratorController {
                     }
                 }
                 break;
-            case "20 - 30":
+            case "20":
                 for (User user : combined) {
-                    try {
-                        int age = Integer.parseInt(user.getAge());
-                        if (age >= 20 && age <= 30) {
+                    String ageString = user.getAge().trim(); // Remove any leading/trailing whitespace
+
+                    // Check if age is numeric before parsing
+                    if (ageString.matches("\\d+")) { // Ensures the age string is fully numeric
+                        int age = Integer.parseInt(ageString);
+                        if (age >= 20 && age < 30) {
                             filtered.add(user);
                         }
-                    } catch (NumberFormatException e) {
-                        System.err.println("Invalid age format for user: " + user);
                     }
+                    // If age is not numeric, skip to the next user
                 }
                 break;
-            case "30 - 40":
+
+            case "30":
                 for (User user : combined) {
-                    try {
-                        int age = Integer.parseInt(user.getAge());
-                        if (age >= 30 && age <= 40) {
+                    String ageString = user.getAge().trim();
+
+                    if (ageString.matches("\\d+")) {
+                        int age = Integer.parseInt(ageString);
+                        if (age >= 30 && age < 40) {
                             filtered.add(user);
                         }
-                    } catch (NumberFormatException e) {
-                        System.err.println("Invalid age format for user: " + user);
                     }
+                    // Skip if age is not numeric
                 }
                 break;
-            case "40 - 50":
+
+            case "40":
                 for (User user : combined) {
-                    try {
-                        int age = Integer.parseInt(user.getAge());
+                    String ageString = user.getAge().trim();
+
+                    if (ageString.matches("\\d+")) {
+                        int age = Integer.parseInt(ageString);
                         if (age >= 40 && age <= 50) {
                             filtered.add(user);
                         }
-                    } catch (NumberFormatException e) {
-                        System.err.println("Invalid age format for user: " + user);
                     }
+                    // Skip if age is not numeric
                 }
                 break;
             default:
                 System.err.println("Unrecognized filter: " + filter + ". Returning all staff.");
                 return combined; // Default to returning the full list
         }
-
         return filtered;
 
     }
@@ -171,8 +199,8 @@ public class AdministratorController {
         administratorRepository.writeAdmin(newAdmin);
     }
 
-    public void removeAdmin() throws IOException {
-
+    public void removeAdmin(String userID) throws IOException {
+        administratorRepository.removeAdministratorById(userID);
     }
 
     public void addDoctor(String userid,
@@ -185,25 +213,47 @@ public class AdministratorController {
             String staffemail,
             String staffcontact) throws IOException {
 
+        Doctor newDoctor = new Doctor(userid,
+                name,
+                role,
+                password,
+                gender,
+                age,
+                specialization,
+                staffemail,
+                staffcontact);
+        doctorRepository.writeDoctor(newDoctor);
+        return;
     }
 
-    public void removeDoctor() throws IOException {
+    public void removeDoctor(String userID) throws IOException {
+        doctorRepository.removeDoctorById(userID);
+        return;
+    }
 
+    public void removePharmacist(String userID) throws IOException {
+        pharmacistRepository.removePharmacistById(userID);
+        return;
     }
 
     public void addPharmacist(String userid,
             String name,
-            String Role,
+            String role,
             String password,
             String gender,
             String age,
             String staffemail,
             String staffcontact) throws IOException {
-
-    }
-
-    public void removePharmacist() throws IOException {
-
+        Pharmacist newPharmacist = new Pharmacist(userid,
+                name,
+                role,
+                password,
+                gender,
+                age,
+                staffemail,
+                staffcontact);
+        pharmacistRepository.writePharmacist(newPharmacist);
+        return;
     }
 
     public void updateStaffInfo(String role, String staffId) throws IOException {
