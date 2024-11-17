@@ -8,6 +8,7 @@ import entity.Administrator;
 import entity.Pharmacist;
 import entity.Doctor;
 import entity.MedicationInventory;
+import entity.Patient;
 import entity.Appointment;
 import entity.ReplenishmentRequests;
 import controller.MedicationInventoryController;
@@ -256,6 +257,11 @@ public class AdministratorController {
         return;
     }
 
+    public void removePharmacist(String userID) throws IOException {
+        pharmacistRepository.removePharmacistById(userID);
+        return;
+    }
+
     public void addPharmacist(String userid,
             String name,
             String role,
@@ -276,8 +282,76 @@ public class AdministratorController {
         return;
     }
 
-    public void removePharmacist(String userID) throws IOException {
-        pharmacistRepository.removePharmacistById(userID);
-        return;
+    public void updateStaffInfo(String role, String staffId) throws IOException {
+        User staff = null;
+
+        // Retrieve the appropriate user based on their role
+        if (role.equalsIgnoreCase("Admin")) {
+            staff = administratorRepository.findAdminById(staffId);
+        } else if (role.equalsIgnoreCase("Doctor")) {
+            staff = doctorRepository.findDoctorById(staffId);
+        } else if (role.equalsIgnoreCase("Pharmacist")) {
+            staff = pharmacistRepository.findPharmacistById(staffId);
+        }
+
+        if (staff == null) {
+            System.out.println("Staff member not found!");
+            return;
+        }
+
+        // Display current contact information based on the type of user
+        if (staff instanceof Administrator) {
+            System.out.println("Current Email: " + ((Administrator) staff).getStaffEmail());
+            System.out.println("Current Phone Number: " + ((Administrator) staff).getStaffContact());
+        } else if (staff instanceof Doctor) {
+            System.out.println("Current Email: " + ((Doctor) staff).getStaffEmail());
+            System.out.println("Current Phone Number: " + ((Doctor) staff).getStaffContact());
+        } else if (staff instanceof Pharmacist) {
+            System.out.println("Current Email: " + ((Pharmacist) staff).getStaffEmail());
+            System.out.println("Current Phone Number: " + ((Pharmacist) staff).getStaffContact());
+        }
+
+        System.out.print("Enter new email (leave blank to keep current): ");
+        String newEmail = scanner.nextLine();
+
+        if (!newEmail.isEmpty()) {
+            if (staff instanceof Administrator) {
+                ((Administrator) staff).setStaffEmail(newEmail);
+            } else if (staff instanceof Doctor) {
+                ((Doctor) staff).setStaffEmail(newEmail);
+            } else if (staff instanceof Pharmacist) {
+                ((Pharmacist) staff).setStaffEmail(newEmail);
+            }
+        }
+
+        System.out.print("Enter new phone number (leave blank to keep current): ");
+        String newPhoneNumber = scanner.nextLine();
+
+        if (!newPhoneNumber.isEmpty()) {
+            if (staff instanceof Administrator) {
+                ((Administrator) staff).setStaffContact(newPhoneNumber);
+            } else if (staff instanceof Doctor) {
+                ((Doctor) staff).setStaffContact(newPhoneNumber);
+            } else if (staff instanceof Pharmacist) {
+                ((Pharmacist) staff).setStaffContact(newPhoneNumber);
+            }
+        }
+
+        // Save the updated information
+        boolean success = false;
+        if (role.equalsIgnoreCase("Admin")) {
+            success = administratorRepository.updateAdministrator((Administrator) staff);
+        } else if (role.equalsIgnoreCase("Doctor")) {
+            success = doctorRepository.updateDoctor((Doctor) staff);
+        } else if (role.equalsIgnoreCase("Pharmacist")) {
+            success = pharmacistRepository.updatePharmacist((Pharmacist) staff);
+        }
+
+        if (success) {
+            System.out.println("Contact information updated successfully.");
+        } else {
+            System.out.println("Failed to update contact information.");
+        }
     }
+
 }

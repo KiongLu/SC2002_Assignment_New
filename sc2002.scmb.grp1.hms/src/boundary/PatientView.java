@@ -29,7 +29,7 @@ public class PatientView implements MenuInterface {
             System.out.println("| 7. View Scheduled Appointments            |");
             System.out.println("| 8. View Past Appointment Outcome Records  |");
             System.out.println("| 9. Make Outstanding Payments              |");
-            System.out.println("| 10. Set Security Questions for Recovery    |");
+            System.out.println("| 10. Set Security Questions for Recovery   |");
             System.out.println("| 11. Logout                                |");
             System.out.println("+-------------------------------------------+");
             System.out.print("Select an option: ");

@@ -24,6 +24,7 @@ public class AdministratorView implements MenuInterface {
     public void Menu(User user) throws IOException {
         while (true) {
             System.out.println();
+            System.out.println();
             System.out.println("+------------------------------------------------+");
             System.out.println("|               Administrator Menu               |");
             System.out.println("+------------------------------------------------+");
@@ -202,7 +203,14 @@ public class AdministratorView implements MenuInterface {
                                 }
                                 break;
                             case 4:
-                                System.out.println("Updating staff...");
+                                System.out.println("Choose staff role to update (Admin/Doctor/Pharmacist): ");
+                                String updateRole = scanner.nextLine();
+
+                                System.out.println("Enter the User ID of the staff member to update: ");
+                                String updateStaffId = scanner.nextLine();
+
+                                adminControl.updateStaffInfo(updateRole, updateStaffId);
+
                                 break;
                             case 5:
                                 System.out.println("Returning...");
