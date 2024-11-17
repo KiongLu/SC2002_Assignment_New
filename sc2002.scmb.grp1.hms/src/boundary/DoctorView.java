@@ -213,9 +213,12 @@ public class DoctorView implements MenuInterface{
 
 
 	public void createAppointmentOutcomeForValidAppointment() {
+		
 		boolean valid = false;
 		String apptID = "";
-		String medicationName = "";
+		//String medicationName = "";
+		
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 
 		while (!valid) {
@@ -258,5 +261,6 @@ public class DoctorView implements MenuInterface{
 				valid = true;
 			}
 		}
-	}
+		}
+	
 }

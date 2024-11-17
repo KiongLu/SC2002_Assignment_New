@@ -2,12 +2,8 @@ package controller;
 
 import entity.Doctor;
 import repository.DoctorRepository;
-import repository.MedicalRecordRepository;
-import repository.AvailabilityRepository;
-import entity.MedicalRecord;
-import entity.*;
 import java.io.IOException;
-import java.util.List;
+
 
 /**
  * Manages doctor-related operations.

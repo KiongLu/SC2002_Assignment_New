@@ -114,6 +114,7 @@ public void loadMedicalRecordsForDoctor(String doctorID) throws IOException {
 
 	// create new medical record
 	public void createMedicalRecord(String doctorID) throws IOException {
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 
 		String recordId = generateNextRecordId();
@@ -151,6 +152,7 @@ public void loadMedicalRecordsForDoctor(String doctorID) throws IOException {
 	public void updateMedicalRecord(String doctorID) throws IOException {
 		// Load all medical records for the doctor
 		loadMedicalRecordsForDoctor(doctorID);
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 
 		System.out.print("Enter Record ID to update: ");

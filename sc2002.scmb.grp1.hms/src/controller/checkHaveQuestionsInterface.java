@@ -1,6 +1,5 @@
 package controller;
 
-import entity.User;
 
 public interface checkHaveQuestionsInterface {
 

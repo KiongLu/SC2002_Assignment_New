@@ -8,7 +8,7 @@ import util.CSVUtil;
 
 public class AppointmentOutcomeRepository {
     private static final String FILE_PATH_APPOINTMENT_OUTCOME = "sc2002.scmb.grp1.hms//resource//AppointmentOutcome.csv";
-    private static final CSVUtil csvutil = new CSVUtil();
+    // private static final CSVUtil csvutil = new CSVUtil();
 
     public List<AppointmentOutcome> loadAllAppointmentOutcomes() throws IOException {
         List<AppointmentOutcome> appointmentOutcomes = new ArrayList<>();

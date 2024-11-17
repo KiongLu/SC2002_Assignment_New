@@ -14,6 +14,7 @@ public class PaymentController {
     private static final String FILE_PATH_PAYMENT = "sc2002.scmb.grp1.hms/resource/Payment.csv";
     
     public boolean pay(String hospitalID){
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
     System.out.println("Please enter your credit card number:");
     String creditCardNumber = scanner.nextLine().trim();

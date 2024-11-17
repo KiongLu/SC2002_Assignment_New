@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class MedicalRecordRepository {
 	private static final String FILE_PATH_MEDICALRECORD = "sc2002.scmb.grp1.hms//resource//MedicalRecord.csv";
-	private static final CSVUtil csvutil = new CSVUtil(); 
+	// private static final CSVUtil csvutil = new CSVUtil(); 
 	
 	// Load all medical records from the CSV file
     public List<MedicalRecord> loadMedicalRecords() throws IOException {
@@ -60,7 +60,7 @@ public class MedicalRecordRepository {
             
             writer.flush();
         }
-        csvutil.removeEmptyRows(FILE_PATH_MEDICALRECORD);
+        CSVUtil.removeEmptyRows(FILE_PATH_MEDICALRECORD);
     }
 
  // Get the last recordId from the existing records

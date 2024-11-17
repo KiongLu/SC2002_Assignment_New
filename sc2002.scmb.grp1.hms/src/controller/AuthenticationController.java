@@ -1,11 +1,11 @@
 package controller;
 
-import entity.User;
+
 //import boundary.*;
 //import repository.*;
-import util.PasswordUtil;
 
-import java.io.IOException;
+
+
 import java.util.Scanner;
 
 public class AuthenticationController {
@@ -107,6 +107,7 @@ private final LoginController logincontroller = new LoginController();
             //System.out.println("3. Pharmacist");
             //System.out.println("4. Administrator");
             //System.out.println("5. Exit");
+            @SuppressWarnings("resource")
             Scanner scanner = new Scanner(System.in);
             int choice = -1;
             boolean validInput = false;
@@ -124,10 +125,10 @@ private final LoginController logincontroller = new LoginController();
                 }
             }
 
-            boolean loginSuccessful = false;
+           
             switch(choice){
                 case 1:
-                    //TODO login gui
+                    
                     System.out.println("");
                     System.out.println("Please enter your credentials");
 
@@ -140,11 +141,11 @@ private final LoginController logincontroller = new LoginController();
                     System.out.println("+------------------------------+");
                     // Attempting login message outside the box
                     System.out.println("\nAttempting login with provided credentials...");
-                    loginSuccessful = logincontroller.login(hospitalID, password);
+                    logincontroller.login(hospitalID, password);
                     break;
 
                 case 2:
-                    //TODO forget password
+                    
                     boolean haveQuestions = false;
                     boolean answer = false;
                     System.out.println("Please enter your Hospital ID");

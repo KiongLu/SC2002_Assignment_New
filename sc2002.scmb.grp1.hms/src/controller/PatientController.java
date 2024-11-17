@@ -1,11 +1,7 @@
 package controller;
 
 import entity.Patient;
-import entity.Appointment;
 import repository.PatientRepository;
-import repository.AppointmentRepository;
-import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
 import java.io.IOException;
 
