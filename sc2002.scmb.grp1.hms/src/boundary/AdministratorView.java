@@ -126,7 +126,7 @@ public class AdministratorView implements MenuInterface {
                                 String roleChoice = scanner.next();
                                 scanner.nextLine(); // Consume newline
 
-                                if (roleChoice == "Admin") {
+                                if (roleChoice.equals("Admin")) {
                                     System.out.println("Please enter user ID: ");
                                     String userID = scanner.next();
                                     System.out.println("Please enter user name: ");
@@ -139,13 +139,67 @@ public class AdministratorView implements MenuInterface {
                                     String userEmail = scanner.next();
                                     System.out.println("Please enter user contact: ");
                                     String userContact = scanner.next();
-
-                                    adminControl.addAdmin(userID, userName, roleChoice, userName, userGender, userAge,
-                                            userEmail, userContact);
+                                
+                                    adminControl.addAdmin(userID, userName, roleChoice, userName, userGender, userAge, userEmail, userContact);
+                                } else if (roleChoice.equals("Doctor")) {
+                                    System.out.println("Please enter user ID: ");
+                                    String userID = scanner.next();
+                                    System.out.println("Please enter user name: ");
+                                    String userName = scanner.next();
+                                    System.out.println("Please enter user gender: ");
+                                    String userGender = scanner.next();
+                                    System.out.println("Please enter user age: ");
+                                    String userAge = scanner.next();
+                                    System.out.println("Please enter user specialization: ");
+                                    String specialization = scanner.next();
+                                    System.out.println("Please enter user email: ");
+                                    String userEmail = scanner.next();
+                                    System.out.println("Please enter user contact: ");
+                                    String userContact = scanner.next();
+                                
+                                    adminControl.addDoctor(userID, userName, roleChoice, userName, userGender, userAge, specialization, userEmail, userContact);
+                                } else if (roleChoice.equals("Pharmacist")) {
+                                    System.out.println("Please enter user ID: ");
+                                    String userID = scanner.next();
+                                    System.out.println("Please enter user name: ");
+                                    String userName = scanner.next();
+                                    System.out.println("Please enter user gender: ");
+                                    String userGender = scanner.next();
+                                    System.out.println("Please enter user age: ");
+                                    String userAge = scanner.next();
+                                    System.out.println("Please enter user email: ");
+                                    String userEmail = scanner.next();
+                                    System.out.println("Please enter user contact: ");
+                                    String userContact = scanner.next();
+                                
+                                    adminControl.addPharmacist(userID, userName, roleChoice, userName, userGender, userAge, userEmail, userContact);
+                                } else {
+                                    System.out.println("Invalid role choice. Please enter a valid role (Admin/Doctor/Pharmacist).");
                                 }
                                 break;
                             case 3:
-                                System.out.println("Removing staff...");
+                                System.out.println("Choose staff role (Admin/Doctor/Pharmacist)");
+                                roleChoice = scanner.next();
+                                scanner.nextLine(); // Consume newline
+
+                                if (roleChoice.equals("Admin")) {
+                                    System.out.println("Please enter the user ID of the Admin to remove: ");
+                                    String userID = scanner.next();
+                                    adminControl.removeAdmin(userID);
+                                    System.out.println("Admin with ID " + userID + " has been removed.");
+                                } else if (roleChoice.equals("Doctor")) {
+                                    System.out.println("Please enter the user ID of the Doctor to remove: ");
+                                    String userID = scanner.next();
+                                    adminControl.removeDoctor(userID);
+                                    System.out.println("Doctor with ID " + userID + " has been removed.");
+                                } else if (roleChoice.equals("Pharmacist")) {
+                                    System.out.println("Please enter the user ID of the Pharmacist to remove: ");
+                                    String userID = scanner.next();
+                                    adminControl.removePharmacist(userID);
+                                    System.out.println("Pharmacist with ID " + userID + " has been removed.");
+                                } else {
+                                    System.out.println("Invalid role choice. Please enter a valid role (Admin/Doctor/Pharmacist).");
+                                }
                                 break;
                             case 4:
                                 System.out.println("Updating staff...");

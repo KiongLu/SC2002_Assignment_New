@@ -199,7 +199,7 @@ public class AdministratorController {
     }
 
     public void removeAdmin(String userID) throws IOException {
-        return;
+        administratorRepository.removeAdministratorById(userID);
     }
 
     public void addDoctor(String userid,
@@ -211,25 +211,47 @@ public class AdministratorController {
             String specialization,
             String staffemail,
             String staffcontact) throws IOException {
+
+        Doctor newDoctor = new Doctor(userid,
+                name,
+                role,
+                password,
+                gender,
+                age,
+                specialization,
+                staffemail,
+                staffcontact);
+        doctorRepository.writeDoctor(newDoctor);
         return;
     }
 
-    public void removeDoctor() throws IOException {
+    public void removeDoctor(String userID) throws IOException {
+        doctorRepository.removeDoctorById(userID);
         return;
     }
 
     public void addPharmacist(String userid,
             String name,
-            String Role,
+            String role,
             String password,
             String gender,
             String age,
             String staffemail,
             String staffcontact) throws IOException {
+        Pharmacist newPharmacist = new Pharmacist(userid,
+                name,
+                role,
+                password,
+                gender,
+                age,
+                staffemail,
+                staffcontact);
+        pharmacistRepository.writePharmacist(newPharmacist);
         return;
     }
 
-    public void removePharmacist() throws IOException {
+    public void removePharmacist(String userID) throws IOException {
+        pharmacistRepository.removePharmacistById(userID);
         return;
     }
 }

@@ -171,17 +171,72 @@ public class PharmacistRepository implements ValidationInterface, checkHaveQuest
 }
 
 
-    public List<Pharmacist> loadPharmacists() throws IOException
-    {
-        List<Pharmacist> pharmacists = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS));
+public List<Pharmacist> loadPharmacists() throws IOException {
+    List<Pharmacist> pharmacists = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS))) {
+        br.readLine(); // Skip header row
         String line;
         while ((line = br.readLine()) != null) {
             String[] data = line.split(",");
-            
-            pharmacists.add(createPharmacistFromCSV(data));
+            if (data.length >= 8) { // Ensure minimum required fields to avoid errors
+                pharmacists.add(createPharmacistFromCSV(data));
+            } else {
+                System.err.println("Skipped invalid line: " + line);
+            }
         }
-        br.close();
-        return pharmacists;
+    }
+    return pharmacists;
+}
+
+    public void writePharmacist(Pharmacist newPharmacist) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PHARMACISTS, true))) {
+            String csvLine = String.join(",",
+                    newPharmacist.getUserId(),
+                    newPharmacist.getName(),
+                    newPharmacist.getRole(),
+                    newPharmacist.getPassword(),
+                    newPharmacist.getGender(),
+                    newPharmacist.getAge(),
+                    newPharmacist.getStaffEmail(),
+                    newPharmacist.getStaffContact()
+            );
+            writer.write(csvLine);
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Error writing to the file: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    // Remove a pharmacist by their ID
+    public void removePharmacistById(String pharmacistID) throws IOException {
+        List<Pharmacist> pharmacists = loadPharmacists(); // Load all pharmacists
+
+        // Remove the pharmacist with the specified ID
+        pharmacists.removeIf(pharmacist -> pharmacist.getUserId().equals(pharmacistID));
+
+        // Rewrite the CSV file with the updated list of pharmacists
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_PHARMACISTS))) {
+            writer.write("UserID,Name,Role,Password,Gender,Age,StaffEmail,StaffContact\n"); // Header
+            for (Pharmacist pharmacist : pharmacists) {
+                String csvLine = String.join(",",
+                        pharmacist.getUserId(),
+                        pharmacist.getName(),
+                        pharmacist.getRole(),
+                        pharmacist.getPassword(),
+                        pharmacist.getGender(),
+                        pharmacist.getAge(),
+                        pharmacist.getStaffEmail(),
+                        pharmacist.getStaffContact()
+                );
+                writer.write(csvLine);
+                writer.newLine();
+            }
+            System.out.println("Pharmacist with ID " + pharmacistID + " removed (if existed).");
+        } catch (IOException e) {
+            System.err.println("Error writing to the file: " + e.getMessage());
+            throw e;
+        }
     }
 }
+
