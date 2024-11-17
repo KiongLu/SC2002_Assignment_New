@@ -95,7 +95,7 @@ public class AdministratorView implements MenuInterface {
                                             break;
                                         case 4:
                                             System.out.println(
-                                                    "Please choose staff age range to view (20 - 30/30 - 40/40 - 50) ");
+                                                    "Please choose staff age range to view (20/30/40) ");
                                             String age = scanner.next();
                                             view = adminControl.viewStaff(age);
                                             adminControl.displayStaffList(view);

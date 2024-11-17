@@ -27,38 +27,31 @@ public class AdministratorController {
     private MedicationInventoryController inventoryController = new MedicationInventoryController();
     private AppointmentController appointmentController = new AppointmentController();
 
-    public void addStock(String medicine, int amount, int level) throws IOException
-    {
+    public void addStock(String medicine, int amount, int level) throws IOException {
         inventoryController.addMedicine(medicine, amount, level);
     }
 
-    public void removeStock(String medicine) throws IOException
-    {
+    public void removeStock(String medicine) throws IOException {
         inventoryController.removeMedicine(medicine);
     }
 
-    public void replenishStock(String medicine, int amount) throws IOException
-    {
+    public void replenishStock(String medicine, int amount) throws IOException {
         inventoryController.replenishInventory(medicine, amount);
     }
 
-    public void changeAlert(String medicine, int amount) throws IOException
-    {
+    public void changeAlert(String medicine, int amount) throws IOException {
         inventoryController.updateAlert(medicine, amount);
     }
 
-    public List<MedicationInventory> viewInventory() throws IOException
-    {
+    public List<MedicationInventory> viewInventory() throws IOException {
         return inventoryController.inventory();
     }
 
-    public List<ReplenishmentRequests> viewRequests() throws IOException
-    {
+    public List<ReplenishmentRequests> viewRequests() throws IOException {
         return requestRepository.pendingRequests();
     }
 
-    public List<Appointment> appointmentList() throws IOException
-    {
+    public List<Appointment> appointmentList() throws IOException {
         return appointmentController.viewAppointments();
     }
 
@@ -68,25 +61,24 @@ public class AdministratorController {
         } else {
             for (User user : staffList) {
                 System.out.print("ID: " + user.getUserId() +
-                                 ", Name: " + user.getName() +
-                                 ", Role: " + user.getRole() +
-                                 ", Gender: " + user.getGender() +
-                                 ", Age: " + user.getAge());
-    
+                        ", Name: " + user.getName() +
+                        ", Role: " + user.getRole() +
+                        ", Gender: " + user.getGender() +
+                        ", Age: " + user.getAge());
+
                 // Check if the user is an Administrator to display additional fields
                 if (user instanceof Administrator) {
                     Administrator admin = (Administrator) user;
                     System.out.print(", Staff Email: " + admin.getStaffEmail() +
-                                     ", Staff Contact: " + admin.getStaffContact());
+                            ", Staff Contact: " + admin.getStaffContact());
                 }
-                
+
                 System.out.println(); // Move to the next line for each user
             }
         }
     }
-    
-    public List<User> viewStaff(String filter) throws IOException
-    {
+
+    public List<User> viewStaff(String filter) throws IOException {
         List<Administrator> administrators = administratorRepository.loadAdministrators();
         List<Doctor> doctors = doctorRepository.loadDoctors();
         List<Pharmacist> pharmacists = pharmacistRepository.loadPharmacists();
@@ -98,14 +90,13 @@ public class AdministratorController {
         combined.addAll(doctors);
         combined.addAll(pharmacists);
 
-        switch(filter)
-        {
+        switch (filter) {
             case "All":
                 return combined;
             case "Doctor":
                 for (User user : combined) {
-                if (user instanceof Doctor) {
-                    filtered.add(user);
+                    if (user instanceof Doctor) {
+                        filtered.add(user);
                     }
                 }
                 break;
@@ -113,15 +104,15 @@ public class AdministratorController {
                 for (User user : combined) {
                     if (user instanceof Pharmacist) {
                         filtered.add(user);
-                        }
                     }
+                }
                 break;
             case "Admin":
                 for (User user : combined) {
                     if (user instanceof Administrator) {
                         filtered.add(user);
-                        }
                     }
+                }
                 break;
             case "Male":
                 for (User user : combined) {
@@ -137,108 +128,108 @@ public class AdministratorController {
                     }
                 }
                 break;
-            case "20 - 30":
+            case "20":
                 for (User user : combined) {
-                    try {
-                        int age = Integer.parseInt(user.getAge());
-                        if (age >= 20 && age <= 30) {
+                    String ageString = user.getAge().trim(); // Remove any leading/trailing whitespace
+
+                    // Check if age is numeric before parsing
+                    if (ageString.matches("\\d+")) { // Ensures the age string is fully numeric
+                        int age = Integer.parseInt(ageString);
+                        if (age >= 20 && age < 30) {
                             filtered.add(user);
                         }
-                    } catch (NumberFormatException e) {
-                        System.err.println("Invalid age format for user: " + user);
                     }
+                    // If age is not numeric, skip to the next user
                 }
                 break;
-            case "30 - 40":
+
+            case "30":
                 for (User user : combined) {
-                    try {
-                        int age = Integer.parseInt(user.getAge());
-                        if (age >= 30 && age <= 40) {
+                    String ageString = user.getAge().trim();
+
+                    if (ageString.matches("\\d+")) {
+                        int age = Integer.parseInt(ageString);
+                        if (age >= 30 && age < 40) {
                             filtered.add(user);
                         }
-                    } catch (NumberFormatException e) {
-                        System.err.println("Invalid age format for user: " + user);
                     }
+                    // Skip if age is not numeric
                 }
                 break;
-            case "40 - 50":
+
+            case "40":
                 for (User user : combined) {
-                    try {
-                        int age = Integer.parseInt(user.getAge());
+                    String ageString = user.getAge().trim();
+
+                    if (ageString.matches("\\d+")) {
+                        int age = Integer.parseInt(ageString);
                         if (age >= 40 && age <= 50) {
                             filtered.add(user);
                         }
-                    } catch (NumberFormatException e) {
-                        System.err.println("Invalid age format for user: " + user);
                     }
+                    // Skip if age is not numeric
                 }
                 break;
             default:
                 System.err.println("Unrecognized filter: " + filter + ". Returning all staff.");
-                return combined;  // Default to returning the full list
+                return combined; // Default to returning the full list
         }
         return filtered;
 
     }
 
-    public void addAdmin(String userid, 
-    String name, 
-    String role, 
-    String password, 
-    String gender, 
-    String age, 
-    String staffemail, 
-    String staffcontact) throws IOException
-    {
-        Administrator newAdmin = new Administrator(userid, 
-        name, 
-        role, 
-        password, 
-        gender, 
-        age, 
-        staffemail, 
-        staffcontact);
+    public void addAdmin(String userid,
+            String name,
+            String role,
+            String password,
+            String gender,
+            String age,
+            String staffemail,
+            String staffcontact) throws IOException {
+        Administrator newAdmin = new Administrator(userid,
+                name,
+                role,
+                password,
+                gender,
+                age,
+                staffemail,
+                staffcontact);
 
         administratorRepository.writeAdmin(newAdmin);
     }
 
-    public void removeAdmin(String userID) throws IOException
-    {
-      return;  
-    }
-
-    public void addDoctor(String userid, 
-    String name, 
-    String role, 
-    String password, 
-    String gender, 
-    String age, 
-    String specialization, 
-    String staffemail, 
-    String staffcontact) throws IOException
-    {
+    public void removeAdmin(String userID) throws IOException {
         return;
     }
 
-    public void removeDoctor() throws IOException
-    {
+    public void addDoctor(String userid,
+            String name,
+            String role,
+            String password,
+            String gender,
+            String age,
+            String specialization,
+            String staffemail,
+            String staffcontact) throws IOException {
         return;
     }
 
-    public void addPharmacist(String userid, 
-    String name, 
-    String Role, 
-    String password, 
-    String gender, 
-    String age, 
-    String staffemail,
-    String staffcontact) throws IOException
-    {
+    public void removeDoctor() throws IOException {
         return;
     }
 
-    public void removePharmacist() throws IOException
-    {
+    public void addPharmacist(String userid,
+            String name,
+            String Role,
+            String password,
+            String gender,
+            String age,
+            String staffemail,
+            String staffcontact) throws IOException {
+        return;
+    }
+
+    public void removePharmacist() throws IOException {
         return;
     }
 }
