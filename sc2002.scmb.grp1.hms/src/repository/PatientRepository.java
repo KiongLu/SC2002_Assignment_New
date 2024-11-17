@@ -1,10 +1,10 @@
 package repository;
 
-import entity.Doctor;
+
 import entity.Patient;
-import entity.Pharmacist;
+
 import entity.User;
-import util.PasswordUtil;
+
 
 import java.io.*;
 import java.util.ArrayList;

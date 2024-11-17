@@ -3,12 +3,11 @@ package repository;
 import java.io.*;
 import java.util.*;
 import entity.Availability;
-import entity.MedicalRecord;
 import util.CSVUtil;
 
 public class AvailabilityRepository {
     private static final String FILE_PATH_AVAILABILITY = "sc2002.scmb.grp1.hms//resource//Availability.csv";
-    private static final CSVUtil csvutil = new CSVUtil(); 
+    // private static final CSVUtil csvutil = new CSVUtil(); 
     
  // Method to load availability data from the CSV file
     public List<Availability> loadAllAvailabilities() throws IOException {

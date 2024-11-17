@@ -51,6 +51,7 @@ public class AvailabilityController {
 	
 	// Method to handle the creation of new availability
     public void createNewAvailability(String DoctorId) throws IOException {
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
 
         // Gather necessary details from user

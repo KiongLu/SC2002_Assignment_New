@@ -2,7 +2,6 @@ package controller;
 
 import entity.Appointment;
 import entity.AppointmentOutcome;
-import entity.Availability;
 import entity.MedicationInventory;
 import repository.AppointmentOutcomeRepository;
 import repository.AppointmentRepository;

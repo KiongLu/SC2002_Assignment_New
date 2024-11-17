@@ -1,8 +1,8 @@
 package controller;
 
-import entity.AppointmentOutcome;
+
 import java.io.IOException;
-import java.util.List;
+
 
 public interface AppointmentOutcomeService {
 

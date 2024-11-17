@@ -5,7 +5,6 @@ import controller.PasswordChangerInterface;
 import controller.PasswordController;
 import controller.ValidationInterface;
 import controller.checkHaveQuestionsInterface;
-import entity.Doctor;
 import entity.Pharmacist;
 import entity.User;
 
@@ -13,7 +12,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class PharmacistRepository implements ValidationInterface, checkHaveQuestionsInterface, PasswordChangerInterface, ChangeSecurityQuestionInterface {
 

@@ -85,7 +85,7 @@ public class PatientView implements MenuInterface {
                 try {
                     handleCancelAppointments(user);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
+                    
                     e.printStackTrace();
                 }
             }
@@ -94,7 +94,7 @@ public class PatientView implements MenuInterface {
                 try {
                     appointmentcontroller.listofScheduledAppointments(user.getUserId());
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
+                    
                     e.printStackTrace();
                 }
             }

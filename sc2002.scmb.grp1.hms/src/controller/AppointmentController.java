@@ -20,6 +20,7 @@ public class AppointmentController {
     private AvailabilityController availabilitycontroller = new AvailabilityController();
 
     public void createAppointment(String PatientID) throws IOException {
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
 
         while (true) {

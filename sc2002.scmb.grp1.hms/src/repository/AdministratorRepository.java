@@ -10,7 +10,6 @@ import entity.Pharmacist;
 import entity.User;
 
 import java.io.*;
-import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
