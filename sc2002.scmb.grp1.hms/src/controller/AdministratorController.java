@@ -17,6 +17,10 @@ import repository.AdministratorRepository;
 import repository.ReplenishmentRequestRepository;
 import repository.DoctorRepository;
 import repository.PharmacistRepository;
+/**
+ * Controller class for managing administrator-related operations.
+ * Handles inventory, staff, and replenishment request functionalities.
+ */
 
 @SuppressWarnings("unused")
 public class AdministratorController {
@@ -27,14 +31,33 @@ public class AdministratorController {
     private ReplenishmentRequestRepository requestRepository = new ReplenishmentRequestRepository();
     private MedicationInventoryController inventoryController = new MedicationInventoryController();
     private AppointmentController appointmentController = new AppointmentController();
-
+    /**
+     * Adds stock for a specific medicine.
+     *
+     * @param medicine the name of the medicine.
+     * @param amount the quantity to add.
+     * @param level the alert level for the medicine.
+     * @throws IOException if an I/O error occurs.
+     */
     public void addStock(String medicine, int amount, int level) throws IOException {
         inventoryController.addMedicine(medicine, amount, level);
     }
+    /**
+     * Removes a specific medicine from stock.
+     *
+     * @param medicine the name of the medicine to remove.
+     * @throws IOException if an I/O error occurs.
+     */
 
     public void removeStock(String medicine) throws IOException {
         inventoryController.removeMedicine(medicine);
     }
+     /**
+     * Approves a replenishment request by updating the inventory and marking the request as completed.
+     *
+     * @param requestID the ID of the replenishment request.
+     * @throws IOException if an I/O error occurs.
+     */
 
     public void replenishStock(int requestID) throws IOException {
         ReplenishmentRequests request = requestRepository.getRequestById(requestID);
@@ -46,23 +69,50 @@ public class AdministratorController {
         requestRepository.updateRequestStatus(requestID, "Completed");
         System.out.println("Approving replenishment request...");
     }
-
+    /**
+     * Changes the alert level for a specific medicine.
+     *
+     * @param medicine the name of the medicine.
+     * @param amount the new alert level.
+     * @throws IOException if an I/O error occurs.
+     */
     public void changeAlert(String medicine, int amount) throws IOException {
         inventoryController.updateAlert(medicine, amount);
     }
-
+     /**
+     * Retrieves a list of all medication inventory.
+     *
+     * @return a list of {@link MedicationInventory}.
+     * @throws IOException if an I/O error occurs.
+     */
     public List<MedicationInventory> viewInventory() throws IOException {
         return inventoryController.inventory();
     }
 
+    /**
+     * Retrieves a list of pending replenishment requests.
+     *
+     * @return a list of {@link ReplenishmentRequests}.
+     * @throws IOException if an I/O error occurs.
+     */
     public List<ReplenishmentRequests> viewRequests() throws IOException {
         return requestRepository.pendingRequests();
     }
 
+    /**
+     * Retrieves a list of all appointments.
+     *
+     * @return a list of {@link Appointment}.
+     * @throws IOException if an I/O error occurs.
+     */
     public List<Appointment> appointmentList() throws IOException {
         return appointmentController.viewAppointments();
     }
-
+    /**
+     * Displays a formatted table of staff information.
+     *
+     * @param staffList the list of staff members to display.
+     */
     public void displayStaffList(List<User> staffList) {
         if (staffList.isEmpty()) {
             System.out.println("No staff members found for the selected filter.");
@@ -109,7 +159,13 @@ public class AdministratorController {
         }
     }
     
-
+    /**
+ * Retrieves a list of staff based on a given filter.
+ *
+ * @param filter the criteria to filter staff members (e.g., "All", "Doctor", "Pharmacist", "Admin", "Male", "Female", "20", "30", "40").
+ * @return a filtered list of {@link User}.
+ * @throws IOException if an I/O error occurs.
+ */
     public List<User> viewStaff(String filter) throws IOException {
         List<Administrator> administrators = administratorRepository.loadAdministrators();
         List<Doctor> doctors = doctorRepository.loadDoctors();
@@ -209,7 +265,19 @@ public class AdministratorController {
         return filtered;
 
     }
-
+    /**
+ * Adds a new administrator to the system.
+ *
+ * @param userid the unique ID of the administrator.
+ * @param name the name of the administrator.
+ * @param role the role of the administrator.
+ * @param password the password for the administrator.
+ * @param gender the gender of the administrator.
+ * @param age the age of the administrator.
+ * @param staffemail the email of the administrator.
+ * @param staffcontact the contact number of the administrator.
+ * @throws IOException if an I/O error occurs.
+ */
     public void addAdmin(String userid,
             String name,
             String role,
@@ -229,7 +297,12 @@ public class AdministratorController {
 
         administratorRepository.writeAdmin(newAdmin);
     }
-
+/**
+ * Removes an administrator from the system by their user ID.
+ *
+ * @param userID the ID of the administrator to remove.
+ * @throws IOException if an I/O error occurs.
+ */
     public void removeAdmin(String userID) throws IOException {
         if (administratorRepository.hasAdministrator(userID)) {
             administratorRepository.removeAdministratorById(userID);
@@ -238,7 +311,20 @@ public class AdministratorController {
             System.out.println("Administrator with ID " + userID + " does not exist.");
         }
     }
-
+/**
+ * Adds a new doctor to the system.
+ *
+ * @param userid the unique ID of the doctor.
+ * @param name the name of the doctor.
+ * @param role the role of the doctor.
+ * @param password the password for the doctor.
+ * @param gender the gender of the doctor.
+ * @param age the age of the doctor.
+ * @param specialization the specialization of the doctor.
+ * @param staffemail the email of the doctor.
+ * @param staffcontact the contact number of the doctor.
+ * @throws IOException if an I/O error occurs.
+ */
     public void addDoctor(String userid,
             String name,
             String role,
@@ -261,6 +347,12 @@ public class AdministratorController {
         doctorRepository.writeDoctor(newDoctor);
         return;
     }
+    /**
+ * Removes a doctor from the system by their user ID.
+ *
+ * @param userID the ID of the doctor to remove.
+ * @throws IOException if an I/O error occurs.
+ */
 
     public void removeDoctor(String userID) throws IOException {
         if (doctorRepository.hasDoctor(userID)) {
@@ -270,6 +362,12 @@ public class AdministratorController {
             System.out.println("Doctor with ID " + userID + " does not exist.");
         }
     }
+    /**
+ * Removes a pharmacist from the system by their user ID.
+ *
+ * @param userID the ID of the pharmacist to remove.
+ * @throws IOException if an I/O error occurs.
+ */
 
     public void removePharmacist(String userID) throws IOException {
         if (pharmacistRepository.hasPharmacist(userID)) {
@@ -279,7 +377,19 @@ public class AdministratorController {
             System.out.println("Pharmacist with ID " + userID + " does not exist.");
         }
     }
-
+    /**
+ * Adds a new pharmacist to the system.
+ *
+ * @param userid the unique ID of the pharmacist.
+ * @param name the name of the pharmacist.
+ * @param role the role of the pharmacist.
+ * @param password the password for the pharmacist.
+ * @param gender the gender of the pharmacist.
+ * @param age the age of the pharmacist.
+ * @param staffemail the email of the pharmacist.
+ * @param staffcontact the contact number of the pharmacist.
+ * @throws IOException if an I/O error occurs.
+ */
     public void addPharmacist(String userid,
             String name,
             String role,
@@ -299,7 +409,13 @@ public class AdministratorController {
         pharmacistRepository.writePharmacist(newPharmacist);
         return;
     }
-
+/**
+ * Updates the contact information of a staff member based on their role and ID.
+ *
+ * @param role the role of the staff member (e.g., "Admin", "Doctor", "Pharmacist").
+ * @param staffId the ID of the staff member.
+ * @throws IOException if an I/O error occurs.
+ */
     public void updateStaffInfo(String role, String staffId) throws IOException {
         User staff = null;
 

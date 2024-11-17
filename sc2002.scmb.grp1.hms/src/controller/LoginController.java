@@ -3,8 +3,22 @@ package controller;
 import entity.User;
 import java.io.IOException;
 import java.util.Scanner;
+/**
+ * Controller class for managing user login functionality.
+ * Validates user credentials, handles password changes for new users, 
+ * and directs authenticated users to their respective menus.
+ */
 public class LoginController {
-
+ /**
+     * Logs in a user based on their hospital ID and password.
+     *
+     * The method validates the user's credentials using the appropriate repository,
+     * prompts new users with default passwords to change them, and navigates them to their role-specific menu.
+     *
+     * @param hospitalID the unique ID of the hospital user attempting to log in.
+     * @param password the password associated with the user's hospital ID.
+     * @return {@code true} if the login is successful, {@code false} otherwise.
+     */
     public boolean login(String hospitalID, String password){
         String role = extractPrefix(hospitalID);
         RepositoryController repositoryController = new RepositoryController();
@@ -99,7 +113,18 @@ public class LoginController {
 
 
 
-
+ /**
+     * Extracts the prefix from the hospital ID to determine the user's role.
+     *
+     * Prefixes are mapped as follows:
+     * - "PH" for Pharmacists.
+     * - "P" for Patients.
+     * - "A" for Administrators.
+     * - "D" for Doctors.
+     *
+     * @param hospitalId the hospital ID from which the prefix is extracted.
+     * @return the extracted prefix or {@code "NULL"} if no valid prefix is found.
+     */
     private static String extractPrefix(String hospitalId) {
         if (hospitalId.startsWith("PH")) {
             return "PH"; // Return "Ph" if the ID starts with "Ph"

@@ -70,7 +70,10 @@ public class AuthenticationController {
 //    }
 private final LoginController logincontroller = new LoginController();
 
-
+/**
+     * Starts the sign-in process, presenting users with login options and handling input.
+     * Provides options to login, reset forgotten passwords, or exit the system.
+     */
     public void startSignIn() {
         while (true) {
             //System.out.println("Welcome to the Hospital Management System");

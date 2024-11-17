@@ -9,12 +9,20 @@ import entity.Availability;
 import entity.Doctor;
 import repository.AvailabilityRepository;
 import repository.DoctorRepository;
-
+/**
+ * Controller class for managing doctor availability.
+ * Handles tasks such as creating new availability slots, viewing available slots, and generating IDs.
+ */
 public class AvailabilityController {
 	private final static AvailabilityRepository availabilityRepository =  new AvailabilityRepository();
 	private final static DoctorRepository doctorRepository =  new DoctorRepository();
 	DateTimeUtil datetimeutil =  new DateTimeUtil();
-	
+	/**
+     * Loads and displays availability slots for a specific doctor.
+     *
+     * @param doctorId the ID of the doctor whose availability slots are to be loaded.
+     * @throws IOException if an I/O error occurs during the operation.
+     */
 	public void loadAvailabilityByDoctor(String doctorId) throws IOException {
 	    List<Availability> availabilityList = availabilityRepository.getAvailabilityByDoctorId(doctorId);
 
@@ -38,7 +46,12 @@ public class AvailabilityController {
 	        System.out.println();
 	    }
 	}
-	
+	/**
+     * Generates the next unique availability ID based on the last ID in the repository.
+     *
+     * @return the newly generated availability ID.
+     * @throws IOException if an I/O error occurs during the operation.
+     */
 	//generate new availabilityid
 	public String generateNextAvailId() throws IOException {
 	    String lastRecordId = availabilityRepository.getLastAvailId();
@@ -48,7 +61,12 @@ public class AvailabilityController {
 	}
 	
 	
-	
+	/**
+     * Creates a new availability slot for a doctor.
+     *
+     * @param DoctorId the ID of the doctor for whom the availability is created.
+     * @throws IOException if an I/O error occurs during the operation.
+     */
 	// Method to handle the creation of new availability
     public void createNewAvailability(String DoctorId) throws IOException {
         @SuppressWarnings("resource")
@@ -91,7 +109,12 @@ public class AvailabilityController {
 
         System.out.println("New availability added successfully.");
     }
-    
+    /**
+     * Creates a new availability slot based on a rescheduled appointment.
+     *
+     * @param appointment the appointment details used to create the new availability slot.
+     * @throws IOException if an I/O error occurs during the operation.
+     */
     // create new availability from reschedule appointment
     public void createNewRescheduleAvailability(Appointment appointment) throws IOException {
 
@@ -113,7 +136,11 @@ public class AvailabilityController {
     }
     
     
-    
+    /**
+     * Displays all available appointment slots for patients.
+     *
+     * @throws IOException if an I/O error occurs during the operation.
+     */
     public void viewAvailableAppointmentSlotsForPatient() throws IOException {
         List<Availability> availabilityList = availabilityRepository.loadAllAvailabilities();
 
@@ -141,7 +168,13 @@ public class AvailabilityController {
 
         }
     }
-    
+      /**
+     * Checks if a specific availability ID exists in the repository.
+     *
+     * @param availabilityId the ID of the availability to check.
+     * @return {@code true} if the availability ID exists, {@code false} otherwise.
+     * @throws IOException if an I/O error occurs during the operation.
+     */
     public boolean isAvailabilityIdExist(String availabilityId) throws IOException {
         List<Availability> allAvailabilities = availabilityRepository.loadAllAvailabilities();  // You would load all availability records here
         for (Availability availability : allAvailabilities) {

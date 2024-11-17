@@ -11,13 +11,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+/**
+ * Controller class for managing appointment outcomes.
+ * Provides functionality for creating, viewing, and updating appointment outcomes, including medication prescriptions.
+ */
 public class AppointmentOutcomeController implements AppointmentOutcomeService {
     private AppointmentOutcomeRepository outcomeRepository = new AppointmentOutcomeRepository();
     private AppointmentRepository appointmentRepository = new AppointmentRepository();
     private MedicationInventoryRepository medicationInventoryRepository = new MedicationInventoryRepository();
     Scanner scanner = new Scanner(System.in);
-
+  /**
+     * Creates a new appointment outcome for a specific appointment.
+     *
+     * @param ApptID the ID of the appointment for which the outcome is being created.
+     * @throws IOException if an I/O error occurs.
+     */
     public void createAppointmentOutcome(String ApptID) throws IOException {
         Appointment appt = appointmentRepository.getAppointmentById(ApptID);
 
@@ -69,7 +77,12 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService {
 
         System.out.println("Appointment Outcome has been created.");
     }
-
+/**
+     * Generates the next appointment outcome ID in sequence.
+     *
+     * @return the generated appointment outcome ID.
+     * @throws IOException if an I/O error occurs.
+     */
     @Override
     // Generate next AppointmentOutcome ID
     public String generateNextAppointmentOutcomeId() throws IOException {
@@ -81,7 +94,12 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService {
         int nextNumber = Integer.parseInt(numberPart) + 1;
         return "AO" + String.format("%03d", nextNumber);
     }
-
+ /**
+     * Retrieves and displays all appointment outcomes for a specific patient.
+     *
+     * @param patientId the ID of the patient whose appointment outcomes are to be retrieved.
+     * @throws IOException if an I/O error occurs.
+     */
     @Override
     public void getAllAppointmentOutcomesForPatient(String patientId) throws IOException {
         List<AppointmentOutcome> patientOutcomes = new ArrayList<>();
@@ -134,7 +152,11 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService {
             System.out.println("No appointment outcomes found for patient ID: " + patientId);
         }
     }
-
+ /**
+     * Displays all appointment outcomes.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     @Override
     // get all appointmentoutcome
     public void viewAppointmentOutcomes() throws IOException {
@@ -161,6 +183,11 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService {
         }
         System.out.println();
     }
+    /**
+     * Displays all appointment outcomes with a "Pending" medication status.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
 
     @Override
     // Method to display all Appointment Outcomes with a "Pending" medication status
@@ -197,7 +224,12 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService {
         System.out.println();
     }
 
-
+ /**
+     * Changes the prescription status of a specific appointment outcome to "Dispensed".
+     *
+     * @param outcomeId the ID of the appointment outcome to update.
+     * @throws IOException if an I/O error occurs.
+     */
     @Override
     public void changePrescriptionStatusToDispensed(String outcomeId) throws IOException {
         List<AppointmentOutcome> allOutcomes = outcomeRepository.loadAllAppointmentOutcomes();
@@ -221,7 +253,13 @@ public class AppointmentOutcomeController implements AppointmentOutcomeService {
             System.out.println("Invalid Outcome ID or the prescription is already dispensed.");
         }
     }
-
+ /**
+     * Validates a medication name against the medication inventory.
+     *
+     * @param medicationName the name of the medication to validate.
+     * @return the exact medication name if it exists in the inventory, or null otherwise.
+     * @throws IOException if an I/O error occurs.
+     */
     public String isValidMedication(String medicationName) throws IOException {
         List<MedicationInventory> allMedications = medicationInventoryRepository.loadAllMedications();
 

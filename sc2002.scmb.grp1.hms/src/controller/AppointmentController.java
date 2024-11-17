@@ -11,14 +11,22 @@ import repository.AppointmentRepository;
 import repository.AvailabilityRepository;
 import repository.DoctorRepository;
 import repository.PatientRepository;
-
+/**
+ * Controller class for managing appointments, including creation, cancellation, rescheduling, 
+ * and listing of appointments.
+ */
 public class AppointmentController {
     private AppointmentRepository appointmentRepository = new AppointmentRepository();
     private AvailabilityRepository availabilityRepository = new AvailabilityRepository();
     private PatientRepository patientrepository = new PatientRepository();
     private DoctorRepository doctorrepository = new DoctorRepository();
     private AvailabilityController availabilitycontroller = new AvailabilityController();
-
+/**
+     * Creates a new appointment for a given patient.
+     *
+     * @param PatientID the ID of the patient scheduling the appointment.
+     * @throws IOException if an I/O error occurs.
+     */
     public void createAppointment(String PatientID) throws IOException {
         @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
@@ -64,7 +72,12 @@ public class AppointmentController {
             break;
         }
     }
-
+/**
+     * Generates the next appointment ID in sequence.
+     *
+     * @return the next appointment ID.
+     * @throws IOException if an I/O error occurs.
+     */
     // generate new appointmentid
     public String generateNextApptId() throws IOException {
         String lastApptId = appointmentRepository.getLastApptId();
@@ -75,7 +88,13 @@ public class AppointmentController {
         int nextNumber = Integer.parseInt(numberPart) + 1;
         return "AP" + String.format("%03d", nextNumber);
     }
-    
+    /**
+     * Lists all pending appointments for a specific doctor.
+     *
+     * @param doctorId the ID of the doctor.
+     * @return true if there are pending appointments, false otherwise.
+     * @throws IOException if an I/O error occurs.
+     */
     public boolean listPendingAppointments(String doctorId) throws IOException {
         List<Appointment> pendingAppointments = appointmentRepository.getPendingAppointmentsByDoctorId(doctorId);
     
@@ -118,14 +137,27 @@ public class AppointmentController {
     
     
 
-
+ /**
+     * Updates the status of an appointment.
+     *
+     * @param Appt the ID of the appointment to update.
+     * @param newstatus the new status for the appointment.
+     * @throws IOException if an I/O error occurs.
+     */
     // Method to update the status of an appointment
     public void updateAppointmentStatus(String Appt, String newstatus) throws IOException {
         Appointment appointment = appointmentRepository.getAppointmentById(Appt);
         appointment.setStatus(newstatus);
         appointmentRepository.updateAppointment(appointment);
     }
-
+/**
+     * Checks if an appointment ID is valid for a given doctor.
+     *
+     * @param appointmentId the ID of the appointment to check.
+     * @param doctorId the ID of the doctor.
+     * @return true if the appointment ID is valid, false otherwise.
+     * @throws IOException if an I/O error occurs.
+     */
     // check if the appointment is valid
     public boolean isValidAppointmentId(String appointmentId, String doctorId) throws IOException {
         List<Appointment> pendingAppointments = appointmentRepository.getPendingAppointmentsByDoctorId(doctorId);
@@ -136,7 +168,14 @@ public class AppointmentController {
         }
         return false;
     }
-
+ /**
+     * Checks if an appointment ID is valid for rescheduling by a patient.
+     *
+     * @param appointmentId the ID of the appointment to check.
+     * @param patientId the ID of the patient.
+     * @return true if the appointment ID is valid for rescheduling, false otherwise.
+     * @throws IOException if an I/O error occurs.
+     */
     // check if the appointment is valid
     public boolean isValidRescheduleAppointmentId(String appointmentId, String patientId) throws IOException {
         List<Appointment> pendingAppointments = appointmentRepository
@@ -148,7 +187,13 @@ public class AppointmentController {
         }
         return false;
     }
-
+/**
+     * Lists all confirmed appointments for a specific doctor.
+     *
+     * @param doctorId the ID of the doctor.
+     * @return true if there are confirmed appointments, false otherwise.
+     * @throws IOException if an I/O error occurs.
+     */
     public boolean listConfirmedAppointments(String doctorId) throws IOException {
         List<Appointment> confirmedAppointments = appointmentRepository.getConfirmedAppointmentsByDoctorId(doctorId);
     
@@ -190,7 +235,12 @@ public class AppointmentController {
     }
     
 
-
+/**
+     * Lists all scheduled appointments for a specific patient.
+     *
+     * @param patientId the ID of the patient.
+     * @throws IOException if an I/O error occurs.
+     */
     public void listofScheduledAppointments(String patientId) throws IOException {
         List<Appointment> scheduleAppointments = appointmentRepository
                 .getConfirmedOrPendingAppointmentsByDoctorId(patientId);
@@ -218,7 +268,14 @@ public class AppointmentController {
             System.out.println("+------------------------------------------------------------------------------------+");            
         }
     }
-
+/**
+     * Reschedules an appointment by replacing the old appointment with a new one.
+     *
+     * @param oldAppointmentID the ID of the old appointment.
+     * @param availID the ID of the new availability slot.
+     * @param patientId the ID of the patient.
+     * @throws IOException if an I/O error occurs.
+     */
     // reshedule appointment
     public void ScheduleAppointment(String oldAppointmentID, String availID, String patientId) throws IOException {
         Appointment oldappt = appointmentRepository.getAppointmentById(oldAppointmentID);
@@ -227,7 +284,12 @@ public class AppointmentController {
         createRescheduleAppointment(patientId, availID);
 
     }
-
+  /**
+     * Cancels an appointment and makes the slot available for rescheduling.
+     *
+     * @param oldAppointmentID the ID of the appointment to cancel.
+     * @throws IOException if an I/O error occurs.
+     */
     // cancel appointment
     public void CancelAppointment(String oldAppointmentID) throws IOException {
         Appointment oldappt = appointmentRepository.getAppointmentById(oldAppointmentID);
@@ -235,7 +297,13 @@ public class AppointmentController {
         appointmentRepository.removeAppointmentById(oldappt.getAppointmentId());
 
     }
-
+/**
+     * Creates a new rescheduled appointment for a patient.
+     *
+     * @param PatientID the ID of the patient.
+     * @param AvailID the ID of the new availability slot.
+     * @throws IOException if an I/O error occurs.
+     */
     // create new appointment base on user new choice
     public void createRescheduleAppointment(String PatientID, String AvailID) throws IOException {
 
@@ -263,7 +331,13 @@ public class AppointmentController {
 
         System.out.println("Appointment Pending Approval.");
     }
-
+ /**
+     * Checks if an appointment ID is valid and confirmed.
+     *
+     * @param appointmentId the ID of the appointment.
+     * @return true if the appointment is valid and confirmed, false otherwise.
+     * @throws IOException if an I/O error occurs.
+     */
     public boolean isAppointmentIdValidAndConfirmed(String appointmentId) throws IOException {
         List<Appointment> allAppointments = appointmentRepository.loadAllAppointments();
 
@@ -276,7 +350,12 @@ public class AppointmentController {
         // Return false if no matching appointment is found or status is not confirmed
         return false;
     }
-
+/**
+     * Retrieves all appointments from the repository.
+     *
+     * @return a list of all {@link Appointment} objects.
+     * @throws IOException if an I/O error occurs.
+     */
     public List<Appointment> viewAppointments() throws IOException
     {
         List<Appointment> allAppointments = appointmentRepository.loadAllAppointments();
