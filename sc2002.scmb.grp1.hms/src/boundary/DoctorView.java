@@ -239,6 +239,8 @@ public class DoctorView implements MenuInterface{
 					System.out.println("Appointment outcome created successfully for Appointment ID: " + apptID);
 					appointmentcontroller.updateAppointmentStatus(apptID, "Completed");
 					valid = true;
+					PaymentController pc = new PaymentController();
+					pc.recalculatePaymentsCSV(apptID);
 				} else {
 					System.out.println("The Appointment ID is not valid.");
 					System.out.print("Would you like to re-enter the Appointment ID? (y/n): ");

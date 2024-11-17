@@ -28,8 +28,9 @@ public class PatientView implements MenuInterface {
             System.out.println("| 6. Cancel an Appointment                  |");
             System.out.println("| 7. View Scheduled Appointments            |");
             System.out.println("| 8. View Past Appointment Outcome Records  |");
-            System.out.println("| 9. Set Security Questions for Recovery    |");
-            System.out.println("| 10. Logout                                |");
+            System.out.println("| 9. Make Outstanding Payments              |");
+            System.out.println("| 10. Set Security Questions for Recovery    |");
+            System.out.println("| 11. Logout                                |");
             System.out.println("+-------------------------------------------+");
             System.out.print("Select an option: ");
             System.out.println();
@@ -37,7 +38,7 @@ public class PatientView implements MenuInterface {
             int choice = scanner.nextInt();
             scanner.nextLine();
 
-            if (choice == 10) {
+            if (choice == 11) {
                 System.out.println("Logging out...");
                 break;
             } else if (choice == 1) {
@@ -105,7 +106,15 @@ public class PatientView implements MenuInterface {
                     throw new RuntimeException(e);
                 }
             }
-            else if(choice == 9) {
+            else if(choice == 9){
+                PaymentController pc = new PaymentController();
+                System.out.print("Your outstanding bill is $");
+                System.out.println(pc.calculate(user.getUserId()));
+                if(pc.calculate(user.getUserId())!= 0){
+                    pc.pay(user.getUserId());
+                }
+            }
+            else if(choice == 10) {
                 SecurityQuestionsController sqc = new SecurityQuestionsController();
                 System.out.println("Please enter a security question");
                 String question = scanner.nextLine();
