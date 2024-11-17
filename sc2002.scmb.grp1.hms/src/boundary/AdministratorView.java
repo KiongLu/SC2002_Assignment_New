@@ -140,8 +140,9 @@ public class AdministratorView implements MenuInterface {
                                     String userEmail = scanner.next();
                                     System.out.println("Please enter user contact: ");
                                     String userContact = scanner.next();
-                                
-                                    adminControl.addAdmin(userID, userName, roleChoice, userName, userGender, userAge, userEmail, userContact);
+
+                                    adminControl.addAdmin(userID, userName, roleChoice, userName, userGender, userAge,
+                                            userEmail, userContact);
                                 } else if (roleChoice.equals("Doctor")) {
                                     System.out.println("Please enter user ID: ");
                                     String userID = scanner.next();
@@ -157,8 +158,9 @@ public class AdministratorView implements MenuInterface {
                                     String userEmail = scanner.next();
                                     System.out.println("Please enter user contact: ");
                                     String userContact = scanner.next();
-                                
-                                    adminControl.addDoctor(userID, userName, roleChoice, userName, userGender, userAge, specialization, userEmail, userContact);
+
+                                    adminControl.addDoctor(userID, userName, roleChoice, userName, userGender, userAge,
+                                            specialization, userEmail, userContact);
                                 } else if (roleChoice.equals("Pharmacist")) {
                                     System.out.println("Please enter user ID: ");
                                     String userID = scanner.next();
@@ -172,10 +174,12 @@ public class AdministratorView implements MenuInterface {
                                     String userEmail = scanner.next();
                                     System.out.println("Please enter user contact: ");
                                     String userContact = scanner.next();
-                                
-                                    adminControl.addPharmacist(userID, userName, roleChoice, userName, userGender, userAge, userEmail, userContact);
+
+                                    adminControl.addPharmacist(userID, userName, roleChoice, userName, userGender,
+                                            userAge, userEmail, userContact);
                                 } else {
-                                    System.out.println("Invalid role choice. Please enter a valid role (Admin/Doctor/Pharmacist).");
+                                    System.out.println(
+                                            "Invalid role choice. Please enter a valid role (Admin/Doctor/Pharmacist).");
                                 }
                                 break;
                             case 3:
@@ -199,7 +203,8 @@ public class AdministratorView implements MenuInterface {
                                     adminControl.removePharmacist(userID);
                                     System.out.println("Pharmacist with ID " + userID + " has been removed.");
                                 } else {
-                                    System.out.println("Invalid role choice. Please enter a valid role (Admin/Doctor/Pharmacist).");
+                                    System.out.println(
+                                            "Invalid role choice. Please enter a valid role (Admin/Doctor/Pharmacist).");
                                 }
                                 break;
                             case 4:
@@ -256,15 +261,28 @@ public class AdministratorView implements MenuInterface {
                                 System.out.println("Viewing appointments...");
                                 List<Appointment> appointments = adminControl.appointmentList();
 
+                                System.out.println(
+                                        "+---------------+-------------+-----------+------------+------------+-----------+-----------+----------+");
+                                System.out.printf("| %-13s | %-11s | %-9s | %-10s | %-10s | %-9s | %-8s |\n",
+                                        "Appointment ID", "Patient ID", "Doctor ID", "Date", "Start Time", "End Time",
+                                        "Status");
+                                System.out.println(
+                                        "+---------------+-------------+-----------+------------+------------+-----------+-----------+----------+");
+
                                 for (Appointment appointment : appointments) {
-                                    System.out.println("Appointment ID: " + appointment.getAppointmentId() +
-                                            ", Patient ID: " + appointment.getPatientId() +
-                                            ", Doctor ID: " + appointment.getDoctorId() +
-                                            ", Date: " + appointment.getAppointmentDate() +
-                                            ", Start Time: " + appointment.getStartTime() +
-                                            ", End Time: " + appointment.getEndTime() +
-                                            ", Status: " + appointment.getStatus());
+                                    System.out.printf("| %-13s | %-11s | %-9s | %-10s | %-10s | %-9s | %-8s |\n",
+                                            appointment.getAppointmentId(),
+                                            appointment.getPatientId(),
+                                            appointment.getDoctorId(),
+                                            appointment.getAppointmentDate(),
+                                            appointment.getStartTime(),
+                                            appointment.getEndTime(),
+                                            appointment.getStatus());
                                 }
+
+                                System.out.println(
+                                        "+---------------+-------------+-----------+------------+------------+-----------+-----------+----------+");
+
                                 break;
                             case 2:
                                 System.out.println("Enter doctor id: ");
@@ -322,22 +340,38 @@ public class AdministratorView implements MenuInterface {
                                 System.out.println("Viewing medication inventory...");
                                 List<MedicationInventory> inventory = adminControl.viewInventory();
 
+                                System.out.println("+-----------------------+-------------+-------------+");
+                                System.out.printf("| %-21s | %-11s | %-11s |\n", "Medication Name", "Stock Level",
+                                        "Alert Level");
+                                System.out.println("+-----------------------+-------------+-------------+");
+
                                 for (MedicationInventory medication : inventory) {
-                                    System.out.println("Medication: " + medication.getMedicationName() +
-                                            ", Stock Level: " + medication.getStockLevel() +
-                                            ", Alert Level: " + medication.getStockAlertLevel());
+                                    System.out.printf("| %-21s | %-11d | %-11d |\n",
+                                            medication.getMedicationName(),
+                                            medication.getStockLevel(),
+                                            medication.getStockAlertLevel());
                                 }
+
+                                System.out.println("+-----------------------+-------------+-------------+");
                                 break;
                             case 2:
                                 System.out.println("Viewing pending replenish requests...");
 
                                 List<ReplenishmentRequests> pendingRequests = adminControl.viewRequests();
 
+                                System.out.println("+-----------------------+------------+-----------+");
+                                System.out.printf("| %-21s | %-10s | %-9s |\n", "Medication Name", "Request ID",
+                                        "Status");
+                                System.out.println("+-----------------------+------------+-----------+");
+
                                 for (ReplenishmentRequests request : pendingRequests) {
-                                    System.out.println("Medication: " + request.getMedicationName() +
-                                            ", Request ID: " + request.getRequestId() +
-                                            ", Status: " + request.getStatus());
+                                    System.out.printf("| %-21s | %-10d | %-9s |\n",
+                                            request.getMedicationName(),
+                                            request.getRequestId(),
+                                            request.getStatus());
                                 }
+
+                                System.out.println("+-----------------------+------------+-----------+");
                                 break;
                             case 3:
                                 System.out.println("Request ID to be approved: ");

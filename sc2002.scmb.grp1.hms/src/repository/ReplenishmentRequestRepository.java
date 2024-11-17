@@ -144,28 +144,33 @@ public class ReplenishmentRequestRepository {
     }
 
     public void updateRequestStatus(int requestId, String newStatus) throws IOException {
-        List<ReplenishmentRequests> allRequests = loadAllRequests(); // Load all requests
+        // Load all requests from the CSV file
+        List<ReplenishmentRequests> allRequests = loadAllRequests();
     
-        // Find and update the status of the matching request
+        // Flag to check if a request with the given ID was found
+        boolean found = false;
+    
+        // Find the request by requestId and update its status
         for (ReplenishmentRequests request : allRequests) {
             if (request.getRequestId() == requestId) {
-                // Update the status of the found request
-                request = new ReplenishmentRequests(
-                    request.getRequestId(),
-                    request.getMedicationName(),
-                    request.getQuantity(),
-                    newStatus
-                );
-                break; // Exit loop after finding and updating the request
+                request.setStatus(newStatus); // Update the status using a setter method
+                found = true;
+                break; // Exit loop once the correct request is found and updated
             }
         }
     
-        // Overwrite the CSV file with the updated list of requests
+        // If no matching request was found, log and exit the method
+        if (!found) {
+            System.err.println("Request with ID " + requestId + " not found. Status not updated.");
+            return;
+        }
+    
+        // Rewrite the entire list of requests back to the CSV file, including the updated status
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_REPLENISHMENT_REQUESTS))) {
-            // Write the header row
+            // Write the header row if necessary
             writer.write("RequestId,MedicationName,Quantity,Status\n");
     
-            // Write all requests back to the file, including the updated status
+            // Write each request back to the file
             for (ReplenishmentRequests request : allRequests) {
                 writer.write(request.getRequestId() + "," +
                              request.getMedicationName() + "," +
@@ -178,4 +183,5 @@ public class ReplenishmentRequestRepository {
     
         System.out.println("Request ID " + requestId + " status updated to " + newStatus);
     }
+    
 }
