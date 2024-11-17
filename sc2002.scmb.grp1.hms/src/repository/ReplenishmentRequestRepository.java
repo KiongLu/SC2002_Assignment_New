@@ -1,15 +1,22 @@
 package repository;
 
+import entity.ReplenishmentRequests;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import entity.ReplenishmentRequests;
-
+/**
+ * Repository class for managing replenishment requests.
+ * Provides functionality to save, load, and update replenishment requests stored in a CSV file.
+ */
 public class ReplenishmentRequestRepository {
     private static final String FILE_PATH_REPLENISHMENT_REQUESTS = "sc2002.scmb.grp1.hms/resource/ReplenishmentRequests.csv";
     private static int nextRequestId = -1; // Uninitialized marker
-
-    // Lazy initialization for request ID
+    /**
+     * Initializes the request ID by reading the highest existing ID from the CSV file.
+     * If the file does not exist or is empty, starts the ID at 1.
+     *
+     * @throws IOException if an error occurs while reading the file.
+     */
     private void initializeRequestId() throws IOException {
         int highestId = 0;
 
@@ -36,6 +43,13 @@ public class ReplenishmentRequestRepository {
     }
 
     // Save a replenishment request to the CSV file
+    /**
+     * Saves a new replenishment request to the CSV file.
+     *
+     * @param medicationName the name of the medication to replenish.
+     * @param quantity the quantity of the medication.
+     * @throws IOException if an error occurs while saving the request.
+     */
     public void saveReplenishmentRequest(String medicationName, int quantity) throws IOException {
         if (nextRequestId == -1) { // Initialize only if not already initialized
             initializeRequestId();
@@ -61,6 +75,12 @@ public class ReplenishmentRequestRepository {
     }
 
     // Load all replenishment requests from the CSV file
+    /**
+     * Loads all replenishment requests from the CSV file.
+     *
+     * @return a list of all replenishment requests.
+     * @throws IOException if an error occurs while reading the file.
+     */
     public List<ReplenishmentRequests> loadAllRequests() throws IOException {
         List<ReplenishmentRequests> requests = new ArrayList<>();
 
@@ -94,7 +114,12 @@ public class ReplenishmentRequestRepository {
         return requests;
     }
 
-    // Get all pending requests
+    /**
+     * Retrieves all pending replenishment requests.
+     *
+     * @return a list of pending replenishment requests.
+     * @throws IOException if an error occurs while loading the requests.
+     */
     public List<ReplenishmentRequests> pendingRequests() throws IOException {
         List<ReplenishmentRequests> allRequests = loadAllRequests();
         List<ReplenishmentRequests> pending = new ArrayList<>();
@@ -107,7 +132,13 @@ public class ReplenishmentRequestRepository {
 
         return pending;
     }
-
+    /**
+     * Retrieves a specific replenishment request by its ID.
+     *
+     * @param requestId the ID of the request to retrieve.
+     * @return the replenishment request with the given ID, or null if not found.
+     * @throws IOException if an error occurs while reading the file.
+     */
     public ReplenishmentRequests getRequestById(int requestId) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_REPLENISHMENT_REQUESTS))) {
             String line;
@@ -142,7 +173,13 @@ public class ReplenishmentRequestRepository {
         // Return null if no matching request was found
         return null;
     }
-
+    /**
+     * Updates the status of a replenishment request by its ID.
+     *
+     * @param requestId the ID of the request to update.
+     * @param newStatus the new status to set.
+     * @throws IOException if an error occurs while updating the request.
+     */
     public void updateRequestStatus(int requestId, String newStatus) throws IOException {
         // Load all requests from the CSV file
         List<ReplenishmentRequests> allRequests = loadAllRequests();

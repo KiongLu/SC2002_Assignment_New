@@ -5,13 +5,19 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Repository class for managing medication inventory and replenishment requests.
+ * Handles loading, updating, and saving medication data in CSV files.
+ */
 public class MedicationInventoryRepository {
     private static final String FILE_PATH_MEDICATION_INVENTORY = "sc2002.scmb.grp1.hms//resource//MedicationInventory.csv";
     private static final String FILE_PATH_REPLENISHMENT_REQUESTS = "sc2002.scmb.grp1.hms//resource//ReplenishmentRequests.csv";
     // private static final CSVUtil csvUtil = new CSVUtil();
 
-    // Method to load all medications from the CSV file
+    /**
+     * Repository class for managing medication inventory and replenishment requests.
+     * Handles loading, updating, and saving medication data in CSV files.
+     */
     public List<MedicationInventory> loadAllMedications() throws IOException {
         List<MedicationInventory> medications = new ArrayList<>();
         System.out.println("+------------------------------------------------+");
@@ -40,7 +46,12 @@ public class MedicationInventoryRepository {
         return medications;
     }
 
-    // Method to filter medication inventory by medication name
+    /**
+     * Retrieves a list of medications filtered by the given medication name.
+     * @param medicationName the name of the medication to search for.
+     * @return a list of matching {@link MedicationInventory} objects.
+     * @throws IOException if the file cannot be read.
+     */
     public List<MedicationInventory> getMedicationByName(String medicationName) throws IOException {
         System.out.println("+------------------------------------------------+");
         System.out.println("|            Searching Medication by Name        |");
@@ -68,6 +79,13 @@ public class MedicationInventoryRepository {
         return filteredMedications;
     }
 
+    /**
+     * Adds a new medication to the inventory CSV file.
+     * @param name the name of the medication.
+     * @param stockLevel the initial stock level of the medication.
+     * @param alertLevel the stock alert level of the medication.
+     * @throws IOException if the file cannot be written to.
+     */
     public void addMedication(String name, int stockLevel, int alertLevel) throws IOException {
         System.out.println("+------------------------------------------------+");
         System.out.println("|               Adding New Medication            |");
@@ -86,6 +104,11 @@ public class MedicationInventoryRepository {
         System.out.println("+------------------------------------------------+\n");
     }
 
+    /**
+     * Removes a medication from the inventory based on its name.
+     * @param name the name of the medication to be removed.
+     * @throws IOException if the file cannot be read or written to.
+     */
     public void removeMedication(String name) throws IOException {
         System.out.println("+------------------------------------------------+");
         System.out.println("|               Removing Medication              |");
@@ -99,6 +122,12 @@ public class MedicationInventoryRepository {
         System.out.println("+------------------------------------------------+\n");
     }
 
+    /**
+     * Updates the stock level of a medication.
+     * @param name the name of the medication.
+     * @param level the amount to add to the current stock level.
+     * @throws IOException if the file cannot be read or written to.
+     */
     public void updateStockLevel(String name, int level) throws IOException {
         System.out.println("+------------------------------------------------+");
         System.out.println("|             Updating Stock Level               |");
@@ -117,6 +146,12 @@ public class MedicationInventoryRepository {
         System.out.println("+------------------------------------------------+\n");
     }
 
+    /**
+     * Updates the stock alert level of a medication.
+     * @param name the name of the medication.
+     * @param level the new stock alert level.
+     * @throws IOException if the file cannot be read or written to.
+     */
     public void updateStockAlert(String name, int level) throws IOException {
         System.out.println("+------------------------------------------------+");
         System.out.println("|           Updating Stock Alert Level           |");
@@ -134,7 +169,11 @@ public class MedicationInventoryRepository {
         System.out.println("+------------------------------------------------+\n");
     }
 
-    // Update CSV file
+    /**
+     * Saves the current medication inventory to the CSV file.
+     * @param medications a list of {@link MedicationInventory} objects to save.
+     * @throws IOException if the file cannot be written to.
+     */
     private void saveAllMedication(List<MedicationInventory> medications) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_MEDICATION_INVENTORY))) {
             writer.write("MedicationName,StockLevel,StockAlertLevel\n");
@@ -146,6 +185,12 @@ public class MedicationInventoryRepository {
         }
     }
 
+    /**
+     * Saves a replenishment request to the replenishment requests CSV file.
+     * @param medicationName the name of the medication for the request.
+     * @param requestId the ID of the replenishment request.
+     * @param status the status of the replenishment request.
+     */
     public void saveReplenishmentRequest(String medicationName, String requestId, String status) {
         System.out.println("+------------------------------------------------+");
         System.out.println("|           Saving Replenishment Request         |");
@@ -160,7 +205,13 @@ public class MedicationInventoryRepository {
         }
         System.out.println("+------------------------------------------------+\n");
     }
-
+    
+    /**
+     * Checks if a medication exists in the inventory.
+     * @param medicationName the name of the medication to check.
+     * @return {@code true} if the medication exists, {@code false} otherwise.
+     * @throws IOException if the file cannot be read.
+     */
     public boolean medicationExists(String medicationName) throws IOException {
         System.out.println("+------------------------------------------------+");
         System.out.println("|          Checking Medication Existence         |");
