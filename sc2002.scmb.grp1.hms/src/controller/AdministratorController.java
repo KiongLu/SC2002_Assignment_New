@@ -226,7 +226,12 @@ public class AdministratorController {
     }
 
     public void removeAdmin(String userID) throws IOException {
-        administratorRepository.removeAdministratorById(userID);
+        if (administratorRepository.hasAdministrator(userID)) {
+            administratorRepository.removeAdministratorById(userID);
+            System.out.println("Administrator with ID " + userID + " removed successfully.");
+        } else {
+            System.out.println("Administrator with ID " + userID + " does not exist.");
+        }
     }
 
     public void addDoctor(String userid,
@@ -253,13 +258,21 @@ public class AdministratorController {
     }
 
     public void removeDoctor(String userID) throws IOException {
-        doctorRepository.removeDoctorById(userID);
-        return;
+        if (doctorRepository.hasDoctor(userID)) {
+            doctorRepository.removeDoctorById(userID);
+            System.out.println("Doctor with ID " + userID + " removed successfully.");
+        } else {
+            System.out.println("Doctor with ID " + userID + " does not exist.");
+        }
     }
 
     public void removePharmacist(String userID) throws IOException {
-        pharmacistRepository.removePharmacistById(userID);
-        return;
+        if (pharmacistRepository.hasPharmacist(userID)) {
+            pharmacistRepository.removePharmacistById(userID);
+            System.out.println("Pharmacist with ID " + userID + " removed successfully.");
+        } else {
+            System.out.println("Pharmacist with ID " + userID + " does not exist.");
+        }
     }
 
     public void addPharmacist(String userid,

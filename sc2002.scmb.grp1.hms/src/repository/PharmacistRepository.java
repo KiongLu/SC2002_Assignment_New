@@ -290,5 +290,11 @@ public List<Pharmacist> loadPharmacists() throws IOException {
     
         return isUpdated;
     }
+
+    public boolean hasPharmacist(String userId) throws IOException {
+        List<Pharmacist> pharmacists = loadPharmacists();
+        return pharmacists.stream()
+                .anyMatch(pharmacist -> pharmacist.getUserId().equals(userId));
+    }
 }
 

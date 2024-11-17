@@ -104,6 +104,9 @@ public class AdministratorView implements MenuInterface {
                                         case 5:
                                             System.out.println("Returning to view menu...");
                                             break;
+                                        default:
+                                            System.out.println("Invalid option. Please try again.");
+                                            break;
 
                                     }
                                     System.out.println();
@@ -191,17 +194,14 @@ public class AdministratorView implements MenuInterface {
                                     System.out.println("Please enter the user ID of the Admin to remove: ");
                                     String userID = scanner.next();
                                     adminControl.removeAdmin(userID);
-                                    System.out.println("Admin with ID " + userID + " has been removed.");
                                 } else if (roleChoice.equals("Doctor")) {
                                     System.out.println("Please enter the user ID of the Doctor to remove: ");
                                     String userID = scanner.next();
                                     adminControl.removeDoctor(userID);
-                                    System.out.println("Doctor with ID " + userID + " has been removed.");
                                 } else if (roleChoice.equals("Pharmacist")) {
                                     System.out.println("Please enter the user ID of the Pharmacist to remove: ");
                                     String userID = scanner.next();
                                     adminControl.removePharmacist(userID);
-                                    System.out.println("Pharmacist with ID " + userID + " has been removed.");
                                 } else {
                                     System.out.println(
                                             "Invalid role choice. Please enter a valid role (Admin/Doctor/Pharmacist).");
@@ -219,6 +219,9 @@ public class AdministratorView implements MenuInterface {
                                 break;
                             case 5:
                                 System.out.println("Returning...");
+                                break;
+                            default:
+                                System.out.println("Invalid option. Please try again.");
                                 break;
                         }
 
@@ -299,6 +302,9 @@ public class AdministratorView implements MenuInterface {
                                 break;
                             case 4:
                                 System.out.println("Returning to admin menu...");
+                                break;
+                            default:
+                                System.out.println("Invalid option. Please try again.");
                                 break;
                         }
 
@@ -383,6 +389,9 @@ public class AdministratorView implements MenuInterface {
 
                             case 4:
                                 System.out.println("Returning to admin menu...");
+                                break;
+                            default:
+                                System.out.println("Invalid option. Please try again.");
                                 break;
                         }
 

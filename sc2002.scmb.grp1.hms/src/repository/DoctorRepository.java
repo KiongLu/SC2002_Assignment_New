@@ -291,4 +291,10 @@ public void removeDoctorById(String doctorID) throws IOException {
         return isUpdated;
     }
 
+    public boolean hasDoctor(String userId) throws IOException {
+        List<Doctor> doctors = loadDoctors();
+        return doctors.stream()
+                .anyMatch(doctor -> doctor.getUserId().equals(userId));
+    }
+
 }

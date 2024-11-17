@@ -6,7 +6,6 @@ import controller.PasswordController;
 import controller.ValidationInterface;
 import controller.checkHaveQuestionsInterface;
 import entity.Administrator;
-import entity.Pharmacist;
 import entity.User;
 
 import java.io.*;
@@ -292,5 +291,10 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return isUpdated;
     }
     
+    public boolean hasAdministrator(String userId) throws IOException {
+        List<Administrator> administrators = loadAdministrators();
+        return administrators.stream()
+                .anyMatch(admin -> admin.getUserId().equals(userId));
+    }
 
 }
