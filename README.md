@@ -21,3 +21,4 @@ Special unique additional features of our project includes
 1. Payment system whereby a patient can pay for their outstanding bills using a credit card online
 2. Password recovery system whereby a user can use their security questions that they have set in advance to reset their password should they ever forget it
 3. Hashing of passwords whereby password data stored in the csv are hashed for data protection
+4. Low stock Alert System whereby medications that are in low supply will be displayed
