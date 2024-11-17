@@ -173,14 +173,18 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
     public List<Administrator> loadAdministrators() throws IOException
     {
         List<Administrator> administrators = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR));
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] data = line.split(",");
-            
-            administrators.add(createAdministratorFromCSV(data));
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR))) {
+            br.readLine(); // Skip header row
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 8) { // Ensure minimum required fields
+                    administrators.add(createAdministratorFromCSV(data));
+                } else {
+                    System.err.println("Skipped invalid line: " + line);
+                }
+            }
         }
-        br.close();
         return administrators;
     }
 

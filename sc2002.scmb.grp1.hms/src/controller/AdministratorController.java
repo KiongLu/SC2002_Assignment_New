@@ -62,6 +62,29 @@ public class AdministratorController {
         return appointmentController.viewAppointments();
     }
 
+    public void displayStaffList(List<User> staffList) {
+        if (staffList.isEmpty()) {
+            System.out.println("No staff members found for the selected filter.");
+        } else {
+            for (User user : staffList) {
+                System.out.print("ID: " + user.getUserId() +
+                                 ", Name: " + user.getName() +
+                                 ", Role: " + user.getRole() +
+                                 ", Gender: " + user.getGender() +
+                                 ", Age: " + user.getAge());
+    
+                // Check if the user is an Administrator to display additional fields
+                if (user instanceof Administrator) {
+                    Administrator admin = (Administrator) user;
+                    System.out.print(", Staff Email: " + admin.getStaffEmail() +
+                                     ", Staff Contact: " + admin.getStaffContact());
+                }
+                
+                System.out.println(); // Move to the next line for each user
+            }
+        }
+    }
+    
     public List<User> viewStaff(String filter) throws IOException
     {
         List<Administrator> administrators = administratorRepository.loadAdministrators();
@@ -154,7 +177,6 @@ public class AdministratorController {
                 System.err.println("Unrecognized filter: " + filter + ". Returning all staff.");
                 return combined;  // Default to returning the full list
         }
-
         return filtered;
 
     }

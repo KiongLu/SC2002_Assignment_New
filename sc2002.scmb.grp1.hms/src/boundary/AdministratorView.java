@@ -1,6 +1,7 @@
 package boundary;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -73,26 +74,31 @@ public class AdministratorView implements MenuInterface {
                                 scanner.nextLine();
 
                                 while (viewChoice != 5) {
+                                    List<User> view = new ArrayList<>();
                                     switch (viewChoice) {
                                         case 1:
-                                            adminControl.viewStaff("All");
+                                            view = adminControl.viewStaff("All");
+                                            adminControl.displayStaffList(view);
                                             break;
                                         case 2:
                                             System.out.println(
                                                     "Please choose staff type to view (Admin/Doctor/Pharmacist) ");
                                             String role = scanner.next();
-                                            adminControl.viewStaff(role);
+                                            view = adminControl.viewStaff(role);
+                                            adminControl.displayStaffList(view);
                                             break;
                                         case 3:
                                             System.out.println("Please choose staff gender to view (Male/Female) ");
                                             String gender = scanner.next();
-                                            adminControl.viewStaff(gender);
+                                            view = adminControl.viewStaff(gender);
+                                            adminControl.displayStaffList(view);
                                             break;
                                         case 4:
                                             System.out.println(
                                                     "Please choose staff age range to view (20 - 30/30 - 40/40 - 50) ");
                                             String age = scanner.next();
-                                            adminControl.viewStaff(age);
+                                            view = adminControl.viewStaff(age);
+                                            adminControl.displayStaffList(view);
                                             break;
                                         case 5:
                                             System.out.println("Returning to view menu...");
