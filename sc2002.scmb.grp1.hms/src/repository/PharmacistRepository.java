@@ -171,4 +171,19 @@ public class PharmacistRepository implements ValidationInterface, checkHaveQuest
 
     return questionUpdated; // Return true if the question was updated
 }
+
+
+    public List<Pharmacist> loadPharmacists() throws IOException
+    {
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_PHARMACISTS));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] data = line.split(",");
+            
+            pharmacists.add(createPharmacistFromCSV(data));
+        }
+        br.close();
+        return pharmacists;
+    }
 }

@@ -107,7 +107,8 @@ public class MedicationInventoryRepository {
         List<MedicationInventory> medications = loadAllMedications();
         for (MedicationInventory medication : medications) {
             if (medication.getMedicationName().equalsIgnoreCase(name)) {
-                medication.setStockLevel(level);
+                int increase = medication.getStockLevel() + level;
+                medication.setStockLevel(increase);
                 break;
             }
         }

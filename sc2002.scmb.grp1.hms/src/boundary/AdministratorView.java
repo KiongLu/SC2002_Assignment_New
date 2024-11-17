@@ -55,7 +55,54 @@ public class AdministratorView implements MenuInterface {
                     scanner.nextLine(); // Consume newline
 
                     while (staffChoice != 5){
-                        
+                        switch(staffChoice)
+                        {
+                            case 1:
+                                System.out.println();
+                                System.out.println("+------------------------------------------------+");
+                                System.out.println("|                   View Staff                   |");
+                                System.out.println("+------------------------------------------------+");
+                                System.out.println("| 1. All Staff                                   |");
+                                System.out.println("| 2. By Role                                     |");
+                                System.out.println("| 3. By Gender                                   |");
+                                System.out.println("| 4. By Age                                      |");
+                                System.out.println("+------------------------------------------------+");
+                                System.out.println();
+
+                                int viewChoice = scanner.nextInt();
+                                scanner.nextLine();
+
+                                switch(viewChoice)
+                                {
+                                    case 1:
+                                        adminControl.viewStaff("All");
+                                        break;
+                                    case 2:
+                                        System.out.println("Please choose staff type to view (Admin/Doctor/Pharmacist) ");
+                                        String role = scanner.next();
+                                        adminControl.viewStaff(role);
+                                        break;
+                                    case 3:
+                                        System.out.println("Please choose staff gender to view (Male/Female) ");
+                                        String gender = scanner.next();
+                                        adminControl.viewStaff(gender);
+                                        break;
+                                    case 4:
+                                        System.out.println("Please choose staff age range to view (20 - 30/30 - 40/40 - 50) ");
+                                        String age = scanner.next();
+                                        adminControl.viewStaff(age);
+                                        break;
+                                }
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 5:
+                                break;
+                        }
                     }
 
                     break;

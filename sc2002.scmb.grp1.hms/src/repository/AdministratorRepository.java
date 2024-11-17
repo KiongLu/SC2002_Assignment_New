@@ -6,6 +6,7 @@ import controller.PasswordController;
 import controller.ValidationInterface;
 import controller.checkHaveQuestionsInterface;
 import entity.Administrator;
+import entity.Pharmacist;
 import entity.User;
 
 import java.io.*;
@@ -170,5 +171,18 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
 
     return questionUpdated; // Return true if the question was updated
 }
+    public List<Administrator> loadAdministrators() throws IOException
+    {
+        List<Administrator> administrators = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] data = line.split(",");
+            
+            administrators.add(createAdministratorFromCSV(data));
+        }
+        br.close();
+        return administrators;
+    }
     
 }
