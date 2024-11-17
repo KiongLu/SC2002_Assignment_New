@@ -84,6 +84,13 @@ public class PharmacistController implements InventoryManagement,ReplenishmentRe
             return;
         }
 
+        // Display medication details
+        MedicationInventory medication = inventoryList.get(0); // Assuming only one entry per medication
+        System.out.println("| Medication found:                              |");
+        System.out.printf("| Name: %-40s |\n", medicationName);
+        System.out.printf("| Stock Level: %-33d |\n", medication.getStockLevel());
+        System.out.println("+------------------------------------------------+");
+
         // Prompt the pharmacist to input the quantity for replenishment
         System.out.printf("| Enter the quantity to be replenished for '%s': ", medicationName);
         int quantity;
@@ -102,7 +109,7 @@ public class PharmacistController implements InventoryManagement,ReplenishmentRe
             }
         }
 
-        // If the medication exists, proceed with submitting the replenishment request
+        // Submit the replenishment request
         replenishmentRequestRepository.saveReplenishmentRequest(medicationName, quantity);
         System.out.println("+------------------------------------------------+");
         System.out.printf("| Replenishment request submitted successfully!  |\n");
