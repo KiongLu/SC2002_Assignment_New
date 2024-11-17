@@ -5,10 +5,20 @@ import java.util.*;
 import entity.Availability;
 import util.CSVUtil;
 
+/**
+ * The AvailabilityRepository class manages the availability data of doctors.
+ * It provides methods to load, filter, add, and delete availabilities from a CSV file.
+ */
 public class AvailabilityRepository {
     private static final String FILE_PATH_AVAILABILITY = "sc2002.scmb.grp1.hms//resource//Availability.csv";
     // private static final CSVUtil csvutil = new CSVUtil(); 
     
+    /**
+     * Loads all availability records from the CSV file.
+     *
+     * @return A list of all Availability objects.
+     * @throws IOException if an error occurs while reading the file.
+     */
  // Method to load availability data from the CSV file
     public List<Availability> loadAllAvailabilities() throws IOException {
         List<Availability> availabilities = new ArrayList<>();
@@ -44,7 +54,13 @@ public class AvailabilityRepository {
         return availabilities;
     }
     
-    
+    /**
+     * Retrieves availabilities for a specific doctor.
+     *
+     * @param doctorId The ID of the doctor.
+     * @return A list of Availability objects for the specified doctor.
+     * @throws IOException if an error occurs while reading the file.
+     */
     // Method to filter availability by doctorId
     public List<Availability> getAvailabilityByDoctorId(String doctorId) throws IOException {
         List<Availability> allAvailability = loadAllAvailabilities();
@@ -59,6 +75,14 @@ public class AvailabilityRepository {
         return filteredAvailability;
     }
     
+
+    /**
+     * Creates a new availability record and appends it to the CSV file.
+     *
+     * @param availability The Availability object to add.
+     * @throws IOException if an error occurs while writing to the file.
+     */
+
     public void createNewAvailability(Availability availability) throws IOException {
         File file = new File(FILE_PATH_AVAILABILITY);
 
@@ -87,7 +111,12 @@ public class AvailabilityRepository {
 
     
     
-    
+    /**
+     * Retrieves the ID of the last availability record.
+     *
+     * @return The last available ID, or "AV000" if no records exist.
+     * @throws IOException if an error occurs while reading the file.
+     */
  // Get the last availabilityId from the existing records
     public String getLastAvailId() throws IOException {
         List<Availability> available = loadAllAvailabilities();
@@ -98,6 +127,14 @@ public class AvailabilityRepository {
         return lastAvailableId;
     }
     
+
+    /**
+     * Retrieves an availability by its ID.
+     *
+     * @param availabilityId The ID of the availability to retrieve.
+     * @return The Availability object, or null if not found.
+     * @throws IOException if an error occurs while reading the file.
+     */
  // Method to get availability by availabilityId
     public Availability getAvailabilityById(String availabilityId) throws IOException {
         List<Availability> allAvailabilities = loadAllAvailabilities();
@@ -111,7 +148,12 @@ public class AvailabilityRepository {
         return null; // If no match found, return null
     }
     
-    
+     /**
+     * Deletes an availability by its ID.
+     *
+     * @param availabilityId The ID of the availability to delete.
+     * @throws IOException if an error occurs while writing to the file.
+     */
  // Method to delete availability by availabilityId
     public void deleteAvailabilityById(String availabilityId) throws IOException {
         File file = new File(FILE_PATH_AVAILABILITY);

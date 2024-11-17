@@ -6,10 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 import util.CSVUtil;
 
+/**
+ * The AppointmentOutcomeRepository class provides methods to manage
+ * appointment outcomes within the Hospital Management System.
+ * It reads from and writes to a CSV file for data persistence.
+ */
 public class AppointmentOutcomeRepository {
     private static final String FILE_PATH_APPOINTMENT_OUTCOME = "sc2002.scmb.grp1.hms//resource//AppointmentOutcome.csv";
     // private static final CSVUtil csvutil = new CSVUtil();
 
+
+    /**
+     * Loads all appointment outcomes from the CSV file.
+     *
+     * @return A list of AppointmentOutcome objects.
+     * @throws IOException if an error occurs while reading the file.
+     */
     public List<AppointmentOutcome> loadAllAppointmentOutcomes() throws IOException {
         List<AppointmentOutcome> appointmentOutcomes = new ArrayList<>();
         BufferedReader reader = null;
@@ -53,8 +65,12 @@ public class AppointmentOutcomeRepository {
         return appointmentOutcomes;
     }
 
-
-
+    /**
+     * Creates a new appointment outcome and appends it to the CSV file.
+     *
+     * @param appointmentOutcome The AppointmentOutcome object to be added.
+     * @throws IOException if an error occurs while writing to the file.
+     */
     public void createNewAppointmentOutcome(AppointmentOutcome appointmentOutcome) throws IOException {
         File file = new File(FILE_PATH_APPOINTMENT_OUTCOME);
 
@@ -87,6 +103,13 @@ public class AppointmentOutcomeRepository {
         CSVUtil.removeEmptyRows(FILE_PATH_APPOINTMENT_OUTCOME);
     }
 
+    /**
+     * Retrieves an appointment outcome by its ID.
+     *
+     * @param appointmentOutcomeId The ID of the appointment outcome to find.
+     * @return The AppointmentOutcome object, or null if not found.
+     * @throws IOException if an error occurs while reading the file.
+     */
     public AppointmentOutcome getAppointmentOutcomeById(String appointmentOutcomeId) throws IOException {
         List<AppointmentOutcome> allAppointmentOutcomes = loadAllAppointmentOutcomes();
 
@@ -99,6 +122,12 @@ public class AppointmentOutcomeRepository {
         return null; // If no match found, return null
     }
 
+    /**
+     * Retrieves the ID of the last appointment outcome.
+     *
+     * @return The last available appointment outcome ID, or "AO000" if none exist.
+     * @throws IOException if an error occurs while reading the file.
+     */
     public String getLastAppointmentOutcomeId() throws IOException {
         List<AppointmentOutcome> appointmentOutcomes = loadAllAppointmentOutcomes();
         if (appointmentOutcomes.isEmpty()) {
@@ -108,6 +137,12 @@ public class AppointmentOutcomeRepository {
         return lastAvailableId;
     }
 
+    /**
+     * Updates an existing appointment outcome in the CSV file.
+     *
+     * @param updatedOutcome The updated AppointmentOutcome object.
+     * @throws IOException if an error occurs while reading or writing the file.
+     */
     // Method to update an appointment outcome in the CSV file
     public void updateAppointmentOutcome(AppointmentOutcome updatedOutcome) throws IOException {
         List<AppointmentOutcome> allOutcomes = loadAllAppointmentOutcomes();
@@ -129,6 +164,12 @@ public class AppointmentOutcomeRepository {
         }
     }
 
+    /**
+     * Writes the list of appointment outcomes back to the CSV file.
+     *
+     * @param allOutcomes The list of AppointmentOutcome objects.
+     * @throws IOException if an error occurs while writing to the file.
+     */
     private void writeAppointmentOutcomesToFile(List<AppointmentOutcome> allOutcomes) throws IOException {
         BufferedWriter writer = null;
     

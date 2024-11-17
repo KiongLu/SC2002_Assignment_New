@@ -13,16 +13,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The AdministratorRepository class provides methods to manage administrators
+ * in the Hospital Management System, including functionalities for validation,
+ * password management, and handling security questions.
+ * It interacts with the "Administrator.csv" file for data persistence.
+ */
 public class AdministratorRepository implements ValidationInterface, checkHaveQuestionsInterface,
         PasswordChangerInterface, ChangeSecurityQuestionInterface {
     private static final String FILE_PATH_ADMINISTRATOR = "sc2002.scmb.grp1.hms//resource//Administrator.csv";
 
+    /**
+     * Creates an Administrator object from a CSV line.
+     *
+     * @param parts Array of strings representing the columns in the CSV line.
+     * @return An Administrator object.
+     */
     // Create Doctor object from CSV line
     private Administrator createAdministratorFromCSV(String[] parts) {
         // Create a Doctor using the CSV parts in the exact order of columns
         return new Administrator(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7]);
     }
 
+    /**
+     * Validates the credentials of an administrator using their ID and password.
+     *
+     * @param id       The administrator's ID.
+     * @param password The administrator's password.
+     * @return The validated User object, or null if validation fails.
+     */
     // Validate doctor credentials
     public User validateCredentials(String id, String password) {
         PasswordController pc = new PasswordController();
@@ -44,6 +63,12 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return null;
     }
 
+    /**
+     * Checks if a security question exists for a given hospital ID.
+     *
+     * @param hospitalID The hospital ID.
+     * @return true if a security question exists, false otherwise.
+     */
     public boolean checkHaveQuestions(String hospitalID) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR))) {
             reader.readLine(); // Skip header
@@ -60,6 +85,12 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return false;
     }
 
+    /**
+     * Returns the security question for a given hospital ID.
+     *
+     * @param hospitalID The hospital ID.
+     * @return The security question or "Error" if not found.
+     */
     public String returnQuestion(String hospitalID) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR))) {
             reader.readLine(); // Skip header
@@ -76,6 +107,13 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return "Error";
     }
 
+    /**
+     * Verifies the answer to a security question for a given hospital ID.
+     *
+     * @param hospitalID The hospital ID.
+     * @param answer     The provided answer.
+     * @return true if the answer is correct, false otherwise.
+     */
     public boolean questionVerification(String hospitalID, String answer) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR))) {
             reader.readLine(); // Skip header
@@ -92,6 +130,13 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return false;
     }
 
+    /**
+     * Changes the password of an administrator.
+     *
+     * @param hospitalID        The hospital ID.
+     * @param newHashedPassword The new hashed password.
+     * @return true if the password was updated successfully, false otherwise.
+     */
     public boolean changePassword(String hospitalID, String newHashedPassword) {
         List<String[]> allRecords = new ArrayList<>();
         boolean passwordUpdated = false;
@@ -126,6 +171,14 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return passwordUpdated;
     }
 
+    /**
+     * Changes the security question and answer for a given hospital ID.
+     *
+     * @param hospitalID The hospital ID.
+     * @param question   The new security question.
+     * @param answer     The new answer.
+     * @return true if updated successfully, false otherwise.
+     */
     public boolean changeSecurityQuestion(String hospitalID, String question, String answer) {
         List<String[]> allRecords = new ArrayList<>();
         boolean questionUpdated = false;
@@ -171,6 +224,12 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return questionUpdated; // Return true if the question was updated
     }
 
+    /**
+     * Loads all administrators from the CSV file.
+     *
+     * @return A list of Administrator objects.
+     * @throws IOException if an error occurs during file reading.
+     */
     public List<Administrator> loadAdministrators() throws IOException {
         List<Administrator> administrators = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH_ADMINISTRATOR))) {
@@ -188,6 +247,12 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return administrators;
     }
     
+    /**
+     * Writes a new administrator to the CSV file.
+     *
+     * @param newAdmin The Administrator object to be written to the file.
+     * @throws IOException if an error occurs while writing to the file.
+     */
     public void writeAdmin(Administrator newAdmin) throws IOException
     {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH_ADMINISTRATOR, true))) {
@@ -211,6 +276,13 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
             throw e; // Re-throw exception to indicate failure
         }
     }
+
+    /**
+     * Removes an administrator by their ID.
+     *
+     * @param adminID The ID of the administrator to be removed.
+     * @throws IOException if an error occurs while reading or writing to the file.
+     */
 
     public void removeAdministratorById(String adminID) throws IOException {
         List<Administrator> administrators = loadAdministrators(); // Load all administrators
@@ -242,6 +314,13 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
     }
     
 
+    /**
+     * Finds an administrator by their UserID.
+     *
+     * @param adminId The ID of the administrator to find.
+     * @return The Administrator object if found, otherwise null.
+     * @throws IOException if an error occurs while reading the file.
+     */
     // Find an administrator by their UserID
     public Administrator findAdminById(String adminId) throws IOException {
         List<Administrator> administrators = loadAdministrators();
@@ -251,6 +330,14 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
                 .findFirst()
                 .orElse(null); // Return null if no administrator is found
     }
+
+    /**
+     * Updates the email and contact information of an existing administrator.
+     *
+     * @param updatedAdmin The updated Administrator object.
+     * @return true if the update was successful, false otherwise.
+     * @throws IOException if an error occurs while reading or writing to the file.
+     */
 
     public boolean updateAdministrator(Administrator updatedAdmin) throws IOException {
         List<String[]> allRecords = new ArrayList<>();
@@ -290,6 +377,13 @@ public class AdministratorRepository implements ValidationInterface, checkHaveQu
         return isUpdated;
     }
     
+    /**
+     * Checks if an administrator exists with the given UserID.
+     *
+     * @param userId The ID of the administrator to check.
+     * @return true if the administrator exists, false otherwise.
+     * @throws IOException if an error occurs while reading the file.
+     */
     public boolean hasAdministrator(String userId) throws IOException {
         List<Administrator> administrators = loadAdministrators();
         return administrators.stream()
