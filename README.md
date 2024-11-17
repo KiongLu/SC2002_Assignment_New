@@ -4,10 +4,10 @@ This project is our Java project for SC2002 AY24/25 SEM1
 Lab Group: SCMB Group1
 
 ## Members
-Wee Zi Hao (Huang Zihao)
-Trevyen Yezdi Darukhanawalla
-Yee Yong Khang
-Yong Kiong Lu
+Wee Zi Hao (Huang Zihao) <br>
+Trevyen Yezdi Darukhanawalla<br>
+Yee Yong Khang<br>
+Yong Kiong Lu<br>
 Zayd Shabaz Ali
 
 ## Project
