@@ -130,7 +130,7 @@ public class MedicalRecord {
      * @return A formatted string representing the medical record details.
      */
     public String patientMRToString() {
-        return String.format("| %-9s | %-10s | %-9s | %-12s |\n",
+        return String.format("| %-9s | %-10s | %-12s | %-15s |\n",
                 recordId,
                 diagnosis,
                 treatment,

@@ -46,6 +46,10 @@ public class AppointmentController {
             }
 
             Availability availslot = availabilityRepository.getAvailabilityById(AvailID);
+            if (availslot == null) {
+                System.out.println("The Availability ID you entered cannot be found. Please try again.");
+                continue;
+            }
 
             String ApptId = generateNextApptId();
 

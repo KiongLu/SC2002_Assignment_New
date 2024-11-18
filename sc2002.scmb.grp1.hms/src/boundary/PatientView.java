@@ -77,6 +77,7 @@ public class PatientView implements MenuInterface {
 
             else if (choice == 4) {
                 try {
+                    availabilitycontroller.viewAvailableAppointmentSlotsForPatient();
                     appointmentcontroller.createAppointment(user.getUserId());
                 } catch (IOException e) {
                     e.printStackTrace();
