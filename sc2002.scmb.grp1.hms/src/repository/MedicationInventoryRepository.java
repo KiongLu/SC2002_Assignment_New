@@ -20,9 +20,6 @@ public class MedicationInventoryRepository {
      */
     public List<MedicationInventory> loadAllMedications() throws IOException {
         List<MedicationInventory> medications = new ArrayList<>();
-        System.out.println("+------------------------------------------------+");
-        System.out.println("|           Loading Medication Inventory         |");
-        System.out.println("+------------------------------------------------+");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH_MEDICATION_INVENTORY))) {
             String line;
@@ -36,13 +33,11 @@ public class MedicationInventoryRepository {
                     medications.add(new MedicationInventory(medicationName, stockLevel, stockAlertLevel));
                 }
             }
-            System.out.println("|   Inventory loaded successfully.               |");
         } catch (IOException e) {
             System.out.printf("| Error: %-40s |\n", e.getMessage());
             System.out.println("+------------------------------------------------+");
             throw new IOException("Error reading medication inventory data: " + e.getMessage());
         }
-        System.out.println("+------------------------------------------------+\n");
         return medications;
     }
 
